@@ -1,10 +1,10 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
+import HomePage from "./profile/page";
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div className="h1">hihi</div>
+      <div className="home-page">This is homepage!</div>
     </main>
   );
 }

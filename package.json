@@ -1,15 +1,18 @@
 {
   "name": "tuanpc1902",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next lint && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.18.4",
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@types/lodash": "^4.14.202",
+    "antd": "^5.14.0",
     "lodash": "^4.17.21",
     "next": "14.1.0",
     "normalize.css": "^8.0.1",
