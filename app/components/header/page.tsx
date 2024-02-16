@@ -1,5 +1,5 @@
 'use client';
-import { Flex, Menu } from 'antd';
+import { Flex, Menu, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -10,7 +10,7 @@ const StyledHeader = styled(Header)`
 `;
 
 const StyledLogo = styled.h1`
-  font-size: 3.6rem;
+  font-size: 3.2rem;
   width: fit-content;
   margin: 0;
   background: linear-gradient(
@@ -28,11 +28,23 @@ const StyledNavigation = styled(Menu)`
     color: #fff;
     &:hover {
       color: aqua;
+  max-width: calc(100% - 20rem);
+  .ant-menu-item {
+    a {
+      color: #fff;
+      &:hover {
+        color: aqua;
+      }
+    }
+    &:hover {
+      &:after {
+        border-bottom-color: #fff !important;
+      }
     }
   }
 `;
 
-const navs = [
+const navigators = [
   {
     label: (
       <Link href="profile" rel="noopener noreferrer">
@@ -40,6 +52,14 @@ const navs = [
       </Link>
     ),
     key: 'profile',
+  },
+  {
+    label: (
+      <Link href="projects" rel="noopener noreferrer">
+        Projects
+      </Link>
+    ),
+    key: 'projects',
   },
   {
     label: (
@@ -55,8 +75,14 @@ const HeaderLayout = () => {
   return (
     <StyledHeader>
       <Flex align="center" justify="space-between">
-        <StyledLogo>tuanpc1902</StyledLogo>
-        <StyledNavigation items={navs} mode="horizontal" />
+        <Space size={20}>
+          <StyledLogo>tuanpc1902</StyledLogo>
+          <StyledNavigation
+            items={navigators}
+            mode="horizontal"
+            style={{ width: 'calc(100% - 20rem);' }}
+          />
+        </Space>
       </Flex>
     </StyledHeader>
   );
