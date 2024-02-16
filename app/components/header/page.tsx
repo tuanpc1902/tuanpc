@@ -13,24 +13,29 @@ const StyledLogo = styled.h1`
   font-size: 3.6rem;
   width: fit-content;
   margin: 0;
-  background: linear-gradient(to right, rgb(100, 207, 202) 0%, rgb(207, 41, 193) 100%) text;
+  background: linear-gradient(
+      to right,
+      rgb(100, 207, 202) 0%,
+      rgb(207, 41, 193) 100%
+    )
+    text;
   -webkit-text-fill-color: transparent;
 `;
 
 const StyledNavigation = styled(Menu)`
   background: transparent;
-  .ant-menu-item a{
+  .ant-menu-item a {
     color: #fff;
-    &:hover{
+    &:hover {
       color: aqua;
     }
   }
-`
+`;
 
 const navs = [
   {
     label: (
-      <Link href='profile' rel="noopener noreferrer">
+      <Link href="profile" rel="noopener noreferrer">
         Profile
       </Link>
     ),
@@ -38,20 +43,20 @@ const navs = [
   },
   {
     label: (
-      <Link href='contact' rel="noopener noreferrer">
+      <Link href="contact" rel="noopener noreferrer">
         Contact
       </Link>
     ),
     key: 'contact',
   },
-]
+];
 
 const HeaderLayout = () => {
   return (
     <StyledHeader>
-      <Flex align='center' justify='space-between'>
-      <StyledLogo>tuanpc1902</StyledLogo>
-      <StyledNavigation items={navs} mode='horizontal'/>
+      <Flex align="center" justify="space-between">
+        <StyledLogo>tuanpc1902</StyledLogo>
+        <StyledNavigation items={navs} mode="horizontal" />
       </Flex>
     </StyledHeader>
   );

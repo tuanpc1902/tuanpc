@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import React from 'react';
-import AppLayout  from './layout';
+import AppLayout from './layout';
 
 function MyApp({ Component, pageProps }: any) {
   return (

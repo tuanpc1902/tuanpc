@@ -5,8 +5,8 @@ import AppLayout from './(pages)/layout';
 
 export default function Home() {
   return (
-      <AppLayout>
-        <ProfilePage/>
-      </AppLayout>
+    <AppLayout>
+      <ProfilePage />
+    </AppLayout>
   );
 }
