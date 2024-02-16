@@ -1,6 +1,7 @@
 'use client';
 import { Flex, Menu, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
+import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -83,7 +84,10 @@ const HeaderLayout = () => {
       <Flex align="center" justify="space-between">
         <StyledSpace size={20}>
           <Link href="/">
-            <StyledLogo>tuanpc1902</StyledLogo>
+            <StyledLogo>
+              tuanpc
+              {/* <Image src={'/logo.png'} alt="logo" width={64} height={64} /> */}
+            </StyledLogo>
           </Link>
           <StyledNavigation items={navigators} mode="horizontal" />
         </StyledSpace>

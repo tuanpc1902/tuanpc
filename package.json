@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@types/lodash": "^4.14.202",
     "antd": "^5.14.1",
+    "axios": "^1.6.7",
     "clsx": "^2.1.0",
+    "lodash": "^4.17.21",
     "next": "14.1.0",
     "normalize.css": "^8.0.1",
     "react": "^18",

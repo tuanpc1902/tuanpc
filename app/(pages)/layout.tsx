@@ -1,11 +1,11 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ConfigProvider, Flex, Layout } from 'antd';
 const { Footer, Content } = Layout;
 import styles from './pages.module.scss';
 import HeaderLayout from '../components/header/page';
 import antdConfig from '../(config)/antd.config';
-import { Roboto_Font } from '../(config)/fonts';
+import Spinner from '../components/spinner/spinner';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
           <Layout className={`${styles.flex}`}>
             <HeaderLayout />
             <Content style={{ padding: '20px 40px', height: 800 }}>
-              {children}
+              <Suspense fallback={<Spinner />}>{children}</Suspense>
             </Content>
             <Footer
               style={{
