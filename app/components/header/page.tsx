@@ -24,6 +24,7 @@ const StyledLogo = styled.h1`
 
 const StyledNavigation = styled(Menu)`
   background: transparent;
+  width: 30rem;
   .ant-menu-item a {
     color: #fff;
     &:hover {
@@ -42,6 +43,11 @@ const StyledNavigation = styled(Menu)`
       }
     }
   }
+  
+`;
+
+const StyledSpace = styled(Space)`
+  width: 100%;
 `;
 
 const navigators = [
@@ -75,14 +81,12 @@ const HeaderLayout = () => {
   return (
     <StyledHeader>
       <Flex align="center" justify="space-between">
-        <Space size={20}>
-          <StyledLogo>tuanpc1902</StyledLogo>
-          <StyledNavigation
-            items={navigators}
-            mode="horizontal"
-            style={{ width: 'calc(100% - 20rem);' }}
-          />
-        </Space>
+        <StyledSpace size={20}>
+          <Link href="/">
+            <StyledLogo>tuanpc1902</StyledLogo>
+          </Link>
+          <StyledNavigation items={navigators} mode="horizontal" />
+        </StyledSpace>
       </Flex>
     </StyledHeader>
   );

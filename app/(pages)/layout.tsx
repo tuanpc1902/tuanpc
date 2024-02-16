@@ -5,6 +5,7 @@ const { Footer, Content } = Layout;
 import styles from './pages.module.scss';
 import HeaderLayout from '../components/header/page';
 import antdConfig from '../(config)/antd.config';
+import { Roboto_Font } from '../(config)/fonts';
 
 interface LayoutProps {
   children: React.ReactNode;
