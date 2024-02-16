@@ -12,7 +12,7 @@ const ProfilePage = () => {
     axios
       .get('https://restcountries.com/v3.1/all?fields=name,flags')
       .then((country) => {
-        let countries = [];
+        let countries: string[] = [];
         country.data?.forEach((cnt: any) => {
           countries.push(cnt.name.common);
         });
