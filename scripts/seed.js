@@ -2,7 +2,6 @@ const { db } = require('@vercel/postgres');
 const {
   invoices,
   customers,
-  revenue,
   users,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
@@ -33,8 +32,8 @@ async function seedUsers(client) {
         username VARCHAR(255) NOT NULL UNIQUE,
         email_address TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        user_status status,
-        user_role role,
+        status status,
+        role role,
         created_by VARCHAR(255) NOT NULL DEFAULT 'SYSTEM',
         created_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
@@ -47,8 +46,8 @@ async function seedUsers(client) {
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         return client.sql`
-        INSERT INTO users (username, email_address, password, user_status, user_role, created_by, created_date)
-        VALUES (${user.username}, ${user.emailAddress}, ${hashedPassword}, ${user.status}, ${user.role}, ${user.createdBy}, ${user.createdDate})
+        INSERT INTO users (username, email_address, password, status, role, created_by, created_date)
+        VALUES (${user.username}, ${user.email_address}, ${hashedPassword}, ${user.status}, ${user.role}, ${user.created_by}, ${user.created_date})
         ON CONFLICT (user_id) DO NOTHING;
       `;
       })
@@ -153,7 +152,6 @@ async function removeTable(client) {
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS customers;
     DROP TABLE IF EXISTS invoices;
-    DROP TABLE IF EXISTS revenue;
     `;
 
     return {
@@ -170,7 +168,6 @@ async function main() {
 
   // await seedCustomers(client);
   // await seedInvoices(client);
-  // await seedRevenue(client);
   // await seedTypes(client);
   await seedUsers(client);
   // await removeTable(client);

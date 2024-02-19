@@ -10,12 +10,12 @@ const users = [
   },
   {
     username: 'User',
-    emailAddress: 'user@vercel.com',
+    email_address: 'user@vercel.com',
     password: '123456',
     status: 'ACTIVE',
     role: 'USER',
-    createdBy: 'SYSTEM',
-    createdDate: new Date(),
+    created_by: 'SYSTEM',
+    created_date: new Date(),
   },
 ];
 
@@ -52,5 +52,5 @@ const customers = [
 module.exports = {
   users,
   customers,
-  revenue,
+  // revenue,
 };
