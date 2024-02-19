@@ -29,7 +29,7 @@ const ProfilePage = () => {
         dataSource={data}
         bordered
         scroll={{ y: 500 }}
-        style={{ width: 800 }}
+        style={{ width: 'auto' }}
         loading={{
           indicator: <Spinner />,
           spinning: isLoading,
