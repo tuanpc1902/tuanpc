@@ -23,7 +23,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
           className={`${styles.app__layout}`}
         >
           <Layout className={`${styles.flex}`}>
-            {/* <HeaderLayout /> */}
+            <HeaderLayout />
             <Content style={{ padding: '20px 40px', height: 800 }}>
               <Suspense fallback={<Spinner />}>{children}</Suspense>
             </Content>

@@ -4,6 +4,7 @@ import { getUser } from '~alias~/app/lib/data';
 import { User } from '~alias~/app/lib/definitions';
 import Search from './search';
 import { sql } from '@vercel/postgres';
+import { uniqueId } from 'lodash';
 
 const ProfilePage = async ({
   searchParams,
@@ -21,19 +22,18 @@ const ProfilePage = async ({
   return (
     <>
       <Search />
-      <ul>
-        {users.map((u) => {
-          return (
-            <>
-              <li key={u.username}>{u.user_id}</li>
-              <li key={u.username}>{u.username}</li>
-              <li key={u.username}>{u.email_address}</li>
-              <br />
-              <br />
-            </>
-          );
-        })}
-      </ul>
+      {users.map((u, index) => {
+        return (
+          <ul key={uniqueId()}>
+            <li key={u.username}>{u.user_id}</li>
+            <li key={u.username}>{u.username}</li>
+            <li key={u.username}>{u.email_address}</li>
+            {users.length - 1 !== index ? (
+              <hr style={{ margin: '10px 0' }} />
+            ) : null}
+          </ul>
+        );
+      })}
     </>
   );
 };

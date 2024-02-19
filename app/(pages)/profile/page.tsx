@@ -2,6 +2,7 @@
 import { Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import axios from 'axios';
+import { uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
 import Spinner from '~alias~/app/components/spinner/spinner';
 
@@ -34,12 +35,13 @@ const ProfilePage = () => {
           spinning: isLoading,
           // fullscreen: true,
         }}
+        key={uniqueId()}
       >
         <Column
           title="Country"
-          key="common"
+          key={uniqueId()}
           width={100}
-          render={(tags: any[]) => <>{tags}</>}
+          render={(tags: any[]) => <div key={uniqueId()}>{tags}</div>}
         />
       </Table>
       {/* https://vt.tiktok.com/ZSFjpJpb5/ */}
