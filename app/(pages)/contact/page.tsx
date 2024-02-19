@@ -1,6 +1,3 @@
-import { Input } from 'antd';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { getUser } from '~alias~/app/lib/data';
 import { User } from '~alias~/app/lib/definitions';
 import Search from './search';
 import { sql } from '@vercel/postgres';
