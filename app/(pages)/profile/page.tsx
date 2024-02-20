@@ -1,10 +1,6 @@
 'use client';
-import { Table } from 'antd';
-import Column from 'antd/es/table/Column';
 import axios from 'axios';
-import { uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
-import Spinner from '~alias~/app/components/spinner/spinner';
 
 const ProfilePage = () => {
   const [data, setData] = useState<any>([]);
@@ -25,7 +21,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Table
+      {/* <Table
         dataSource={data}
         bordered
         scroll={{ y: 500 }}
@@ -43,7 +39,7 @@ const ProfilePage = () => {
           width={100}
           render={(tags: any[]) => <div key={uniqueId()}>{tags}</div>}
         />
-      </Table>
+      </Table> */}
       {/* https://vt.tiktok.com/ZSFjpJpb5/ */}
     </>
   );
