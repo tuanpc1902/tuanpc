@@ -3,7 +3,7 @@ import { Button, Flex, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
 import styled from 'styled-components';
-import SignUpModal from '../modal/signup';
+import SignUpModal from '../forms/sign-up/sign-up';
 import { useState } from 'react';
 
 const StyledHeader = styled(Header)`

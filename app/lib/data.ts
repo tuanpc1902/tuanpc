@@ -28,3 +28,13 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+export async function getUserByUsername(username: string) {
+  try {
+    const user = await sql`SELECT * FROM users WHERE username=${username}`;
+    return user.rows[0] as User;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}

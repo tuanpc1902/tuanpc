@@ -7,8 +7,7 @@ type TSignUpModal = {
 };
 
 const SignUpModal = ({ open, handleCancel }: TSignUpModal) => {
-  const handleOk = () => {
-  };
+  const handleOk = () => {};
 
   return (
     <>

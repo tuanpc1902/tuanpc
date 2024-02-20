@@ -1,6 +1,10 @@
 import { Button, Checkbox, Form, Input, Modal } from 'antd';
-import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
+import { TFieldTypeSignUp } from './sign-up-types';
+import { sql } from '@vercel/postgres';
+import { User } from '~alias~/app/lib/definitions';
+import { getUser, getUserByUsername } from '~alias~/app/lib/data';
+import { useFormState } from 'react-dom';
 
 type TSignUpModal = {
   open: boolean;
@@ -15,12 +19,6 @@ const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);
 };
 
-type FieldType = {
-  username?: string;
-  password?: string;
-  confirmPassword?: string;
-};
-
 const StyledModal = styled(Modal)``;
 
 const StyledSignUpModal = styled(Form)`
@@ -30,20 +28,15 @@ const StyledSignUpModal = styled(Form)`
       text-align: left;
     }
   }
-  // .ant-form-item-control{
-  //   margin-left: 1rem;
-  // }
 `;
 
-const SignUpModal = ({ open, handleCancel }: TSignUpModal) => {
-  const handleOk = () => {};
-
+export default function SignUpModal({ open, handleCancel }: TSignUpModal) {
   return (
     <>
       <StyledModal
         title="Sign up"
         open={open}
-        onOk={handleOk}
+        onOk={() => {}}
         onCancel={handleCancel}
         footer={<></>}
       >
@@ -57,7 +50,7 @@ const SignUpModal = ({ open, handleCancel }: TSignUpModal) => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item<FieldType>
+          <Form.Item<TFieldTypeSignUp>
             label="Username"
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -65,14 +58,14 @@ const SignUpModal = ({ open, handleCancel }: TSignUpModal) => {
             <Input />
           </Form.Item>
 
-          <Form.Item<FieldType>
+          <Form.Item<TFieldTypeSignUp>
             label="Password"
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item<FieldType>
+          <Form.Item<TFieldTypeSignUp>
             label="Confirm Password"
             name="confirmPassword"
             rules={[
@@ -94,5 +87,4 @@ const SignUpModal = ({ open, handleCancel }: TSignUpModal) => {
       </StyledModal>
     </>
   );
-};
-export default SignUpModal;
+}

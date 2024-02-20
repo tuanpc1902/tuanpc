@@ -6,7 +6,7 @@ const antdConfig: ConfigProviderProps = {
     token: {
       fontFamily: Roboto_Font.style.fontFamily,
       fontWeightStrong: Roboto_Font.style.fontWeight,
-      fontSize: 14,
+      fontSize: 16,
       colorBgLayout: 'rgba(15 23 42 / var(--tw-bg-opacity))',
     },
   },
