@@ -2,7 +2,7 @@
 import React from 'react';
 import AppLayout from './(pages)/layout';
 
-const HomePage = React.lazy(() => import('./(pages)/(home)/page'));
+const HomePage = React.lazy(() => import('./components/home/home'));
 
 export default function Home() {
   return (
