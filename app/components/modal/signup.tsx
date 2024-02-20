@@ -22,11 +22,10 @@ type FieldType = {
 };
 
 const StyledModal = styled(Modal)`
-  .ant-modal-body {
-  }
 `;
 
 const StyledSignUpModal = styled(Form)`
+  margin: 0 auto;
   .ant-form-item .ant-form-item-label {
     text-align: left;
   }

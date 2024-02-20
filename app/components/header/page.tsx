@@ -55,7 +55,11 @@ const HeaderLayout = () => {
               </div>
             </Link>
             <Space>
-              <SignUpButton className="" onClick={() => setOpenModal(true)}>
+              <SignUpButton
+                className=""
+                onClick={() => setOpenModal(true)}
+                onTouchStart={() => setOpenModal(true)}
+              >
                 Sign up
               </SignUpButton>
               <LoginButton type="primary" className="bg-gradient-primary">
