@@ -24,7 +24,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         >
           <Layout className="">
             <HeaderLayout />
-            {/* <Content>
+            {/* <Content className="mt-[2rem]">
               <Suspense fallback={<Spinner />}>{children}</Suspense>
             </Content>
             <Footer

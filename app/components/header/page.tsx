@@ -1,9 +1,10 @@
 'use client';
-import { Button, Flex, Menu, Space } from 'antd';
+import { Button, Flex, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
-import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
+import SignUpModal from '../modal/signup';
+import { useState } from 'react';
 
 const StyledHeader = styled(Header)`
   background: rgba(15 23 42 / var(--tw-bg-opacity));
@@ -37,24 +38,35 @@ const LoginButton = styled(Button)`
 `;
 
 const HeaderLayout = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handleCancel = () => {
+    setOpenModal(false);
+  };
+
   return (
-    <StyledHeader className="flex items-center text-[#fff]">
-      <Flex align="center" justify="space-between" className="w-full">
-        <StyledSpace size={20} className="justify-between w-full">
-          <Link href="/">
-            <div className="font-bold m-0 max-w-fit text-[2.5rem] bg-gradient-primary bg-clip-text text-transparent">
-              tuanpc
-            </div>
-          </Link>
-          <Space>
-            <SignUpButton className="">Sign up</SignUpButton>
-            <LoginButton type="primary" className="bg-gradient-primary">
-              Login
-            </LoginButton>
-          </Space>
-        </StyledSpace>
-      </Flex>
-    </StyledHeader>
+    <>
+      <StyledHeader className="flex items-center text-[#fff]">
+        <Flex align="center" justify="space-between" className="w-full">
+          <StyledSpace size={20} className="justify-between w-full">
+            <Link href="/">
+              <div className="font-bold m-0 max-w-fit text-[2.5rem] bg-gradient-primary bg-clip-text text-transparent">
+                tuanpc
+              </div>
+            </Link>
+            <Space>
+              <SignUpButton className="" onClick={() => setOpenModal(true)}>
+                Sign up
+              </SignUpButton>
+              <LoginButton type="primary" className="bg-gradient-primary">
+                Login
+              </LoginButton>
+            </Space>
+          </StyledSpace>
+        </Flex>
+      </StyledHeader>
+      <SignUpModal open={openModal} handleCancel={handleCancel} />
+    </>
   );
 };
 export default HeaderLayout;
