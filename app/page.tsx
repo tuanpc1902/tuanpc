@@ -2,12 +2,12 @@
 import React from 'react';
 import AppLayout from './(pages)/layout';
 
-const ProfilePage = React.lazy(() => import('./(pages)/profile/page'));
+const HomePage = React.lazy(() => import('./(pages)/home/page'));
 
 export default function Home() {
   return (
     <AppLayout>
-      <ProfilePage />
+      <HomePage />
     </AppLayout>
   );
 }

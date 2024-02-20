@@ -1,95 +1,57 @@
 'use client';
-import { Flex, Menu, Space } from 'antd';
+import { Button, Flex, Menu, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 const StyledHeader = styled(Header)`
-  color: #fff;
-  padding: 0 4rem;
-`;
-
-const StyledLogo = styled.h1`
-  font-size: 3.2rem;
-  width: fit-content;
-  margin: 0;
-  background: linear-gradient(
-      to right,
-      rgb(100, 207, 202) 0%,
-      rgb(207, 41, 193) 100%
-    )
-    text;
-  -webkit-text-fill-color: transparent;
-`;
-
-const StyledNavigation = styled(Menu)`
-  background: transparent;
-  width: 30rem;
-  .ant-menu-item a {
-    color: #fff;
-    &:hover {
-      color: aqua;
-  max-width: calc(100% - 20rem);
-  .ant-menu-item {
-    a {
-      color: #fff;
-      &:hover {
-        color: aqua;
-      }
-    }
-    &:hover {
-      &:after {
-        border-bottom-color: #fff !important;
-      }
-    }
-  }
-  
+  background: rgba(15 23 42 / var(--tw-bg-opacity));
+  padding: 2rem;
+  height: 8.5rem;
+  line-height: 8.5rem;
+  border-bottom: 1px solid rgb(30 41 59/1);
 `;
 
 const StyledSpace = styled(Space)`
   width: 100%;
 `;
 
-const navigators = [
-  {
-    label: (
-      <Link href="profile" rel="noopener noreferrer">
-        Profile
-      </Link>
-    ),
-    key: 'profile',
-  },
-  {
-    label: (
-      <Link href="projects" rel="noopener noreferrer">
-        Projects
-      </Link>
-    ),
-    key: 'projects',
-  },
-  {
-    label: (
-      <Link href="contact" rel="noopener noreferrer">
-        Contact
-      </Link>
-    ),
-    key: 'contact',
-  },
-];
+const SignUpButton = styled(Button)`
+  background: transparent;
+  border: 0;
+  color: #fff;
+  &:hover {
+    background: transparent !important;
+    border: 0 !important;
+    color: #fff !important;
+  }
+  height: auto;
+  padding: 0.8rem 2rem;
+`;
+
+const LoginButton = styled(Button)`
+  border: 0;
+  height: auto;
+  padding: 0.8rem 2rem;
+`;
 
 const HeaderLayout = () => {
   return (
-    <StyledHeader>
-      <Flex align="center" justify="space-between">
-        <StyledSpace size={20}>
+    <StyledHeader className="flex items-center text-[#fff]">
+      <Flex align="center" justify="space-between" className="w-full">
+        <StyledSpace size={20} className="justify-between w-full">
           <Link href="/">
-            <StyledLogo>
+            <div className="font-bold m-0 max-w-fit text-[2.5rem] bg-gradient-primary bg-clip-text text-transparent">
               tuanpc
-              {/* <Image src={'/logo.png'} alt="logo" width={64} height={64} /> */}
-            </StyledLogo>
+            </div>
           </Link>
-          <StyledNavigation items={navigators} mode="horizontal" />
+          <Space>
+            <SignUpButton className="">Sign up</SignUpButton>
+            <LoginButton type="primary" className="bg-gradient-primary">
+              Login
+            </LoginButton>
+          </Space>
         </StyledSpace>
       </Flex>
     </StyledHeader>

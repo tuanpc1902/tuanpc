@@ -7,6 +7,7 @@ const antdConfig: ConfigProviderProps = {
       fontFamily: Roboto_Font.style.fontFamily,
       fontWeightStrong: Roboto_Font.style.fontWeight,
       fontSize: 14,
+      colorBgLayout: 'rgba(15 23 42 / var(--tw-bg-opacity))',
     },
   },
 };

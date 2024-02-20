@@ -13,18 +13,18 @@ interface LayoutProps {
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <main id="tuanpc1902">
-      <ConfigProvider theme={antdConfig.theme}>
+    <ConfigProvider theme={antdConfig.theme}>
+      <main id="__tuanpc1902" className="">
         <Flex
           gap="middle"
           wrap="wrap"
           align="center"
           justify="center"
-          className={`${styles.app__layout}`}
+          className="max-w-[128rem] mx-auto"
         >
-          <Layout className={`${styles.flex}`}>
+          <Layout className="">
             <HeaderLayout />
-            <Content style={{ padding: '20px 40px', height: 800 }}>
+            {/* <Content>
               <Suspense fallback={<Spinner />}>{children}</Suspense>
             </Content>
             <Footer
@@ -32,14 +32,15 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
                 textAlign: 'center',
                 background: '#001529',
                 color: '#fff',
+                backgroundColor: 'rgba(15 23 42 / var(--tw-bg-opacity))',
               }}
             >
-              ©2024 tuanpc1902
-            </Footer>
+              ©2024 tuanpc
+            </Footer> */}
           </Layout>
         </Flex>
-      </ConfigProvider>
-    </main>
+      </main>
+    </ConfigProvider>
   );
 };
 
