@@ -1,7 +1,6 @@
 import { Segmented } from 'antd';
 import styled from 'styled-components';
 import Information from '~alias~/app/components/information/information';
-import WrapperSession from '~alias~/app/components/wrapper/wrapper';
 
 const StyledSegmented = styled(Segmented)`
   color: #fff;
