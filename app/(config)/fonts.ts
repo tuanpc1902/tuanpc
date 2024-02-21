@@ -4,5 +4,6 @@ export const Roboto_Font = Roboto({
   subsets: ['vietnamese', 'latin'],
   weight: ['400', '700'],
   display: 'swap',
+  adjustFontFallback: false,
   style: ['normal', 'italic'],
 });

@@ -36,7 +36,7 @@ export default function Home() {
         </div>
         <Space
           size={5}
-          className="max-w-xl mx-auto text-[3rem] font-normal flex items-center leading-snug text-center text-white lg:leading-relaxed lg:text-4xl"
+          className="max-w-xl mx-auto text-[5rem] font-normal flex items-center leading-snug text-center text-white lg:leading-relaxed lg:text-4xl"
         >
           Pham Cong Tuan{' '}
           <Tooltip
