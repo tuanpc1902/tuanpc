@@ -5,22 +5,22 @@ import { useEffect, useState } from 'react';
 const ProfilePage = () => {
   const [data, setData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    axios
-      .get('https://restcountries.com/v3.1/all?fields=name,flags')
-      .then((country) => {
-        let countries: string[] = [];
-        country.data?.forEach((cnt: any) => {
-          countries.push(cnt.name.common);
-        });
-        setData(countries.sort());
-        setIsLoading(false);
-      })
-      .catch((err) => console.warn(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('https://restcountries.com/v3.1/all?fields=name,flags')
+  //     .then((country) => {
+  //       let countries: string[] = [];
+  //       country.data?.forEach((cnt: any) => {
+  //         countries.push(cnt.name.common);
+  //       });
+  //       setData(countries.sort());
+  //       setIsLoading(false);
+  //     })
+  //     .catch((err) => console.warn(err));
+  // }, []);
 
   return (
-    <>
+    <div>
       {/* <Table
         dataSource={data}
         bordered
@@ -41,7 +41,7 @@ const ProfilePage = () => {
         />
       </Table> */}
       {/* https://vt.tiktok.com/ZSFjpJpb5/ */}
-    </>
+    </div>
   );
 };
 export default ProfilePage;

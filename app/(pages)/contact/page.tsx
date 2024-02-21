@@ -1,3 +1,4 @@
+'use server';
 import { User } from '~alias~/app/lib/definitions';
 import Search from './search';
 import { sql } from '@vercel/postgres';

@@ -1,3 +1,4 @@
+'use client';
 const ProjectsPage = () => {
   return <h1>This is a projects page.</h1>;
 };

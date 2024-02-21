@@ -1,3 +1,4 @@
+'use client';
 import { Segmented } from 'antd';
 import styled from 'styled-components';
 import Information from '~alias~/app/components/information/information';

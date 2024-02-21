@@ -1,6 +1,5 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { Input } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
