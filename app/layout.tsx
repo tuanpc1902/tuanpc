@@ -6,6 +6,7 @@ import { Roboto_Font } from './(config)/fonts';
 export const metadata: Metadata = {
   title: 'tuanpc',
   description: 'My Profile',
+  
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
