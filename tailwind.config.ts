@@ -18,6 +18,14 @@ const config: Config = {
         'custom-gradient-start': '#6a5af9',
         'custom-gradient-end': '#d66efd',
       }),
+      keyframes: {
+        pointer: {
+          '100%': {
+            transform: 'scale(.75)',
+            ['-webkit-transform']: 'scale(.75)',
+          },
+        },
+      },
     },
   },
   plugins: [],

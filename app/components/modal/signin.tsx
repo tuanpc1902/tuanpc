@@ -1,5 +1,4 @@
 import { Modal } from 'antd';
-import { MouseEvent, useState } from 'react';
 
 type TSignUpModal = {
   open: boolean;

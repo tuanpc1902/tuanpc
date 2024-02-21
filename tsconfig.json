@@ -28,6 +28,6 @@
     ".next/types/**/*.ts",
     "scripts/seed.js",
     "app/lib/placeholder-data.js"
-  ],
+, "app/components/icons/icons.js"  ],
   "exclude": ["node_modules"]
 }
