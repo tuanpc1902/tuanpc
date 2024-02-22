@@ -39,9 +39,9 @@ export default function Home() {
         </div>
         <Space
           size={5}
-          className="max-w-[40rem] mx-auto text-[4rem] font-normal flex items-center leading-snug text-center text-white lg:leading-relaxed lg:text-4xl whitespace-nowrap"
+          className="max-w-[40rem] mx-auto font-normal flex items-center leading-snug text-center text-white "
         >
-          Pham Cong Tuan{' '}
+          <span className='lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed text-3xl sm:text-3xl lg:text-4xl md:text-4xl whitespace-nowrap'>Pham Cong Tuan{' '}</span>
           <Tooltip
             className="cursor-pointer"
             color="#fc6c8f"
@@ -62,7 +62,7 @@ export default function Home() {
             </Link>
           </Tooltip>
         </Space>
-        <div className="flex flex-col justify-center gap-5 sm:items-center sm:flex-row lg:leading-relaxed lg:text-3xl">
+        <div className="flex flex-col justify-center gap-5 sm:items-center sm:flex-row lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed text-2xl sm:text-2xl lg:text-3xl md:text-3xl whitespace-nowrap">
           <a
             href={process.env.PROFILE_GITHUB_URL}
             target="_blank"
