@@ -8,6 +8,22 @@ const nextConfig = {
     } else {
       return `${new Date().getTime()}`;
     }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'tuanpc.site',
+        port: '3000',
+        pathname: '/images/**'
+      },
+      {
+        protocol: 'http',
+        hostname: 'tuanpc.site',
+        port: '3000',
+        pathname: '/images/**'
+      }
+    ]
   }
 };
 
