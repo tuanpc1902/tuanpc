@@ -19,6 +19,7 @@ const SpaceCustom = styled(Space)`
 `;
 
 export default function Home() {
+  console.log(tuanpc)
   return (
     <AppLayout>
       <SpaceCustom
