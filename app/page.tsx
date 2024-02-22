@@ -39,7 +39,7 @@ export default function Home() {
         </div>
         <Space
           size={5}
-          className="max-w-xl mx-auto text-[5rem] font-normal flex items-center leading-snug text-center text-white lg:leading-relaxed lg:text-4xl"
+          className="max-w-[40rem] mx-auto text-[4rem] font-normal flex items-center leading-snug text-center text-white lg:leading-relaxed lg:text-4xl whitespace-nowrap"
         >
           Pham Cong Tuan{' '}
           <Tooltip
@@ -62,12 +62,12 @@ export default function Home() {
             </Link>
           </Tooltip>
         </Space>
-        <div className="flex flex-col justify-center gap-5 sm:items-center sm:flex-row">
+        <div className="flex flex-col justify-center gap-5 sm:items-center sm:flex-row lg:leading-relaxed lg:text-3xl">
           <a
             href={process.env.PROFILE_GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-slate-800 rounded-lg h-[60px] w-full sm:w-[230px] button-effect hover:text-white"
+            className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-slate-800 rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
           >
             <GithubIcon className="github-icon" />
             View on Github
@@ -76,7 +76,7 @@ export default function Home() {
           <a
             href={process.env.PROFILE_FB_URL}
             target="_blank"
-            className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[230px] button-effect hover:text-white"
+            className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
             rel="noreferrer"
           >
             <ContactIcon className="contact-icon" />

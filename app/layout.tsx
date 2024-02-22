@@ -12,6 +12,9 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
+    <head>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap" />
+    </head>
     {/* <body className={`${Roboto_Font.className} antialiased h-screen`}> */}
     <body className={`antialiased h-screen`}>
       <AntdRegistry>{children}</AntdRegistry>
