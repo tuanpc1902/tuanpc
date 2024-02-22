@@ -29,7 +29,7 @@ export default function Home() {
       >
         <div className="flex items-center justify-center w-[12.8rem] h-[12.8rem] mx-auto bg-opacity-10 border-primary">
           <Image
-            src={favicon}
+            src={favicon.src}
             // src="/IMG_9654.jpg"
             className="min-w-[12.8rem] h-[12.8rem] rounded-full border border-teal-800"
             alt="avatar"
@@ -50,7 +50,7 @@ export default function Home() {
             <Link
               className="text-white hover:text-white"
               href="/images/IMG_9654.jpg"
-              download={tuanpc}
+              download={tuanpc.src}
               target="_blank"
               rel="noopener noreferrer"
             >
