@@ -7,7 +7,14 @@ import Head from 'next/head';
 export const metadata: Metadata = {
   title: 'tuanpc',
   description: 'My Profile',
-  
+  icons: {
+    icon: '/favicon.ico'
+  },
+  verification: {
+    other: {
+      facebook: ['fb.com/tuanpc1902']
+    }
+  }
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
