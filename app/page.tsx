@@ -13,6 +13,7 @@ import Link from 'next/link';
 
 import favicon from '../public/images/favicon.ico';
 import tuanpc from '../public/images/IMG_9654.jpg';
+import cloudflareLoaderImage from './lib/cloudflare-loader-image';
 
 const SpaceCustom = styled(Space)`
   display: flex;
@@ -30,7 +31,8 @@ export default function Home() {
       >
         <div className="flex items-center justify-center w-[12.8rem] h-[12.8rem] mx-auto bg-opacity-10 border-primary">
           <Image
-            src={favicon.src}
+            // src={favicon.src}
+            src={cloudflareLoaderImage({src: favicon.src, width: 128})}
             // src="/IMG_9654.jpg"
             className="min-w-[12.8rem] h-[12.8rem] rounded-full border border-teal-800"
             alt="avatar"
