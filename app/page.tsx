@@ -11,16 +11,15 @@ import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
 
-import favicon from '../public/images/favicon.ico';
-import tuanpc from '../public/images/IMG_9654.jpg';
-import cloudflareLoaderImage from './lib/cloudflare-loader-image';
+import faviconPic from '../public/images/favicon.ico';
+import tuanpcPic from '../public/images/IMG_9654.jpg';
 
 const SpaceCustom = styled(Space)`
   display: flex;
 `;
 
 export default function Home() {
-  console.log(tuanpc)
+  console.log(tuanpcPic)
   return (
     <AppLayout>
       <SpaceCustom
@@ -31,8 +30,7 @@ export default function Home() {
       >
         <div className="flex items-center justify-center w-[12.8rem] h-[12.8rem] mx-auto bg-opacity-10 border-primary">
           <Image
-            // src={favicon.src}
-            src={cloudflareLoaderImage({src: favicon.src, width: 128})}
+            src={faviconPic}
             // src="/IMG_9654.jpg"
             className="min-w-[12.8rem] h-[12.8rem] rounded-full border border-teal-800"
             alt="avatar"
@@ -53,7 +51,7 @@ export default function Home() {
             <Link
               className="text-white hover:text-white"
               href="/images/IMG_9654.jpg"
-              download={tuanpc.src}
+              download={tuanpcPic}
               target="_blank"
               rel="noopener noreferrer"
             >
