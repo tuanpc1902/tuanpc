@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
 
+import logo from '../public/favicon.ico';
+
 const SpaceCustom = styled(Space)`
   display: flex;
 `;
@@ -26,7 +28,7 @@ export default function Home() {
       >
         <div className="flex items-center justify-center w-[12.8rem] h-[12.8rem] mx-auto bg-opacity-10 border-primary">
           <Image
-            src={'/favicon.ico'}
+            src={logo}
             // src="/IMG_9654.jpg"
             className="min-w-[12.8rem] h-[12.8rem] rounded-full border border-teal-800"
             alt="avatar"
