@@ -10,17 +10,9 @@ const nextConfig = {
     }
   },
   images: {
-    formats: ["image/avif", "image/webp"],
-    disableStaticImages: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "tuanpc.site",
-        port: "",
-        pathname: "/media/**",
-      },
-    ],
-  },
+    disableStaticImages: true
+  }
+
 };
 
 export default nextConfig;
