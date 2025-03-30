@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
 import './globals.scss';
 
 
@@ -19,7 +18,7 @@ export const metaData: Metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
     <body className={`antialiased h-screen `}>
-      <AntdRegistry>{children}</AntdRegistry>
+      {children}
     </body>
   </html>
 );
