@@ -11,11 +11,19 @@ import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
 
-import logo from '../public/favicon.ico';
+import logo from '../public/avatar.jpg';
 
 const SpaceCustom = styled(Space)`
   display: flex;
 `;
+
+const imageAvatar = {
+  src: logo.src,
+  name: "tuanpc",
+  alt: "avatar",
+  h: logo.height,
+  w: logo.width
+}
 
 export default function Home() {
   return (
@@ -26,21 +34,20 @@ export default function Home() {
         align="center"
         className="flex"
       >
-        <div className="flex items-center justify-center w-[12.8rem] h-[12.8rem] mx-auto bg-opacity-10 border-primary">
+        <div className="flex items-center justify-center w-[18rem] h-[18rem] mx-auto bg-opacity-10 border-primary">
           <Image
-            src={logo}
-            // src="/IMG_9654.jpg"
-            className="min-w-[12.8rem] h-[12.8rem] rounded-full border border-teal-800"
+            src={imageAvatar.src}
+            className="min-w-[12.8rem] max-w[18rem] min-h-[12.8rem] max-h-[18rem] rounded-full border border-teal-800"
             alt="avatar"
-            width={128}
-            height={128}
+            width={240}
+            height={240}
           />
         </div>
         <Space
           size={5}
           className="max-w-[40rem] mx-auto font-normal flex items-center leading-snug text-center text-white "
         >
-          <span className='lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed text-3xl sm:text-3xl lg:text-4xl md:text-4xl whitespace-nowrap'>Pham Cong Tuan{' '}</span>
+          <span className='lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed font-extrabold text-4xl sm:text-4xl lg:text-6xl md:text-6xl whitespace-nowrap'>Phạm Công Tuấn{' '}</span>
           <Tooltip
             className="cursor-pointer"
             color="#fc6c8f"
@@ -48,8 +55,8 @@ export default function Home() {
           >
             <Link
               className="text-white hover:text-white"
-              href="/IMG_9654.jpg"
-              download={'/IMG_9654.jpg'}
+              href={imageAvatar.src}
+              download={imageAvatar.name}
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import './globals.scss';
-// import { Roboto_Font } from './(config)/fonts';
-import Head from 'next/head';
 
-export const metadata: Metadata = {
+
+export const metaData: Metadata = {
   title: 'tuanpc',
   description: 'My Profile',
   icons: {
@@ -19,11 +18,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
-    <head>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap" />
-    </head>
-    {/* <body className={`${Roboto_Font.className} antialiased h-screen`}> */}
-    <body className={`antialiased h-screen`}>
+    <body className={`antialiased h-screen `}>
       <AntdRegistry>{children}</AntdRegistry>
     </body>
   </html>

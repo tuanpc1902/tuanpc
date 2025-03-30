@@ -1,19 +1,22 @@
 import React, { Suspense } from 'react';
-import { ConfigProvider } from 'antd';
-import antdConfig from '../(config)/antd.config';
-import Spinner from '../components/spinner/spinner';
+import  {Oswald} from "next/font/google";
 
+const oswald = Oswald({
+ weight: ["400", "600", "700"],
+ subsets: ['latin', 'vietnamese'] ,
+ display: 'swap',
+ style: 'normal',
+ fallback: ['system-ui', 'arial']
+})
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <ConfigProvider theme={antdConfig.theme}>
-      <div className="p-[2rem] flex h-full flex-col items-center justify-center px-2 sm:px-0">
-        <Suspense fallback={<Spinner />}>{children}</Suspense>
+      <div className={oswald.className + ` p-[2rem] flex h-full flex-col items-center justify-center px-2 sm:px-0`}>
+        <Suspense fallback={<>Đang tải.../</>}>{children}</Suspense>
       </div>
-    </ConfigProvider>
   );
 };
 
