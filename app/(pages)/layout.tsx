@@ -6,7 +6,7 @@ const oswald = Oswald({
  subsets: ['latin', 'vietnamese'] ,
  display: 'swap',
  style: 'normal',
- fallback: ['system-ui', 'arial']
+ fallback: ['system-ui', 'sans-serif']
 })
 interface LayoutProps {
   children: React.ReactNode;
