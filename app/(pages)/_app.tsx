@@ -1,13 +1,13 @@
-'use client';
-import React from 'react';
-import AppLayout from './layout';
+// 'use client';
+// import React from 'react';
+// import AppLayout from './layout';
 
-function MyApp({ Component, pageProps }: any) {
-  return (
-    <AppLayout>
-      <Component {...pageProps} />
-    </AppLayout>
-  );
-}
+// function MyApp({ Component, pageProps }: any) {
+//   return (
+//     <AppLayout>
+//       <Component {...pageProps} />
+//     </AppLayout>
+//   );
+// }
 
-export default MyApp;
+// export default MyApp;
