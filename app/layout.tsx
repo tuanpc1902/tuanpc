@@ -25,7 +25,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
     <Head>
     <metadata/>
   </Head>
-    <body className={`antialiased md:subpixel-antialiased`}>{children}</body>
+    <body className={`antialiased md:subpixel-antialiased h-screen`}>{children}</body>
   </html>
 );
 
