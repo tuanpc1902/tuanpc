@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 
 import './globals.scss';
-<<<<<<< HEAD
-=======
+
 import Head from 'next/head';
->>>>>>> e1bd2ef77ee4cc672b1f1977817062857330eeb6
 
 export const metadata: Metadata = {
   title: 'tuanpc1',
