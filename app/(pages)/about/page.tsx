@@ -1,8 +1,11 @@
 'use client';
 import React from 'react';
+import HeaderLayout from '../_layout/header';
 function About() {
   return (
-    <div className={`text-[white] font-semibold text-6xl`}>dev</div>
+    <>
+     <HeaderLayout/>
+    </>
   )
 
 }
