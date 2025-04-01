@@ -5,7 +5,7 @@ import './globals.scss';
 import Head from 'next/head';
 
 export const metadata: Metadata = {
-  title: 'tuanpc1',
+  title: 'tuanpc',
 
   description: 'My Profile',
 
@@ -22,10 +22,11 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
-    <Head>
-    <metadata/>
-  </Head>
-    <body className={`antialiased md:subpixel-antialiased h-screen`}>{children}</body>
+    <head></head>
+
+    {/* <body className={`${Roboto_Font.className} antialiased h-screen`}> */}
+
+    <body className={`antialiased h-screen`}>{children}</body>
   </html>
 );
 
