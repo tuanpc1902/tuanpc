@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
 
-import logo from '../public/img.jpeg';
+import logo from '../public/img.png';
 
 const SpaceCustom = styled(Space)`
   display: flex;
