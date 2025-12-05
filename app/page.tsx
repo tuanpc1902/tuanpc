@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
 
-import logo from '../public/avatar.jpg';
+import logo from '../public/img.jpeg';
 
 const SpaceCustom = styled(Space)`
   display: flex;
@@ -19,11 +19,11 @@ const SpaceCustom = styled(Space)`
 
 const imageAvatar = {
   src: logo.src,
-  name: "tuanpc",
-  alt: "avatar",
+  name: 'tuanpc',
+  alt: 'avatar',
   h: logo.height,
-  w: logo.width
-}
+  w: logo.width,
+};
 
 export default function Home() {
   return (
@@ -37,7 +37,7 @@ export default function Home() {
         <div className="flex items-center justify-center w-[18rem] h-[18rem] mx-auto bg-opacity-10 border-primary">
           <Image
             src={imageAvatar.src}
-            className="min-w-[12.8rem] max-w[18rem] min-h-[12.8rem] max-h-[18rem] rounded-full border border-teal-800"
+            className="min-w-[12.8rem] max-w[18rem] min-h-[12.8rem] max-h-[18rem] rounded-full border border-teal-800 object-cover object-center"
             alt="avatar"
             width={240}
             height={240}
@@ -45,9 +45,11 @@ export default function Home() {
         </div>
         <Space
           size={5}
-          className="max-w-[40rem] mx-auto font-normal flex items-center leading-snug text-center text-white "
+          className="max-w-[40rem] mx-auto font-normal flex items-center leading-snug text-center text-white"
         >
-          <span className='lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed font-extrabold text-4xl sm:text-4xl lg:text-6xl md:text-6xl whitespace-nowrap'>Phạm Công Tuấn{' '}</span>
+          <span className="lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed font-extrabold text-4xl sm:text-4xl lg:text-6xl md:text-6xl whitespace-nowrap">
+            Phạm Công Tuấn{' '}
+          </span>
           <Tooltip
             className="cursor-pointer"
             color="#fc6c8f"
