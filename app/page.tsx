@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import AppLayout from './(pages)/layout';
 import {
   ContactIcon,
@@ -10,8 +10,10 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { Space, Tooltip } from 'antd';
 import Link from 'next/link';
+import { Dialog, DialogPanel } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
-import logo from '../public/img.png';
+import logo from '../public/author.png';
 
 const SpaceCustom = styled(Space)`
   display: flex;
@@ -25,7 +27,16 @@ const imageAvatar = {
   w: logo.width,
 };
 
+const navigation = [
+  { name: 'Product', href: '#' },
+  { name: 'Features', href: '#' },
+  { name: 'Marketplace', href: '#' },
+  { name: 'Company', href: '#' },
+]
+
 export default function Home() {
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <AppLayout>
       <SpaceCustom
