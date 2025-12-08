@@ -63,23 +63,23 @@ export default function DemNgayRaQuan() {
 
       <span className="subTitle text-2xl m-[10px]">Còn</span>
 
-      <div className="counting flex justify-center font-bold text-4xl">
+      <div className="counting flex justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl">
         {(count.days) && (
         <div className="countdown p-4 text-[#fd79a8]">
           <span id="dayCount">{count.days}</span>
-          <span id="dayLabel">ngày</span>
+          <span id="dayLabel"> ngày</span>
         </div>
       )}
       {(count.weeks) && (
         <div className="countdown p-4 text-[#00cec9]">
           <span id="weekCount">{count.weeks}</span>
-          <span id="weekLabel">tuần</span>
+          <span id="weekLabel"> tuần</span>
         </div>
       )}
       {(count.months) && (
         <div className="countdown p-4 text-[#ffeaa7]">
           <span id="monthCount">{count.months}</span>
-          <span id="monthLabel">tháng</span>
+          <span id="monthLabel"> tháng</span>
         </div>
       )}
       </div>

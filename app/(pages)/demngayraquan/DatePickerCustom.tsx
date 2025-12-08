@@ -11,8 +11,6 @@ type Props = {
 
 export default function DatePickerCustom({className, targetDate, onDateChange, size}: Props
 ) {
-
-
   return (
     <DatePicker
       onChange={onDateChange}
