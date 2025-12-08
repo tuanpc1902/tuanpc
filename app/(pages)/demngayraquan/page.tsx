@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import DatePickerCustom from './DatePickerCustom';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+import { Button, Space } from 'antd';
+import Link from 'next/link';
+import { HomeIcon } from '~alias~/app/components/icons/icons';
 
 export default function DemNgayRaQuan() {
   const [currentDate, setCurrentDate] = useState({date: '', time: ''});
@@ -79,6 +82,19 @@ export default function DemNgayRaQuan() {
         <span id="timezone"></span>
       </div>
       )}
+      <Space>
+          <Link href="/">
+            <Button
+              type="primary"
+              className="p-10 m-10 text-[18px] font-bold"
+              danger
+              icon={<HomeIcon className={'calendar-icon'} />}
+              size={'large'}
+            >
+              Trang chủ
+            </Button>
+          </Link>
+        </Space>
     </div>
   );
 }
