@@ -1,5 +1,5 @@
 'use client';
-import './style.css';
+// import './style.css';
 import { useEffect, useState } from 'react';
 import DatePickerCustom from './DatePickerCustom';
 import dayjs from 'dayjs';
@@ -7,6 +7,14 @@ import 'dayjs/locale/vi';
 import { Button, Space } from 'antd';
 import Link from 'next/link';
 import { HomeIcon } from '~alias~/app/components/icons/icons';
+import styled from 'styled-components';
+import { Typography } from 'antd';
+
+const SpaceCustom = styled(Space)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default function DemNgayRaQuan() {
   const [currentDate, setCurrentDate] = useState({date: '', time: ''});
@@ -39,16 +47,17 @@ export default function DemNgayRaQuan() {
   }
 
   return (
-    <div className="">
-      <div className="title">
-        Bao lâu đến ngày <span id="ngayRaQuan">{dayjs(targetDate).format('DD-MM-YYYY')}</span>
+    <SpaceCustom id="demNgayRaQuan" className={''}>
+      <div className="title text-4xl font-[700] m-10 !text-[#ff7675] sm:text-5xl md:text-6xl lg:text-7xl">
+        Bao lâu đến ngày {dayjs(targetDate).format('DD-MM-YYYY')}
       </div>
-      <div className="datepicker">
-        <span className="selectDateLabel m-10">Chọn ngày</span>
+      <div className="datepicker flex flex-col items-center justify-center text-xl font-semibold " >
+        <div className="selectDateLabel mb-5 text-2xl">Chọn ngày</div>
         <DatePickerCustom
           className={''}
           targetDate={targetDate}
           onDateChange={onDatePickerChangeCustom}
+          size={'large'}
         />
       </div>
 
@@ -56,19 +65,19 @@ export default function DemNgayRaQuan() {
 
       <div className="counting flex justify-center font-bold text-4xl">
         {(count.days) && (
-        <div className="countdown p-4 text-rose-400">
+        <div className="countdown p-4 text-[#fd79a8]">
           <span id="dayCount">{count.days}</span>
           <span id="dayLabel">ngày</span>
         </div>
       )}
       {(count.weeks) && (
-        <div className="countdown p-4 text-yellow-400">
+        <div className="countdown p-4 text-[#00cec9]">
           <span id="weekCount">{count.weeks}</span>
           <span id="weekLabel">tuần</span>
         </div>
       )}
       {(count.months) && (
-        <div className="countdown p-4 text-cyan-400">
+        <div className="countdown p-4 text-[#ffeaa7]">
           <span id="monthCount">{count.months}</span>
           <span id="monthLabel">tháng</span>
         </div>
@@ -95,6 +104,6 @@ export default function DemNgayRaQuan() {
             </Button>
           </Link>
         </Space>
-    </div>
+    </SpaceCustom>
   );
 }
