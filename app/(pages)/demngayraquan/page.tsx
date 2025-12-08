@@ -3,6 +3,7 @@ import './style.css';
 import { useEffect, useState } from 'react';
 import DatePickerCustom from './DatePickerCustom';
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 
 export default function DemNgayRaQuan() {
   const [currentDate, setCurrentDate] = useState({date: '', time: ''});
@@ -12,7 +13,7 @@ export default function DemNgayRaQuan() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate({
-        date: dayjs().format('dddd, DD [tháng] MM [năm] YYYY'),
+        date: dayjs().locale('vi').format('dddd, DD [tháng] MM [năm] YYYY'),
         time: dayjs().format('HH [giờ] mm [phút] ss [giây]')
       })
       

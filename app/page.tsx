@@ -2,17 +2,16 @@
 import React, { useState } from 'react';
 import AppLayout from './(pages)/layout';
 import {
+  CalendarIcon,
   ContactIcon,
   DownloadIcon,
   GithubIcon,
 } from './components/icons/icons';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { Space, Tooltip } from 'antd';
+import { Button, Space, Tooltip } from 'antd';
 import Link from 'next/link';
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import type { ConfigProviderProps } from 'antd';
 import logo from '../public/author.png';
 
 const SpaceCustom = styled(Space)`
@@ -32,16 +31,18 @@ const navigation = [
   { name: 'Features', href: '#' },
   { name: 'Marketplace', href: '#' },
   { name: 'Company', href: '#' },
-]
+];
+
+type SizeType = ConfigProviderProps['componentSize'];
 
 export default function Home() {
-const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [size, setSize] = useState<SizeType>('large');
 
   return (
     <AppLayout>
       <SpaceCustom
         size={30}
-        direction="vertical"
+        orientation="vertical"
         align="center"
         className="flex"
       >
@@ -52,6 +53,7 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
             alt="avatar"
             width={240}
             height={240}
+            priority={true}
           />
         </div>
         <Space
@@ -102,6 +104,19 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
             <span>Contact me</span>
           </a>
         </div>
+        <Space>
+          <Link href="/demngayraquan">
+            <Button
+              type="primary"
+              className="p-10 text-[18px] font-bold"
+              danger
+              icon={<CalendarIcon className={'calendar-icon'} />}
+              size={size}
+            >
+              Đếm ngày ra quân
+            </Button>
+          </Link>
+        </Space>
       </SpaceCustom>
       {/* https://vt.tiktok.com/ZSFjpJpb5/ */}
     </AppLayout>
