@@ -1,11 +1,12 @@
 import { DatePicker } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 import dayjs from 'dayjs';
 
 type Props = {
   className: string;
   targetDate: string;
   onDateChange: (date: any, dateString: string | null) => void;
-  size?: string
+  size?: SizeType
 }
 
 export default function DatePickerCustom({className, targetDate, onDateChange, size}: Props
@@ -15,7 +16,6 @@ export default function DatePickerCustom({className, targetDate, onDateChange, s
   return (
     <DatePicker
       onChange={onDateChange}
-      size='large'
       defaultValue={dayjs(targetDate)}
       className={`${className}`}
       size={size}
