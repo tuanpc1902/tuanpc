@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 type Props = {
   className: string;
   targetDate: string;
-  onDateChange: (className: string, date: any, dateString: string | null) => void;
+  onDateChange: (date: any, dateString: string | null) => void
 }
 
 export default function DatePickerCustom({className, targetDate, onDateChange}: Props

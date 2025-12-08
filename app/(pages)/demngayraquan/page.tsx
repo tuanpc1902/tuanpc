@@ -30,7 +30,6 @@ export default function DemNgayRaQuan() {
 
   const onDatePickerChangeCustom = (date: any, dateString: string | null) => {
     if (dateString) {
-      console.log(dateString);
       setTargetDate(date);
     }
   }
