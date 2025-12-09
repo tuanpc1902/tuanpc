@@ -86,7 +86,7 @@ export default function DemNgayRaQuan() {
       {currentDate.date && currentDate.time && (
         <div className="today">
         <span id="date">{currentDate.date}</span>
-        <span id="pipe">|</span>
+        <span id="pipe"> | </span>
         <span id="time" className="clock">{currentDate.time}</span>
         <span id="timezone"></span>
       </div>
