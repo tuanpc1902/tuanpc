@@ -16,6 +16,9 @@ import logo from '../public/author.png';
 
 const SpaceCustom = styled(Space)`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const imageAvatar = {
@@ -44,7 +47,7 @@ export default function Home() {
         size={30}
         orientation="vertical"
         align="center"
-        className="flex"
+        className="w-full h-screen bg-gradient-to-r from-[#ff7675] to-[#fc6c8f] text-white"
       >
         <div className="flex items-center justify-center w-[18rem] h-[18rem] mx-auto bg-opacity-10 border-primary">
           <Image
@@ -108,7 +111,7 @@ export default function Home() {
           <Link href="/demngayraquan">
             <Button
               type="primary"
-              className="p-10 text-[18px] font-bold"
+              className="p-10 text-[18px] font-bold bg-gradient-custom rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white nline-flex items-center justify-center gap-x-4 px-8 py-4 "
               danger
               icon={<CalendarIcon className={'calendar-icon'} />}
               size={size}

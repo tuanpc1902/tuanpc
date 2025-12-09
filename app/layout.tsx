@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 
 import './globals.scss';
-
-import Head from 'next/head';
-
 export const metadata: Metadata = {
   title: 'tuanpc',
 
@@ -23,9 +20,6 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
     <head></head>
-
-    {/* <body className={`${Roboto_Font.className} antialiased h-screen`}> */}
-
     <body className={`antialiased h-screen`}>{children}</body>
   </html>
 );

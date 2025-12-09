@@ -1,5 +1,4 @@
 'use client';
-// import './style.css';
 import { useEffect, useState } from 'react';
 import DatePickerCustom from './DatePickerCustom';
 import dayjs from 'dayjs';
@@ -8,12 +7,13 @@ import { Button, Space } from 'antd';
 import Link from 'next/link';
 import { HomeIcon } from '~alias~/app/components/icons/icons';
 import styled from 'styled-components';
-import { Typography } from 'antd';
 
 const SpaceCustom = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
 `;
 
 export default function DemNgayRaQuan() {
