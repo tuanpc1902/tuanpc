@@ -22,6 +22,17 @@ export default function DemNgayRaQuan() {
   const [count, setCount] = useState({days: '', weeks: '', months: ''});
 
   useEffect(() => {
+    const storedDate = localStorage.getItem('demNgayRaQuanTargetDate');
+    if (storedDate) {
+      setTargetDate(storedDate);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('demNgayRaQuanTargetDate', targetDate);
+  }, [targetDate]);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate({
         date: dayjs().locale('vi').format('dddd, DD [tháng] MM [năm] YYYY'),
