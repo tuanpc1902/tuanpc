@@ -29,7 +29,7 @@ export default function DemNgayRaQuan() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('demNgayRaQuanTargetDate', targetDate);
+    localStorage.setItem('demNgayRaQuanTargetDate', dayjs(targetDate).format('YYYY-MM-DD'));
   }, [targetDate]);
 
   useEffect(() => {
