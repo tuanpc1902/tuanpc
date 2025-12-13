@@ -39,7 +39,6 @@ export default function DemNgayRaQuan() {
     if (storageDate && dayjs(storageDate).isValid()) {
       setTargetDate(dayjs(storageDate).format('YYYY-MM-DD'));
     } else {
-      console.log(dayjs().format('YYYY-MM-DD'));
       setTargetDate(dayjs().format('YYYY-MM-DD'));
     }
   }, []);
