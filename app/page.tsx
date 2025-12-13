@@ -107,10 +107,10 @@ export default function Home() {
             <span>Contact me</span>
           </Link>
           
-          <Link href="/demngayraquan" className={'lg:xl:place-self-center'}>
+          <Link href="/demngayraquan" className={'lg:xl:col-span-2 lg:xl:place-self-center'}>
             <Button
               type="primary"
-              className="text-[18px] font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4"
+              className="text-[18px] text-white font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4"
               danger
               icon={<CalendarIcon className={'calendar-icon'} />}
               size={size}

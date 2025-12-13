@@ -39,7 +39,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
       <div className={interFont.className + `flex h-full flex-col items-center justify-center px-2 sm:px-0`}>
-        <Suspense fallback={<Spin percent={mergedPercent} size="large" />}>{children}</Suspense>
+        <Suspense fallback={<Spin percent={mergedPercent} size="large" className='' />}>{children}</Suspense>
       </div>
   );
 };
