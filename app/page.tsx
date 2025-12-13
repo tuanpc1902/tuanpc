@@ -47,7 +47,7 @@ export default function Home() {
         size={30}
         orientation="vertical"
         align="center"
-        className="w-full h-screen bg-gradient-to-r from-[#ff7675] to-[#fc6c8f] text-white"
+        className="w-full h-screen text-white justify-center"
       >
         <div className="flex items-center justify-center w-[18rem] h-[18rem] mx-auto bg-opacity-10 border-primary">
           <Image
@@ -86,32 +86,31 @@ export default function Home() {
             </Link>
           </Tooltip>
         </Space>
-        <div className="flex flex-col justify-center gap-5 sm:items-center sm:flex-row lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed text-2xl sm:text-2xl lg:text-3xl md:text-3xl whitespace-nowrap">
-          <a
-            href={process.env.PROFILE_GITHUB_URL}
+        <div className="grid gap-5 xl:gap-5 lg:gap-5 md:gap-4 sm:gap-4 sm:md:grid-cols-1 lg:xl:grid-cols-2  sm:items-center sm:flex-row lg:leading-loose md:leading-loose sm:leading-relaxed leading-relaxed text-2xl sm:text-2xl lg:text-3xl md:text-3xl whitespace-nowrap">
+          <Link
+            href={process.env.PROFILE_GITHUB_URL || '/'}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-slate-800 rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
           >
             <GithubIcon className="github-icon" />
             View on Github
-          </a>
+          </Link>
 
-          <a
-            href={process.env.PROFILE_FB_URL}
+          <Link
+            href={process.env.PROFILE_FB_URL || '/'}
             target="_blank"
             className="inline-flex items-center justify-center gap-x-4 px-8 py-4  font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
             rel="noreferrer"
           >
             <ContactIcon className="contact-icon" />
             <span>Contact me</span>
-          </a>
-        </div>
-        <Space>
-          <Link href="/demngayraquan">
+          </Link>
+          
+          <Link href="/demngayraquan" className={'lg:xl:place-self-center'}>
             <Button
               type="primary"
-              className="p-10 text-[18px] font-bold bg-gradient-custom rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white nline-flex items-center justify-center gap-x-4 px-8 py-4 "
+              className="text-[18px] font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4"
               danger
               icon={<CalendarIcon className={'calendar-icon'} />}
               size={size}
@@ -119,7 +118,7 @@ export default function Home() {
               Đếm ngày ra quân
             </Button>
           </Link>
-        </Space>
+        </div>
       </SpaceCustom>
       {/* https://vt.tiktok.com/ZSFjpJpb5/ */}
     </AppLayout>
