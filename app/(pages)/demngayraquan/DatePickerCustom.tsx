@@ -4,17 +4,19 @@ import dayjs from 'dayjs';
 
 type Props = {
   className: string;
-  targetDate: string;
+  defaultValue: string;
+  formatString?: string;
   onDateChange: (date: any, dateString: string | null) => void;
   size?: SizeType
 }
 
-export default function DatePickerCustom({className, targetDate, onDateChange, size}: Props
+export default function DatePickerCustom({className, defaultValue, onDateChange, formatString, size}: Props
 ) {
   return (
     <DatePicker
       onChange={onDateChange}
-      defaultValue={dayjs(targetDate)}
+      defaultValue={dayjs(defaultValue, formatString ?? 'YYYY-MM-DD')}
+      
       className={`${className}`}
       size={size}
       locale={{
