@@ -3,7 +3,7 @@ import { SizeType } from 'antd/es/config-provider/SizeContext';
 import dayjs from 'dayjs';
 
 type Props = {
-  className: string;
+  className?: string;
   defaultValue: string;
   formatString?: string;
   onDateChange: (date: any, dateString: string | null) => void;
