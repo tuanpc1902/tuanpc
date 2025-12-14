@@ -98,7 +98,7 @@ export default function DemNgayRaQuan() {
   };
 
   return (
-    targetDate && (
+    targetDate && currentDate.date && currentDate.time && (
       <SpaceCustom id="demNgayRaQuan" className={'flex flex-col'}>
         <div className="title text-4xl font-[700] m-10 !text-[#ff7675] sm:text-5xl md:text-6xl lg:text-7xl text-center">
           Bao lâu đến ngày {dayjs(targetDate).format('DD-MM-YYYY')}
