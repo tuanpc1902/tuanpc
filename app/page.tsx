@@ -7,9 +7,8 @@ import {
   DownloadIcon,
   GithubIcon,
 } from './components/icons/icons';
-import Image from 'next/image';
 import styled from 'styled-components';
-import { Button, Space, Tooltip } from 'antd';
+import { Button, Space, Tooltip, Image } from 'antd';
 import Link from 'next/link';
 import type { ConfigProviderProps } from 'antd';
 import logo from '../public/author.png';
@@ -49,14 +48,11 @@ export default function Home() {
         align="center"
         className="w-full h-screen text-white justify-center"
       >
-        <div className="flex items-center justify-center w-[18rem] h-[18rem] mx-auto bg-opacity-10 border-primary">
+        <div className="flex items-center justify-center w-[24rem] h-[24rem] mx-auto bg-opacity-10 border-primary rounded-full border-2 overflow-hidden shadow-lg shadow-primary/10">
           <Image
             src={imageAvatar.src}
-            className="min-w-[12.8rem] max-w[18rem] min-h-[12.8rem] max-h-[18rem] rounded-full border border-teal-800 object-cover object-center"
+            className="min-w-[24rem] max-w[24rem] min-h-[24rem] max-h-[24rem] rounded-full border border-teal-800 object-cover object-center"
             alt="avatar"
-            width={240}
-            height={240}
-            priority={true}
           />
         </div>
         <Space
@@ -81,7 +77,7 @@ export default function Home() {
               <DownloadIcon
                 width="2.8rem"
                 height="2.8rem"
-                className="download-icon hover:animate-[bounce_1s_ease-in-out_infinite]"
+                className="download-icon hover:animate-[bounce_1s_ease-in-out_infinite] ml-2"
               />
             </Link>
           </Tooltip>
