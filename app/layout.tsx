@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import './globals.scss';
+import { Suspense } from 'react';
+import Loading from './components/Spinner/Loading';
 export const metadata: Metadata = {
   title: 'tuanpc',
 
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
     <head></head>
-    <body className={`antialiased h-screen`}>{children}</body>
+    <Suspense fallback={<Loading/>}><body className={`antialiased h-screen`}>{children}</body></Suspense>
   </html>
 );
 

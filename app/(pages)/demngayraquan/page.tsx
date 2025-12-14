@@ -7,6 +7,7 @@ import { Button, Space } from 'antd';
 import Link from 'next/link';
 import { HomeIcon } from '~alias~/app/components/icons/icons';
 import styled from 'styled-components';
+import CalcRemainTime from './CalcRemainTime';
 
 const SpaceCustom = styled(Space)`
   display: flex;
@@ -27,6 +28,11 @@ export default function DemNgayRaQuan() {
     weeksOfMonths: '',
     dayOfMonths: '',
   });
+  const [realTime, setRealTime] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
   // update current date and time every second
   useEffect(() => {
@@ -38,6 +44,14 @@ export default function DemNgayRaQuan() {
     }, 1000); // Update every second
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const calcRealtime = CalcRemainTime(targetDate);
+      setRealTime(calcRealtime);
+    }, 1000); // Update every second
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, [targetDate]);
 
   // load targetDate from localStorage on component mount
   useEffect(() => {
@@ -58,7 +72,7 @@ export default function DemNgayRaQuan() {
       );
     }
 
-    // hanel count calculation with dayjs
+    // handle count calculation with dayjs
     let result = {
       days: dayjs(targetDate).diff(dayjs(), 'days'),
       weeks: Math.floor(dayjs(targetDate).diff(dayjs(), 'days') / 7),
@@ -98,7 +112,9 @@ export default function DemNgayRaQuan() {
   };
 
   return (
-    targetDate && currentDate.date && currentDate.time && (
+    targetDate &&
+    currentDate.date &&
+    currentDate.time && (
       <SpaceCustom id="demNgayRaQuan" className={'flex flex-col'}>
         <div className="title text-4xl font-[700] m-10 !text-[#ff7675] sm:text-5xl md:text-6xl lg:text-7xl text-center">
           Bao lâu đến ngày {dayjs(targetDate).format('DD-MM-YYYY')}
@@ -116,7 +132,6 @@ export default function DemNgayRaQuan() {
         </div>
 
         <span className="subTitle text-2xl">Còn</span>
-
         <div className="counting flex flex-col items-center justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl">
           {count.days && (
             <div className="countdown p-4 text-[#fd79a8]">
@@ -136,6 +151,14 @@ export default function DemNgayRaQuan() {
               <span id="monthLabel">
                 {' '}
                 tháng {count.weeksOfMonths} tuần {count.dayOfMonths} ngày
+              </span>
+            </div>
+          )}
+          {count.months && (
+            <div className="countdown p-4 text-[#ff7675]">
+              <span id="monthLabel">
+                {Intl.NumberFormat('vi-VN').format(realTime.hours)} giờ {realTime.minutes} phút {realTime.seconds}{' '}
+                giây
               </span>
             </div>
           )}
