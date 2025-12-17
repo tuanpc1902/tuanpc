@@ -77,11 +77,11 @@ export default function DemNgayRaQuan() {
     }
 
     // handle count calculation with dayjs
-    let result = {
-      days: dayjs(targetDate).diff(dayjs(), 'days'),
-      weeks: Math.floor(dayjs(targetDate).diff(dayjs(), 'days') / 7),
-      months: dayjs(targetDate).diff(dayjs(), 'months'),
-    };
+    // let result = {
+    //   days: dayjs(targetDate).diff(dayjs(), 'days'),
+    //   weeks: Math.floor(dayjs(targetDate).diff(dayjs(), 'days') / 7),
+    //   months: dayjs(targetDate).diff(dayjs(), 'months'),
+    // };
 
     const dayjsTarget = dayjs(targetDate);
     const dayjsNow = dayjs();
@@ -99,9 +99,9 @@ export default function DemNgayRaQuan() {
     const dayOfMonths = days - months * 30 - weeksOfMonths * 7;
 
     setCount({
-      days: result.days >= 0 ? String(result.days) : '0',
-      weeks: result.weeks >= 0 ? String(result.weeks) : '0',
-      months: result.months >= 0 ? String(result.months) : '0',
+      days: days >= 0 ? String(days) : '0',
+      weeks: weeks >= 0 ? String(weeks) : '0',
+      months: months >= 0 ? String(months) : '0',
       daysOfWeeks: dayOfWeeks >= 0 ? String(dayOfWeeks) : '0',
       weeksOfMonths: weeksOfMonths >= 0 ? String(weeksOfMonths) : '0',
       dayOfMonths: dayOfMonths >= 0 ? String(dayOfMonths) : '0',
@@ -142,7 +142,6 @@ export default function DemNgayRaQuan() {
     ]
 
     const onSelectChange = (e: string) => {
-      console.log(e)
       setDisplay(e)
     }
 
