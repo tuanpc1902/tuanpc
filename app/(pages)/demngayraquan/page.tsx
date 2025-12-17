@@ -8,11 +8,11 @@ import Link from 'next/link';
 import { HomeIcon } from '~alias~/app/components/icons/icons';
 import styled from 'styled-components';
 import CalcRemainTime from './CalcRemainTime';
-import useFormatNumberByLocale from '~alias~/app/hooks/FormatNumberByLocale';
 import FormatNumberByLocale from '~alias~/app/hooks/FormatNumberByLocale';
 import useCapitalizeFirst from './../../hooks/useCapitalizeFirst';
+import SelectCustom from '~alias~/app/components/select/SelectCustom';
 
-const SpaceCustom = styled(Space)`
+const SpaceStyled = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +23,7 @@ const SpaceCustom = styled(Space)`
 export default function DemNgayRaQuan() {
   const [currentDate, setCurrentDate] = useState({ date: '', time: '' });
   const [targetDate, setTargetDate] = useState<string>('');
+  const [display, setDisplay] = useState<string>('');
   const [count, setCount] = useState({
     days: '',
     weeks: '',
@@ -63,6 +64,7 @@ export default function DemNgayRaQuan() {
     } else {
       setTargetDate(dayjs().format('YYYY-MM-DD'));
     }
+    setDisplay('all')
   }, []);
 
   // update count whenever targetDate changes
@@ -111,11 +113,44 @@ export default function DemNgayRaQuan() {
     if (dateString) setTargetDate(date);
   };
 
+  const selectOptions = [
+      {
+        key: '1',
+        value: 'all',
+        label: 'Tất cả',
+      },
+      {
+        key: '2',
+        value: 'day',
+        label: 'Ngày',
+      },
+      {
+        key: '3',
+        value: 'week',
+        label: 'Tuần',
+      },
+      {
+        key: '4',
+        value: 'month',
+        label: 'Tháng',
+      },
+      {
+        key: '5',
+        value: 'hour',
+        label: 'Giờ',
+      },
+    ]
+
+    const onSelectChange = (e: string) => {
+      console.log(e)
+      setDisplay(e)
+    }
+
   return (
     targetDate &&
     currentDate.date &&
     currentDate.time && (
-      <SpaceCustom id="demNgayRaQuan" className={'flex flex-col'}>
+      <SpaceStyled id="demNgayRaQuan" className={'flex flex-col'}>
         <div className="title text-4xl font-[700] m-10 !text-[#ff7675] sm:text-5xl md:text-6xl lg:text-7xl text-center">
           Bao lâu đến ngày {dayjs(targetDate).format('DD-MM-YYYY')}
         </div>
@@ -127,16 +162,15 @@ export default function DemNgayRaQuan() {
               size={'large'}
             />
         </div>
-
         <span className="subTitle text-2xl">Còn</span>
+        <SelectCustom options={selectOptions} onSelect={onSelectChange} />
         <div className="counting flex flex-col items-center justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl [&>div]:p-4">
-          <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>
-          <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>
-          <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>
-          <div className="text-[#ff7675]">{realTime}</div>
+          {(display === 'all' || display === 'day') && <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>}
+          {(display === 'all' || display === 'week') && <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>}
+          {(display === 'all' || display === 'month') && <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.daysOfWeeks} ngày`}</div>}
+          {(display === 'all' || display === 'hour') && <div className="text-[#ff7675]">{realTime}</div>}
         </div>
-
-        <div className="todayLabel mt-[3rem] text-[#9fa1a1]">Hôm nay là:</div>
+        <div className="todayLabel mt-[2rem] text-[#9fa1a1]">Hôm nay là:</div>
         <div className="today flex max-xs:flex max-xs:flex-col gap-2.5 items-center justify-center font-medium text-center mb-5 text-[#9fa1a1] ">
           {/* eslint-disable-next-line react-hooks/rules-of-hooks */}
           <span id="date">{useCapitalizeFirst(currentDate.date)}</span>
@@ -161,7 +195,7 @@ export default function DemNgayRaQuan() {
             </Button>
           </Link>
         </Space>
-      </SpaceCustom>
+      </SpaceStyled>
     )
   );
 }
