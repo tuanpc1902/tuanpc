@@ -1,11 +1,36 @@
 import React from 'react';
 import { Flex, Spin } from 'antd';
 
-export default function Loading() {
-  return (
-    <Flex align="center" gap="middle">
-      <Spin tip="Loading" size="large">
-      </Spin>
+interface LoadingProps {
+  tip?: string;
+  size?: 'small' | 'default' | 'large';
+  fullScreen?: boolean;
+}
+
+/**
+ * Loading component với các tùy chọn tùy chỉnh
+ * @param tip - Text hiển thị khi loading
+ * @param size - Kích thước spinner
+ * @param fullScreen - Có hiển thị full screen không
+ */
+export default function Loading({
+  tip = 'Đang tải...',
+  size = 'large',
+  fullScreen = false,
+}: LoadingProps) {
+  const content = (
+    <Flex align="center" justify="center" gap="middle" vertical>
+      <Spin tip={tip} size={size} />
     </Flex>
-  )
+  );
+
+  if (fullScreen) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        {content}
+      </div>
+    );
+  }
+
+  return content;
 }

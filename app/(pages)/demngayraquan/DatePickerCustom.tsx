@@ -1,17 +1,23 @@
 import { DatePicker } from 'antd';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import type { DatePickerCustomProps } from '~alias~/app/lib/types';
 
-type Props = {
-  className?: string;
-  defaultValue: string;
-  formatString?: string;
-  onDateChange: (date: any, dateString: string | null) => void;
-  size?: SizeType
-}
-
-export default function DatePickerCustom({className, defaultValue, onDateChange, formatString, size}: Props
-) {
+/**
+ * Custom DatePicker component với locale tiếng Việt
+ * @param props - Props của DatePickerCustom
+ * @param props.defaultValue - Giá trị mặc định (YYYY-MM-DD)
+ * @param props.onDateChange - Callback khi ngày thay đổi
+ * @param props.size - Kích thước picker
+ * @param props.formatString - Format string cho defaultValue
+ * @param props.className - CSS class name
+ */
+export default function DatePickerCustom({
+  className,
+  defaultValue,
+  onDateChange,
+  formatString,
+  size,
+}: DatePickerCustomProps) {
   return (
     <DatePicker
       onChange={onDateChange}

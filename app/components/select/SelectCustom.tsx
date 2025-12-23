@@ -1,26 +1,32 @@
 import { Select } from "antd";
-import { BaseOptionType } from "antd/es/select";
+import type { SelectCustomProps } from '~alias~/app/lib/types';
 
-type SelectCustomProps = {
-  onSelect: (e: any) => void,
-  options: BaseOptionType[]
-}
-
-export default function SelectCustom(props: SelectCustomProps){
-  const {onSelect, options} = props
+/**
+ * Custom Select component với search và filter
+ * @param props - Props của SelectCustom
+ * @param props.onSelect - Callback khi chọn option
+ * @param props.options - Danh sách options
+ * @param props.defaultValue - Giá trị mặc định
+ */
+export default function SelectCustom({
+  onSelect,
+  options,
+  defaultValue = 'all',
+}: SelectCustomProps) {
   return (
     <Select
-    onSelect={onSelect}
-    defaultValue={'Tất cả'}
-    showSearch={{
-      optionFilterProp: 'label',
-      filterSort: (optionA, optionB) =>
-        (optionA?.key ?? '').toLowerCase().localeCompare((optionB?.key ?? '').toLowerCase()),
-    }}
-    style={{ width: 100 }}
-    placeholder="Search to Select"
-    options={options}
-  />
-  )
-  
+      onSelect={onSelect}
+      defaultValue={defaultValue}
+      showSearch={{
+        optionFilterProp: 'label',
+        filterSort: (optionA, optionB) =>
+          (optionA?.key ?? '').toLowerCase().localeCompare(
+            (optionB?.key ?? '').toLowerCase()
+          ),
+      }}
+      style={{ width: 100 }}
+      placeholder="Chọn hiển thị"
+      options={options}
+    />
+  );
 }

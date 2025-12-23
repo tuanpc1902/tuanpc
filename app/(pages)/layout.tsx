@@ -38,9 +38,9 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
    const mergedPercent = auto ? 'auto' : percent;
 
   return (
-      <div className={interFont.className + `flex h-full flex-col items-center justify-center px-2 sm:px-0`}>
-        <Suspense fallback={<Spin percent={mergedPercent} size="large" className='' />}>{children}</Suspense>
-      </div>
+    <div className={`${interFont.className} flex h-full flex-col items-center justify-center px-2 sm:px-0`}>
+      <Suspense fallback={<Spin size="large" className='' />}>{children}</Suspense>
+    </div>
   );
 };
 

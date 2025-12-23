@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TuanPC - Portfolio & Tools
 
-## Getting Started
+Portfolio website và các công cụ hữu ích được xây dựng với Next.js 14, TypeScript, và Tailwind CSS.
 
-First, run the development server:
+## Tính năng
+
+- 🏠 Trang chủ giới thiệu
+- 📅 Đếm ngày ra quân (Countdown timer)
+- 🎨 UI/UX hiện đại với Tailwind CSS và Ant Design
+- 📱 Responsive design
+- ⚡ Performance optimized
+- 🛡️ Error boundaries
+- 🧪 Unit tests
+
+## Công nghệ sử dụng
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, SCSS, Styled Components
+- **UI Library**: Ant Design
+- **Date Handling**: Day.js
+- **Testing**: Jest, React Testing Library
+
+## Cài đặt
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env.local
+
+# Edit .env.local với các giá trị thực tế
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Chạy dự án
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Development mode
+npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Build production
+npm run build
 
-## Learn More
+# Start production server
+npm start
 
-To learn more about Next.js, take a look at the following resources:
+# Run tests
+npm test
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run tests với watch mode
+npm run test:watch
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Run tests với coverage
+npm run test:coverage
+```
 
-## Deploy on Vercel
+## Cấu trúc dự án
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/
+├── components/          # Reusable components
+│   ├── ErrorBoundary/   # Error boundary component
+│   ├── icons/           # Icon components
+│   ├── select/          # Select component
+│   └── Spinner/         # Loading component
+├── hooks/               # Custom React hooks
+│   ├── useCurrentDateTime.ts
+│   ├── useDateCalculations.ts
+│   ├── useLocalStorage.ts
+│   └── useRealTimeCountdown.ts
+├── lib/                 # Utilities và constants
+│   ├── constants.ts
+│   ├── formatNumberByLocale.ts
+│   ├── types.ts
+│   └── utils.ts
+└── (pages)/             # Pages
+    ├── demngayraquan/   # Countdown page
+    └── layout.tsx       # App layout
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Environment Variables
+
+Tạo file `.env.local` với các biến sau:
+
+```env
+NEXT_PUBLIC_PROFILE_GITHUB_URL=https://github.com/yourusername
+NEXT_PUBLIC_PROFILE_FB_URL=https://facebook.com/yourprofile
+```
+
+## Cải thiện đã thực hiện
+
+### Code Quality
+- ✅ Error Boundary để xử lý lỗi toàn cục
+- ✅ Custom Hooks để tách logic và tái sử dụng code
+- ✅ Type Safety với TypeScript types rõ ràng
+- ✅ JSDoc comments cho tất cả functions
+- ✅ Constants file để quản lý các giá trị cố định
+- ✅ Optimizations với useMemo và useCallback
+
+### Performance
+- ✅ Custom hooks để tối ưu re-renders
+- ✅ Lazy loading cho images
+- ✅ Proper cleanup trong useEffect
+
+### Testing
+- ✅ Jest configuration
+- ✅ Unit tests cho utilities
+- ✅ Test structure sẵn sàng để mở rộng
+
+### Developer Experience
+- ✅ Consistent import paths với alias
+- ✅ Clear code organization
+- ✅ Better error handling
+- ✅ Improved loading states
+
+## License
+
+MIT
