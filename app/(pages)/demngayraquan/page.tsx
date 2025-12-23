@@ -166,7 +166,7 @@ export default function DemNgayRaQuan() {
         <div className="counting flex flex-col items-center justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl [&>div]:p-4">
           {(display === 'all' || display === 'day') && <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>}
           {(display === 'all' || display === 'week') && <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>}
-          {(display === 'all' || display === 'month') && <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.daysOfWeeks} ngày`}</div>}
+          {(display === 'all' || display === 'month') && <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.dayOfMonths} ngày`}</div>}
           {(display === 'all' || display === 'hour') && <div className="text-[#ff7675]">{realTime}</div>}
         </div>
         <div className="todayLabel mt-[2rem] text-[#9fa1a1]">Hôm nay là:</div>
