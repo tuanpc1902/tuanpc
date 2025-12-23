@@ -13,15 +13,20 @@ export interface DatePickerCustomProps {
 }
 
 /**
+ * Option type cho SelectCustom
+ */
+export type SelectOption = {
+  key: string;
+  value: string;
+  label: string;
+};
+
+/**
  * Props cho SelectCustom component
  */
 export interface SelectCustomProps {
   onSelect: (e: string) => void;
-  options: Array<{
-    key: string;
-    value: string;
-    label: string;
-  }>;
+  options: readonly SelectOption[] | SelectOption[];
   defaultValue?: string;
 }
 

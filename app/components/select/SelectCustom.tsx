@@ -1,5 +1,5 @@
 import { Select } from "antd";
-import type { SelectCustomProps } from '~alias~/app/lib/types';
+import type { SelectCustomProps, SelectOption } from '~alias~/app/lib/types';
 
 /**
  * Custom Select component với search và filter
@@ -26,7 +26,7 @@ export default function SelectCustom({
       }}
       style={{ width: 100 }}
       placeholder="Chọn hiển thị"
-      options={options}
+      options={options as SelectOption[]}
     />
   );
 }
