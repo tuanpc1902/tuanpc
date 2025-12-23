@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.scss';
 import { Suspense } from 'react';
 import Loading from './components/Spinner/Loading';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'tuanpc - Phạm Công Tuấn',
@@ -20,11 +19,11 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="vi">
     <head></head>
-    <ErrorBoundary>
+    <body className={`antialiased h-screen`} suppressHydrationWarning>
       <Suspense fallback={<Loading fullScreen />}>
-        <body className={`antialiased h-screen`}>{children}</body>
+        {children}
       </Suspense>
-    </ErrorBoundary>
+    </body>
   </html>
 );
 
