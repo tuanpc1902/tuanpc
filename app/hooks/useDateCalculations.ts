@@ -18,7 +18,16 @@ export function useDateCalculations(targetDate: string): CountResult {
   });
 
   const calculations = useMemo(() => {
-    if (!targetDate || !dayjs(targetDate).isValid()) {
+    const normalized =
+      typeof targetDate === 'string' ? targetDate.trim() : String(targetDate);
+
+    const dayjsTarget = dayjs(normalized, 'YYYY-MM-DD', true).isValid()
+      ? dayjs(normalized, 'YYYY-MM-DD', true).startOf('day')
+      : dayjs(normalized).startOf('day');
+
+    const dayjsNow = dayjs().startOf('day');
+
+    if (!dayjsTarget.isValid()) {
       return {
         days: '0',
         weeks: '0',
@@ -29,9 +38,6 @@ export function useDateCalculations(targetDate: string): CountResult {
       };
     }
 
-    const dayjsTarget = dayjs(targetDate).startOf('day');
-    const dayjsNow = dayjs().startOf('day');
-    
     // Calculate total days difference
     const days = dayjsTarget.diff(dayjsNow, 'days');
     

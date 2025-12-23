@@ -10,18 +10,25 @@ import type { RemainTimeResult } from '~alias~/app/lib/types';
  * // { hours: 100, minutes: 30, seconds: 45 }
  */
 export default function CalcRemainTime(targetDate: string): RemainTimeResult {
-  const now = dayjs();
-  const target = dayjs(targetDate);
+  const normalized =
+    typeof targetDate === 'string' ? targetDate.trim() : String(targetDate);
+
+  // Ưu tiên parse strict theo định dạng lưu trữ, fallback sang parse lỏng
+  const target =
+    dayjs(normalized, 'YYYY-MM-DD', true).isValid()
+      ? dayjs(normalized, 'YYYY-MM-DD', true)
+      : dayjs(normalized);
 
   // Validate date
   if (!target.isValid()) {
-    console.warn(`Invalid target date: ${targetDate}`);
     return {
       hours: 0,
       minutes: 0,
       seconds: 0,
     };
   }
+
+  const now = dayjs();
 
   // Nếu target đã qua rồi
   if (target.isBefore(now)) {
