@@ -20,6 +20,34 @@ const SpaceStyled = styled(Space)`
   height: 100%;
 `;
 
+const selectOptions = [
+  {
+    key: '1',
+    value: 'all',
+    label: 'Tất cả',
+  },
+  {
+    key: '2',
+    value: 'day',
+    label: 'Ngày',
+  },
+  {
+    key: '3',
+    value: 'week',
+    label: 'Tuần',
+  },
+  {
+    key: '4',
+    value: 'month',
+    label: 'Tháng',
+  },
+  {
+    key: '5',
+    value: 'hour',
+    label: 'Giờ',
+  },
+];
+
 export default function DemNgayRaQuan() {
   const [currentDate, setCurrentDate] = useState({ date: '', time: '' });
   const [targetDate, setTargetDate] = useState<string>('');
@@ -37,8 +65,12 @@ export default function DemNgayRaQuan() {
   // update current date and time every second
   useEffect(() => {
     const intervalId = setInterval(() => {
+      const text = dayjs()
+        .locale('vi')
+        .format('dddd, DD [tháng] MM [năm] YYYY');
+      const date = text.charAt(0).toUpperCase() + text.slice(1);
       setCurrentDate({
-        date: dayjs().locale('vi').format('dddd, DD [tháng] MM [năm] YYYY'),
+        date: date,
         time: dayjs().format('HH [giờ] mm [phút] ss [giây]'),
       });
     }, 1000); // Update every second
@@ -64,7 +96,7 @@ export default function DemNgayRaQuan() {
     } else {
       setTargetDate(dayjs().format('YYYY-MM-DD'));
     }
-    setDisplay('all')
+    setDisplay('all');
   }, []);
 
   // update count whenever targetDate changes
@@ -75,13 +107,6 @@ export default function DemNgayRaQuan() {
         dayjs(targetDate).format('YYYY-MM-DD')
       );
     }
-
-    // handle count calculation with dayjs
-    // let result = {
-    //   days: dayjs(targetDate).diff(dayjs(), 'days'),
-    //   weeks: Math.floor(dayjs(targetDate).diff(dayjs(), 'days') / 7),
-    //   months: dayjs(targetDate).diff(dayjs(), 'months'),
-    // };
 
     const dayjsTarget = dayjs(targetDate);
     const dayjsNow = dayjs();
@@ -96,7 +121,8 @@ export default function DemNgayRaQuan() {
     // handle weeksOfMonths
     const weeksOfMonths = Math.floor((days - months * 30) / 7);
     // handle dayOfMonths
-    const dayOfMonths = days - months * 30 - weeksOfMonths * 7;
+    const dayOfMonths =
+      days - months * dayjs().daysInMonth() - weeksOfMonths * 7;
 
     setCount({
       days: days >= 0 ? String(days) : '0',
@@ -113,37 +139,9 @@ export default function DemNgayRaQuan() {
     if (dateString) setTargetDate(date);
   };
 
-  const selectOptions = [
-      {
-        key: '1',
-        value: 'all',
-        label: 'Tất cả',
-      },
-      {
-        key: '2',
-        value: 'day',
-        label: 'Ngày',
-      },
-      {
-        key: '3',
-        value: 'week',
-        label: 'Tuần',
-      },
-      {
-        key: '4',
-        value: 'month',
-        label: 'Tháng',
-      },
-      {
-        key: '5',
-        value: 'hour',
-        label: 'Giờ',
-      },
-    ]
-
-    const onSelectChange = (e: string) => {
-      setDisplay(e)
-    }
+  const onSelectChange = (e: string) => {
+    setDisplay(e);
+  };
 
   return (
     targetDate &&
@@ -155,24 +153,31 @@ export default function DemNgayRaQuan() {
         </div>
         <div className="flex flex-col items-center justify-center text-xl font-semibold mb-5">
           <div className="selectDateLabel mb-5 text-2xl">Chọn ngày</div>
-            <DatePickerCustom
-              defaultValue={targetDate}
-              onDateChange={onDatePickerChangeCustom}
-              size={'large'}
-            />
+          <DatePickerCustom
+            defaultValue={targetDate}
+            onDateChange={onDatePickerChangeCustom}
+            size={'large'}
+          />
         </div>
         <span className="subTitle text-2xl">Còn</span>
         <SelectCustom options={selectOptions} onSelect={onSelectChange} />
         <div className="counting flex flex-col items-center justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl [&>div]:p-4">
-          {(display === 'all' || display === 'day') && <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>}
-          {(display === 'all' || display === 'week') && <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>}
-          {(display === 'all' || display === 'month') && <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.dayOfMonths} ngày`}</div>}
-          {(display === 'all' || display === 'hour') && <div className="text-[#ff7675]">{realTime}</div>}
+          {(display === 'all' || display === 'day') && (
+            <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>
+          )}
+          {(display === 'all' || display === 'week') && (
+            <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>
+          )}
+          {(display === 'all' || display === 'month') && (
+            <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.dayOfMonths} ngày`}</div>
+          )}
+          {(display === 'all' || display === 'hour') && (
+            <div className="text-[#ff7675]">{realTime}</div>
+          )}
         </div>
         <div className="todayLabel mt-[2rem] text-[#9fa1a1]">Hôm nay là:</div>
         <div className="today flex max-xs:flex max-xs:flex-col gap-2.5 items-center justify-center font-medium text-center mb-5 text-[#9fa1a1] ">
-          {/* eslint-disable-next-line react-hooks/rules-of-hooks */}
-          <span id="date">{useCapitalizeFirst(currentDate.date)}</span>
+          <span id="date">{currentDate.date}</span>
           <span
             id="pipe"
             className="hidden xs:block sm:block md:block lg:block xl:block 2xl:block p-2"
