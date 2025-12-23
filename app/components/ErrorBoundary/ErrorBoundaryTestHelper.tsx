@@ -128,16 +128,16 @@ export default function ErrorBoundaryTestHelper() {
         <Card title="📖 Hướng dẫn sử dụng" className="w-full">
           <ol className="list-decimal list-inside space-y-2 text-gray-700">
             <li>
-              <strong>Click "Trigger Error"</strong> để xem ErrorBoundary bắt lỗi và hiển thị error UI
+              <strong>`Trigger Error`</strong> để xem ErrorBoundary bắt lỗi và hiển thị error UI
             </li>
             <li>
-              <strong>Click "Thử lại"</strong> trong error UI để reset error state (chỉ reset state, không remount)
+              <strong>`Thử lại`</strong> trong error UI để reset error state (chỉ reset state, không remount)
             </li>
             <li>
-              <strong>Click "Reset Component"</strong> để remount component hoàn toàn
+              <strong>`Reset Component`</strong> để remount component hoàn toàn
             </li>
             <li>
-              <strong>Test Custom Fallback</strong> để xem cách hiển thị custom error UI
+              <strong>`Test Custom Fallback`</strong> để xem cách hiển thị custom error UI
             </li>
           </ol>
           
