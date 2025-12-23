@@ -47,10 +47,10 @@ export default function Home() {
           <div className="flex items-center justify-center w-[24rem] h-[24rem] mx-auto bg-opacity-10 border-primary rounded-full border-2 overflow-hidden shadow-lg shadow-primary/10">
             <Image
               src={imageAvatar.src}
-              className="min-w-[24rem] max-w[24rem] min-h-[24rem] max-h-[24rem] rounded-full border border-teal-800 object-cover object-center"
+              className="rounded-full border border-teal-800 object-cover object-center"
               alt={imageAvatar.alt}
-              width={384}
-              height={384}
+              width={240}
+              height={240}
               loading="lazy"
             />
           </div>
