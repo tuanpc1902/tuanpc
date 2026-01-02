@@ -103,9 +103,9 @@ export default function DemNgayRaQuan() {
         {(display === 'all' || display === 'week') && (
           <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>
         )}
-        {(display === 'all' || display === 'month') && (
+        {/* {(display === 'all' || display === 'month') && (
           <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.dayOfMonths} ngày`}</div>
-        )}
+        )} */}
         {(display === 'all' || display === 'hour') && (
           <div className="text-[#ff7675]">{realTime}</div>
         )}

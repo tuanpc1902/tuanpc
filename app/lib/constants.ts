@@ -18,11 +18,11 @@ export const SELECT_OPTIONS = [
     value: 'week',
     label: 'Tuần',
   },
-  {
-    key: '4',
-    value: 'month',
-    label: 'Tháng',
-  },
+  // {
+  //   key: '4',
+  //   value: 'month',
+  //   label: 'Tháng',
+  // },
   {
     key: '5',
     value: 'hour',
