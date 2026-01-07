@@ -1,64 +1,83 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
-import DatePickerCustom from './DatePickerCustom';
+import { useState, useCallback, useMemo, memo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/vi';
-import { Button, Space } from 'antd';
 import Link from 'next/link';
 import { HomeIcon } from '~alias~/app/components/icons/icons';
-import styled from 'styled-components';
-import SelectCustom from '~alias~/app/components/select/SelectCustom';
 import { useDateCalculations } from '~alias~/app/hooks/useDateCalculations';
 import { useCurrentDateTime } from '~alias~/app/hooks/useCurrentDateTime';
 import { useRealTimeCountdown } from '~alias~/app/hooks/useRealTimeCountdown';
 import { useLocalStorage } from '~alias~/app/hooks/useLocalStorage';
 import { SELECT_OPTIONS, STORAGE_KEYS, DATE_FORMATS } from '~alias~/app/lib/constants';
+import CountdownItems from './CountdownItems';
 
-const SpaceStyled = styled(Space)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
+// Lazy load components for better performance
+const DatePickerCustom = dynamic(() => import('./DatePickerCustom'), {
+  ssr: false,
+  loading: () => <div style={{ height: '40px', width: '100%' }} />,
+});
+
+const SelectCustom = dynamic(() => import('~alias~/app/components/select/SelectCustom'), {
+  ssr: false,
+  loading: () => <div style={{ height: '40px', width: '100%' }} />,
+});
+import {
+  Container,
+  ContentWrapper,
+  Title,
+  DatePickerSection,
+  SectionLabel,
+  SubTitle,
+  CountdownCard,
+  CountdownItem,
+  CurrentDateSection,
+  CurrentDateLabel,
+  CurrentDateTime,
+  Separator,
+  ButtonWrapper,
+  StyledDatePicker,
+  StyledSelect,
+  LoadingText,
+  HomeButton,
+} from './styles';
 
 /**
  * Component đếm ngày ra quân
  * Cho phép người dùng chọn ngày và xem thời gian còn lại
  */
-export default function DemNgayRaQuan() {
+function DemNgayRaQuan() {
+  const defaultDate = useMemo(() => dayjs().format(DATE_FORMATS.STORAGE), []);
   const [targetDate, setTargetDate] = useLocalStorage<string>(
     STORAGE_KEYS.DEM_NGAY_RA_QUAN_TARGET_DATE,
-    dayjs().format(DATE_FORMATS.STORAGE)
+    defaultDate
   );
   const [display, setDisplay] = useState<string>('all');
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Đảm bảo component đã mount trước khi render content từ localStorage
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const currentDate = useCurrentDateTime();
-  const count = useDateCalculations(targetDate);
-  const realTime = useRealTimeCountdown(targetDate);
+  const count = useDateCalculations(isMounted ? targetDate : '');
+  const realTime = useRealTimeCountdown(isMounted ? targetDate : '');
 
-  // Initialize display on mount
-  useEffect(() => {
-    setDisplay('all');
-  }, []);
-
-  // Validate and update targetDate when it changes
-  useEffect(() => {
-    if (targetDate && dayjs(targetDate).isValid()) {
-      const formatted = dayjs(targetDate).format(DATE_FORMATS.STORAGE);
-      if (formatted !== targetDate) {
-        setTargetDate(formatted);
-      }
-    } else {
-      setTargetDate(dayjs().format(DATE_FORMATS.STORAGE));
+  // Memoize formatted date để tránh format lại nhiều lần
+  const formattedTargetDate = useMemo(() => {
+    if (!targetDate || !dayjs(targetDate).isValid()) {
+      return '';
     }
-  }, [targetDate, setTargetDate]);
+    return dayjs(targetDate).format(DATE_FORMATS.DISPLAY);
+  }, [targetDate]);
 
   // Handle date change from DatePickerCustom
   const onDatePickerChangeCustom = useCallback(
     (date: Dayjs | null, dateString: string | null) => {
       if (dateString && date && date.isValid()) {
-        setTargetDate(date.format(DATE_FORMATS.STORAGE));
+        const formatted = date.format(DATE_FORMATS.STORAGE);
+        setTargetDate(formatted);
       }
     },
     [setTargetDate]
@@ -68,74 +87,89 @@ export default function DemNgayRaQuan() {
     setDisplay(e);
   }, []);
 
-  // Show loading state while initializing
-  if (!targetDate || !currentDate.date || !currentDate.time) {
-    return null;
+  // Show loading state while initializing hoặc chưa mount (tránh hydration mismatch)
+  const isLoading = useMemo(
+    () => !isMounted || !targetDate || !currentDate.date || !currentDate.time || !formattedTargetDate,
+    [isMounted, targetDate, currentDate.date, currentDate.time, formattedTargetDate]
+  );
+  
+  // Không render gì cả cho đến khi đã mount (tránh hydration mismatch)
+  if (!isMounted) {
+    return (
+      <Container>
+        <ContentWrapper>
+          <LoadingText>Đang tải...</LoadingText>
+        </ContentWrapper>
+      </Container>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Container>
+        <ContentWrapper>
+          <LoadingText>Đang tải...</LoadingText>
+        </ContentWrapper>
+      </Container>
+    );
   }
 
   return (
-    <SpaceStyled id="demNgayRaQuan" className={'flex flex-col'}>
-      <div className="title text-4xl font-[700] m-10 !text-[#ff7675] sm:text-5xl md:text-6xl lg:text-7xl text-center">
-        Bao lâu đến ngày {dayjs(targetDate).format(DATE_FORMATS.DISPLAY)}
-      </div>
-      
-      <div className="flex flex-col items-center justify-center text-xl font-semibold mb-5">
-        <div className="selectDateLabel mb-5 text-2xl">Chọn ngày</div>
-        <DatePickerCustom
-          defaultValue={targetDate}
-          onDateChange={onDatePickerChangeCustom}
-          size={'large'}
-        />
-      </div>
-      
-      <span className="subTitle text-2xl">Còn</span>
-      
-      <SelectCustom
-        options={SELECT_OPTIONS}
-        onSelect={onSelectChange}
-        defaultValue="all"
-      />
-      
-      <div className="counting flex flex-col items-center justify-center font-bold sm:text-3xl md:text-4xl lg:text-5xl [&>div]:p-4">
-        {(display === 'all' || display === 'day') && (
-          <div className="text-[#fd79a8]">{`${count.days} ngày`}</div>
-        )}
-        {(display === 'all' || display === 'week') && (
-          <div className="text-[#00cec9]">{`${count.weeks} tuần ${count.daysOfWeeks} ngày`}</div>
-        )}
-        {/* {(display === 'all' || display === 'month') && (
-          <div className="text-[#ffeaa7]">{`${count.months} tháng ${count.weeksOfMonths} tuần ${count.dayOfMonths} ngày`}</div>
-        )} */}
-        {(display === 'all' || display === 'hour') && (
-          <div className="text-[#ff7675]">{realTime}</div>
-        )}
-      </div>
-      
-      <div className="todayLabel mt-[2rem] text-[#9fa1a1]">Hôm nay là:</div>
-      <div className="today flex max-xs:flex max-xs:flex-col gap-2.5 items-center justify-center font-medium text-center mb-5 text-[#9fa1a1] ">
-        <span id="date">{currentDate.date}</span>
-        <span
-          id="pipe"
-          className="hidden xs:block sm:block md:block lg:block xl:block 2xl:block p-2"
-        >
-          {` | `}
-        </span>
-        <span id="time">{currentDate.time}</span>
-      </div>
-      
-      <Space>
-        <Link href="/">
-          <Button
-            type="primary"
-            className="p-10 m-10 text-[18px] font-bold"
-            danger
-            icon={<HomeIcon className={'calendar-icon'} />}
-            size={'large'}
-          >
-            Trang chủ
-          </Button>
-        </Link>
-      </Space>
-    </SpaceStyled>
+    <Container id="demNgayRaQuan">
+      <ContentWrapper>
+        <Title>
+          Bao lâu đến ngày {formattedTargetDate}?
+        </Title>
+        
+        <DatePickerSection>
+          <SectionLabel>Chọn ngày</SectionLabel>
+          <StyledDatePicker>
+            <DatePickerCustom
+              defaultValue={targetDate}
+              onDateChange={onDatePickerChangeCustom}
+              size={'large'}
+            />
+          </StyledDatePicker>
+        </DatePickerSection>
+        
+        <SubTitle>Còn lại</SubTitle>
+        
+        <StyledSelect>
+          <SelectCustom
+            options={SELECT_OPTIONS}
+            onSelect={onSelectChange}
+            defaultValue="all"
+          />
+        </StyledSelect>
+        
+        <CountdownCard>
+          <CountdownItems display={display} count={count} realTime={realTime} />
+        </CountdownCard>
+        
+        <CurrentDateSection>
+          <CurrentDateLabel>Hôm nay là:</CurrentDateLabel>
+          <CurrentDateTime>
+            <span id="date">{currentDate.date}</span>
+            <Separator>|</Separator>
+            <span id="time">{currentDate.time}</span>
+          </CurrentDateTime>
+        </CurrentDateSection>
+        
+        <ButtonWrapper>
+          <Link href="/">
+            <HomeButton
+              type="primary"
+              size="large"
+              danger
+              icon={<HomeIcon className={'calendar-icon'} />}
+            >
+              Trang chủ
+            </HomeButton>
+          </Link>
+        </ButtonWrapper>
+      </ContentWrapper>
+    </Container>
   );
 }
+
+export default memo(DemNgayRaQuan);

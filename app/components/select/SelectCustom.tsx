@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Select } from "antd";
 import type { SelectCustomProps, SelectOption } from '~alias~/app/lib/types';
 
@@ -8,7 +9,7 @@ import type { SelectCustomProps, SelectOption } from '~alias~/app/lib/types';
  * @param props.options - Danh sách options
  * @param props.defaultValue - Giá trị mặc định
  */
-export default function SelectCustom({
+const SelectCustom = memo(function SelectCustom({
   onSelect,
   options,
   defaultValue = 'all',
@@ -17,16 +18,12 @@ export default function SelectCustom({
     <Select
       onSelect={onSelect}
       defaultValue={defaultValue}
-      showSearch={{
-        optionFilterProp: 'label',
-        filterSort: (optionA, optionB) =>
-          (optionA?.key ?? '').toLowerCase().localeCompare(
-            (optionB?.key ?? '').toLowerCase()
-          ),
-      }}
-      style={{ width: 100 }}
+      showSearch={false}
+      style={{ width: 150 }}
       placeholder="Chọn hiển thị"
       options={options as SelectOption[]}
     />
   );
-}
+});
+
+export default SelectCustom;

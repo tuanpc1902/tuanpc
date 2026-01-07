@@ -1,7 +1,9 @@
-export default function DemNgayRaQuan({
-  children
-  }: {children: React.ReactNode}) {
-  return (
-    <>{children}</>
-  )
+import { ReactNode } from 'react';
+
+export default function DemNgayRaQuanLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return <>{children}</>;
 }

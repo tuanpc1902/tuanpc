@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import AppLayout from './(pages)/layout';
 import {
   CalendarIcon,
@@ -25,15 +25,15 @@ const imageAvatar = {
   src: '/author.png',
   name: 'tuanpc',
   alt: 'avatar',
-};
+} as const;
 
 type SizeType = ConfigProviderProps['componentSize'];
 
 /**
  * Home page component - Trang chủ giới thiệu
  */
-export default function Home() {
-  const size: SizeType = 'large';
+function Home() {
+  const size: SizeType = useMemo(() => 'large', []);
 
   return (
     <ErrorBoundary>
@@ -121,3 +121,5 @@ export default function Home() {
     </ErrorBoundary>
   );
 }
+
+export default memo(Home);
