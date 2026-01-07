@@ -12,6 +12,12 @@ const nextConfig = {
     } : false,
   },
   
+  // ESLint configuration
+  eslint: {
+    // Ignore ESLint during builds if needed
+    ignoreDuringBuilds: false,
+  },
+  
   // Generate build ID
   generateBuildId: async () => {
     if (process.env.BUILD_ID) {

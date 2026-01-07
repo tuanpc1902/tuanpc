@@ -4,11 +4,12 @@ import dayjs, { Dayjs } from 'dayjs';
 import type { DatePickerCustomProps } from '~alias~/app/lib/types';
 
 // Memoize locale object để tránh tạo lại mỗi lần render
+// Fix type: rangePlaceholder phải là tuple [string, string] thay vì string[]
 const VI_LOCALE = {
   lang: {
     locale: 'vi_VN',
     placeholder: 'Chọn ngày',
-    rangePlaceholder: ['Ngày bắt đầu', 'Ngày kết thúc'],
+    rangePlaceholder: ['Ngày bắt đầu', 'Ngày kết thúc'] as [string, string],
     today: 'Hôm nay',
     now: 'Bây giờ',
     backToToday: 'Quay về hôm nay',
