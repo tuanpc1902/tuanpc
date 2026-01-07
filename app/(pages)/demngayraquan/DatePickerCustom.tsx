@@ -3,8 +3,6 @@ import { DatePicker } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import type { DatePickerCustomProps } from '~alias~/app/lib/types';
 
-// Memoize locale object để tránh tạo lại mỗi lần render
-// Fix type: rangePlaceholder phải là tuple [string, string] thay vì string[]
 const VI_LOCALE = {
   lang: {
     locale: 'vi_VN',
@@ -57,15 +55,6 @@ const VI_LOCALE = {
   timePickerLocale: {},
 };
 
-/**
- * Custom DatePicker component với locale tiếng Việt
- * @param props - Props của DatePickerCustom
- * @param props.defaultValue - Giá trị mặc định (YYYY-MM-DD)
- * @param props.onDateChange - Callback khi ngày thay đổi
- * @param props.size - Kích thước picker
- * @param props.formatString - Format string cho defaultValue
- * @param props.className - CSS class name
- */
 const DatePickerCustom = memo(function DatePickerCustom({
   className,
   defaultValue,
@@ -73,7 +62,6 @@ const DatePickerCustom = memo(function DatePickerCustom({
   formatString,
   size,
 }: DatePickerCustomProps) {
-  // Memoize parsed date để tránh parse lại mỗi lần render
   const defaultDateValue = useMemo(
     () => dayjs(defaultValue, formatString ?? 'YYYY-MM-DD'),
     [defaultValue, formatString]

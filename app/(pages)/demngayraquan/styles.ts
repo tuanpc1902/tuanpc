@@ -1,11 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { Button } from 'antd';
 
-/**
- * Styled components cho trang DemNgayRaQuan với design hiện đại
- */
-
-// Animations
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -107,7 +102,6 @@ export const Container = styled.div`
   position: relative;
   overflow-x: hidden;
 
-  /* Animated gradient background */
   &::before {
     content: '';
     position: absolute;
@@ -130,7 +124,6 @@ export const Container = styled.div`
     pointer-events: none;
   }
 
-  /* Floating orbs effect */
   &::after {
     content: '';
     position: absolute;
@@ -295,7 +288,6 @@ export const CountdownCard = styled.div`
   position: relative;
   overflow: hidden;
 
-  /* Shimmer effect */
   &::before {
     content: '';
     position: absolute;
@@ -351,7 +343,6 @@ export const CountdownItem = styled.div<{ $color: string }>`
   text-shadow: 0 0 20px ${props => props.$color}60;
   letter-spacing: 0.02em;
 
-  /* Glow effect */
   &::before {
     content: '';
     position: absolute;

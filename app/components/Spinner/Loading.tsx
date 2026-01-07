@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex, Spin } from 'antd';
 
 interface LoadingProps {
@@ -7,12 +6,6 @@ interface LoadingProps {
   fullScreen?: boolean;
 }
 
-/**
- * Loading component với các tùy chọn tùy chỉnh
- * @param tip - Text hiển thị khi loading
- * @param size - Kích thước spinner
- * @param fullScreen - Có hiển thị full screen không
- */
 export default function Loading({
   tip = 'Đang tải...',
   size = 'large',

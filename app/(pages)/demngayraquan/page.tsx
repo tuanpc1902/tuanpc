@@ -12,16 +12,14 @@ import { useLocalStorage } from '~alias~/app/hooks/useLocalStorage';
 import { SELECT_OPTIONS, STORAGE_KEYS, DATE_FORMATS } from '~alias~/app/lib/constants';
 import CountdownItems from './CountdownItems';
 
-// Lazy load components for better performance
 const DatePickerCustom = dynamic(() => import('./DatePickerCustom'), {
   ssr: false,
-  loading: () => <div style={{ height: '40px', width: '100%' }} />,
 });
 
 const SelectCustom = dynamic(() => import('~alias~/app/components/select/SelectCustom'), {
   ssr: false,
-  loading: () => <div style={{ height: '40px', width: '100%' }} />,
 });
+
 import {
   Container,
   ContentWrapper,
@@ -30,7 +28,6 @@ import {
   SectionLabel,
   SubTitle,
   CountdownCard,
-  CountdownItem,
   CurrentDateSection,
   CurrentDateLabel,
   CurrentDateTime,
@@ -42,20 +39,14 @@ import {
   HomeButton,
 } from './styles';
 
-/**
- * Component đếm ngày ra quân
- * Cho phép người dùng chọn ngày và xem thời gian còn lại
- */
 function DemNgayRaQuan() {
-  const defaultDate = useMemo(() => dayjs().format(DATE_FORMATS.STORAGE), []);
   const [targetDate, setTargetDate] = useLocalStorage<string>(
     STORAGE_KEYS.DEM_NGAY_RA_QUAN_TARGET_DATE,
-    defaultDate
+    dayjs().format(DATE_FORMATS.STORAGE)
   );
-  const [display, setDisplay] = useState<string>('all');
+  const [display, setDisplay] = useState('all');
   const [isMounted, setIsMounted] = useState(false);
   
-  // Đảm bảo component đã mount trước khi render content từ localStorage
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -64,20 +55,15 @@ function DemNgayRaQuan() {
   const count = useDateCalculations(isMounted ? targetDate : '');
   const realTime = useRealTimeCountdown(isMounted ? targetDate : '');
 
-  // Memoize formatted date để tránh format lại nhiều lần
   const formattedTargetDate = useMemo(() => {
-    if (!targetDate || !dayjs(targetDate).isValid()) {
-      return '';
-    }
+    if (!targetDate || !dayjs(targetDate).isValid()) return '';
     return dayjs(targetDate).format(DATE_FORMATS.DISPLAY);
   }, [targetDate]);
 
-  // Handle date change from DatePickerCustom
   const onDatePickerChangeCustom = useCallback(
     (date: Dayjs | null, dateString: string | null) => {
-      if (dateString && date && date.isValid()) {
-        const formatted = date.format(DATE_FORMATS.STORAGE);
-        setTargetDate(formatted);
+      if (dateString && date?.isValid()) {
+        setTargetDate(date.format(DATE_FORMATS.STORAGE));
       }
     },
     [setTargetDate]
@@ -87,24 +73,7 @@ function DemNgayRaQuan() {
     setDisplay(e);
   }, []);
 
-  // Show loading state while initializing hoặc chưa mount (tránh hydration mismatch)
-  const isLoading = useMemo(
-    () => !isMounted || !targetDate || !currentDate.date || !currentDate.time || !formattedTargetDate,
-    [isMounted, targetDate, currentDate.date, currentDate.time, formattedTargetDate]
-  );
-  
-  // Không render gì cả cho đến khi đã mount (tránh hydration mismatch)
-  if (!isMounted) {
-    return (
-      <Container>
-        <ContentWrapper>
-          <LoadingText>Đang tải...</LoadingText>
-        </ContentWrapper>
-      </Container>
-    );
-  }
-
-  if (isLoading) {
+  if (!isMounted || !targetDate || !currentDate.date || !currentDate.time || !formattedTargetDate) {
     return (
       <Container>
         <ContentWrapper>
@@ -127,7 +96,7 @@ function DemNgayRaQuan() {
             <DatePickerCustom
               defaultValue={targetDate}
               onDateChange={onDatePickerChangeCustom}
-              size={'large'}
+              size="large"
             />
           </StyledDatePicker>
         </DatePickerSection>
@@ -161,7 +130,7 @@ function DemNgayRaQuan() {
               type="primary"
               size="large"
               danger
-              icon={<HomeIcon className={'calendar-icon'} />}
+              icon={<HomeIcon className="calendar-icon" />}
             >
               Trang chủ
             </HomeButton>

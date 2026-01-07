@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, memo } from 'react';
+import { Suspense, memo } from 'react';
 import { Roboto } from "next/font/google";
 import Loading from '~alias~/app/components/Spinner/Loading';
 

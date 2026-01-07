@@ -1,7 +1,3 @@
-/**
- * Các constants dùng chung trong ứng dụng
- */
-
 export const SELECT_OPTIONS = [
   {
     key: '1',
@@ -18,11 +14,6 @@ export const SELECT_OPTIONS = [
     value: 'week',
     label: 'Tuần',
   },
-  // {
-  //   key: '4',
-  //   value: 'month',
-  //   label: 'Tháng',
-  // },
   {
     key: '5',
     value: 'hour',

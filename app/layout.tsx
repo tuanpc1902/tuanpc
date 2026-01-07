@@ -18,8 +18,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="vi">
-    <head></head>
-    <body className={`antialiased h-screen`} suppressHydrationWarning>
+    <body className="antialiased h-screen" suppressHydrationWarning>
       <Suspense fallback={<Loading fullScreen />}>
         {children}
       </Suspense>

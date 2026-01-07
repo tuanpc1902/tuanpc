@@ -8,10 +8,6 @@ interface CountdownItemsProps {
   realTime: string;
 }
 
-/**
- * Component hiển thị các countdown items
- * Memoized để tránh re-render không cần thiết
- */
 const CountdownItems = memo(function CountdownItems({
   display,
   count,
