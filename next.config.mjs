@@ -2,7 +2,7 @@
 const nextConfig = {
   // Enable font optimization for better performance
   optimizeFonts: true,
-  distDir: "_next",
+  // distDir: "_next", // Removed: Vercel requires default .next directory
   
   // Compiler optimizations
   compiler: {
