@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react';
 import { DatePicker } from 'antd';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import type { DatePickerCustomProps } from '~alias~/lib/types';
 
 const VI_LOCALE = {
