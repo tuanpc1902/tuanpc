@@ -1,5 +1,25 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Button } from 'antd';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -9,9 +29,14 @@ export const Container = styled.div`
   min-height: 100vh;
   padding: 2rem 1rem;
   background: #2c3e50;
+  animation: ${fadeIn} 0.4s ease-out;
 
   @media (max-width: 768px) {
     padding: 1.5rem 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;
 
@@ -29,7 +54,7 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-size: clamp(2rem, 6vw, 3rem);
   font-weight: 700;
   text-align: center;
   margin: 0;
@@ -37,9 +62,14 @@ export const Title = styled.h1`
   color: #ecf0f1;
   letter-spacing: -0.01em;
   padding: 0 1rem;
+  animation: ${slideUp} 0.5s ease-out;
 
   @media (max-width: 768px) {
-    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;
 
@@ -52,15 +82,25 @@ export const DatePickerSection = styled.div`
 `;
 
 export const SectionLabel = styled.label`
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: #95a5a6;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #ecf0f1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 export const SubTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: #ecf0f1;
   text-align: center;
@@ -80,10 +120,22 @@ export const CountdownCard = styled.div`
   align-items: center;
   gap: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: ${slideUp} 0.5s ease-out 0.2s both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus-within {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+  }
 
   @media (max-width: 768px) {
     padding: 1.5rem;
     gap: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
   }
 `;
 
@@ -100,14 +152,14 @@ export const CountdownItem = styled.div<{ $color: string }>`
   gap: 0.5rem;
 
   .countdown-value {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     color: ${props => props.$color};
     line-height: 1.2;
   }
 
   .countdown-label {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 500;
     color: #95a5a6;
     text-transform: uppercase;
@@ -126,6 +178,19 @@ export const CountdownItem = styled.div<{ $color: string }>`
     box-shadow: 0 4px 12px ${props => props.$color}30;
   }
 
+  &:focus-visible {
+    outline: 2px solid ${props => props.$color};
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+
   @media (max-width: 768px) {
     padding: 1.25rem 1.5rem;
 
@@ -141,7 +206,7 @@ export const CurrentDateSection = styled.div`
   align-items: center;
   gap: 0.75rem;
   color: #ecf0f1;
-  font-size: 1rem;
+  font-size: 1.1rem;
   padding: 1.5rem 2rem;
   background: rgba(52, 73, 94, 0.4);
   backdrop-filter: blur(10px);
@@ -151,7 +216,7 @@ export const CurrentDateSection = styled.div`
   max-width: 500px;
 
   @media (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 1rem;
     padding: 1.25rem 1.5rem;
   }
 `;
@@ -160,7 +225,7 @@ export const CurrentDateLabel = styled.div`
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #95a5a6;
 `;
 
@@ -169,13 +234,13 @@ export const CurrentDateTime = styled.div`
   align-items: center;
   gap: 1rem;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: #ecf0f1;
 
   @media (max-width: 640px) {
     flex-direction: column;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 `;
 
@@ -203,8 +268,8 @@ export const StyledDatePicker = styled.div`
     backdrop-filter: blur(10px) !important;
     border: 1px solid rgba(149, 165, 166, 0.3) !important;
     border-radius: 12px !important;
-    padding: 0.75rem 1rem !important;
-    font-size: 1rem !important;
+    padding: 0.875rem 1.25rem !important;
+    font-size: 1.1rem !important;
     transition: all 0.2s ease !important;
     width: 100% !important;
 
@@ -223,6 +288,7 @@ export const StyledDatePicker = styled.div`
     .ant-picker-input > input {
       color: #ecf0f1 !important;
       font-weight: 500 !important;
+      font-size: 1.1rem !important;
     }
 
     .ant-picker-suffix {
@@ -234,8 +300,8 @@ export const StyledDatePicker = styled.div`
     max-width: 100%;
 
     .ant-picker {
-      font-size: 0.9rem !important;
-      padding: 0.625rem 0.875rem !important;
+      font-size: 1rem !important;
+      padding: 0.75rem 1rem !important;
     }
   }
 `;
@@ -249,19 +315,21 @@ export const StyledSelect = styled.div`
       backdrop-filter: blur(10px) !important;
       border: 1px solid rgba(149, 165, 166, 0.3) !important;
       border-radius: 12px !important;
-      padding: 0.5rem 1rem !important;
+      padding: 0.625rem 1.25rem !important;
       transition: all 0.2s ease !important;
-      min-height: 44px !important;
+      min-height: 48px !important;
 
       .ant-select-selection-item {
         color: #ecf0f1 !important;
         font-weight: 500 !important;
-        line-height: 32px !important;
+        font-size: 1.1rem !important;
+        line-height: 36px !important;
       }
 
       .ant-select-selection-placeholder {
         color: #95a5a6 !important;
-        line-height: 32px !important;
+        font-size: 1.1rem !important;
+        line-height: 36px !important;
       }
 
       &:hover {
@@ -290,15 +358,15 @@ export const StyledSelect = styled.div`
 
 export const LoadingText = styled.div`
   color: #ecf0f1;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 500;
 `;
 
 export const HomeButton = styled(Button)`
-  height: 48px !important;
-  font-size: 1rem !important;
+  height: 52px !important;
+  font-size: 1.15rem !important;
   font-weight: 600 !important;
-  padding: 0 2rem !important;
+  padding: 0 2.5rem !important;
   border-radius: 12px !important;
   background: #e74c3c !important;
   border: 2px solid #c0392b !important;

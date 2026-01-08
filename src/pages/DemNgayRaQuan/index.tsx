@@ -11,6 +11,7 @@ import { SELECT_OPTIONS, STORAGE_KEYS, DATE_FORMATS } from '~alias~/lib/constant
 import CountdownItems from './CountdownItems';
 import DatePickerCustom from './DatePickerCustom';
 import SelectCustom from '~alias~/components/select/SelectCustom';
+import Loading from '~alias~/components/Spinner/Loading';
 import {
   Container,
   ContentWrapper,
@@ -26,9 +27,11 @@ import {
   ButtonWrapper,
   StyledDatePicker,
   StyledSelect,
-  LoadingText,
   HomeButton,
 } from './styles';
+
+const META_DESCRIPTION = 'Công cụ đếm ngày ra quân - Tính toán thời gian còn lại đến một ngày cụ thể.';
+const META_KEYWORDS = 'đếm ngày, countdown, đếm ngược, ra quân, tính ngày';
 
 function DemNgayRaQuan() {
   const [targetDate, setTargetDate] = useLocalStorage<string>(
@@ -77,10 +80,12 @@ function DemNgayRaQuan() {
       <>
         <Helmet>
           <title>Đếm ngày ra quân - tuanpc</title>
+          <meta name="description" content={META_DESCRIPTION} />
+          <meta name="keywords" content={META_KEYWORDS} />
         </Helmet>
         <Container>
           <ContentWrapper>
-            <LoadingText>Đang tải...</LoadingText>
+            <Loading fullScreen tip="Đang tải..." />
           </ContentWrapper>
         </Container>
       </>
@@ -91,15 +96,20 @@ function DemNgayRaQuan() {
     <>
       <Helmet>
         <title>Đếm ngày ra quân - tuanpc</title>
+        <meta name="description" content={META_DESCRIPTION} />
+        <meta name="keywords" content={META_KEYWORDS} />
+        <meta property="og:title" content="Đếm ngày ra quân - tuanpc" />
+        <meta property="og:description" content={META_DESCRIPTION} />
+        <link rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/demngayraquan` : ''} />
       </Helmet>
-      <Container id="demNgayRaQuan">
+      <Container id="demNgayRaQuan" role="main">
         <ContentWrapper>
           <Title>
             Bao lâu đến ngày {formattedTargetDate}?
           </Title>
           
           <DatePickerSection>
-            <SectionLabel>Chọn ngày</SectionLabel>
+            <SectionLabel htmlFor="date-picker">Chọn ngày</SectionLabel>
             <StyledDatePicker>
               <DatePickerCustom
                 defaultValue={targetDate}
@@ -119,26 +129,26 @@ function DemNgayRaQuan() {
             />
           </StyledSelect>
           
-          <CountdownCard>
+          <CountdownCard role="region" aria-label="Countdown results">
             <CountdownItems display={display} count={count} realTime={realTime} />
           </CountdownCard>
           
-          <CurrentDateSection>
+          <CurrentDateSection role="status" aria-live="polite" aria-atomic="true">
             <CurrentDateLabel>Hôm nay là:</CurrentDateLabel>
             <CurrentDateTime>
-              <span id="date">{currentDate.date}</span>
-              <Separator>|</Separator>
-              <span id="time">{currentDate.time}</span>
+              <time id="date" dateTime={dayjs().format('YYYY-MM-DD')}>{currentDate.date}</time>
+              <Separator aria-hidden="true">|</Separator>
+              <time id="time">{currentDate.time}</time>
             </CurrentDateTime>
           </CurrentDateSection>
           
           <ButtonWrapper>
-            <Link to="/">
+            <Link to="/" aria-label="Quay về trang chủ">
               <HomeButton
                 type="primary"
                 size="large"
                 danger
-                icon={<HomeIcon className="calendar-icon" />}
+                icon={<HomeIcon className="calendar-icon" aria-hidden="true" />}
               >
                 Trang chủ
               </HomeButton>
