@@ -44,19 +44,19 @@ const nextConfig = {
     optimizePackageImports: ['antd', '@heroicons/react'],
   },
   
-  // Webpack optimizations
-  webpack: (config, { isServer, dev }) => {
+  // Webpack optimizations - Disable cache completely to prevent heavy cache directory
+  webpack: (config, { isServer }) => {
+    // Disable cache for both client and server builds to prevent cache directory creation
+    // This prevents webpack from creating cache/webpack/ directories that can be very large
+    config.cache = false;
+    
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
       };
-      
-      // Disable cache for production builds to prevent cache files in output
-      if (!dev) {
-        config.cache = false;
-      }
     }
+    
     return config;
   },
 };
