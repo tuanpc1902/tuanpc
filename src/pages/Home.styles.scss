@@ -217,13 +217,28 @@
   font-weight: 500;
   text-decoration: none;
   color: #ecf0f1;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
-  will-change: transform;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 
   &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+  }
+
+  &::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -231,58 +246,52 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
     transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.4s ease;
-    z-index: 1;
   }
 
   .btn-icon {
     width: 1.5rem;
     height: 1.5rem;
     fill: currentColor;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    z-index: 2;
+    z-index: 1;
   }
 
   span {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 
     &::before {
+      opacity: 1;
+    }
+
+    &::after {
       width: 300px;
       height: 300px;
     }
 
-    &::after {
-      left: 100%;
+    .btn-icon {
+      transform: translateX(2px);
     }
 
-    .btn-icon {
-      transform: scale(1.1);
+    span {
+      transform: translateX(2px);
     }
   }
 
   &:active {
-    transform: translateY(-1px);
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   &:focus-visible {
@@ -293,34 +302,34 @@
 
 .action-btn-github {
   background: #34495e;
-  border-color: #2c3e50;
+  border-color: rgba(149, 165, 166, 0.2);
 
   &:hover {
     background: #2c3e50;
-    border-color: #34495e;
-    box-shadow: 0 6px 16px rgba(44, 62, 80, 0.35);
+    border-color: rgba(149, 165, 166, 0.4);
+    box-shadow: 0 8px 20px rgba(44, 62, 80, 0.4);
   }
 }
 
 .action-btn-contact {
   background: #3498db;
-  border-color: #2980b9;
+  border-color: rgba(52, 152, 219, 0.3);
 
   &:hover {
     background: #2980b9;
-    border-color: #3498db;
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.35);
+    border-color: rgba(52, 152, 219, 0.5);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
   }
 }
 
 .action-btn-countdown {
   background: #e74c3c;
-  border-color: #c0392b;
+  border-color: rgba(231, 76, 60, 0.3);
 
   &:hover {
     background: #c0392b;
-    border-color: #e74c3c;
-    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.35);
+    border-color: rgba(231, 76, 60, 0.5);
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
   }
 }
 

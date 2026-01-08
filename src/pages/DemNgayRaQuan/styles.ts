@@ -487,12 +487,28 @@ export const HomeButton = styled(Button)`
   padding: 0 2.5rem !important;
   border-radius: 12px !important;
   background: #e74c3c !important;
-  border: 2px solid #c0392b !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  border: 2px solid rgba(231, 76, 60, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 
   &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+  }
+
+  &::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -500,25 +516,43 @@ export const HomeButton = styled(Button)`
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .anticon,
+  span {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
     background: #c0392b !important;
-    border-color: #e74c3c !important;
-    transform: translateY(-4px) scale(1.05);
+    border-color: rgba(231, 76, 60, 0.5) !important;
+    transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4) !important;
 
     &::before {
+      opacity: 1;
+    }
+
+    &::after {
       width: 300px;
       height: 300px;
+    }
+
+    .anticon,
+    span {
+      transform: translateX(2px);
     }
   }
 
   &:active {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3) !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
