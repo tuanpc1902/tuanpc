@@ -27,31 +27,19 @@ function Home() {
       </Helmet>
       <ErrorBoundary>
         <div className="home-container">
-          {/* Animated background particles */}
-          <div className="particles">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div key={i} className="particle" style={{ '--delay': `${i * 0.1}s` } as React.CSSProperties} />
-            ))}
-          </div>
-
-          {/* Main content */}
           <div className="home-content">
-            {/* Avatar section with glow effect */}
-            <div className="avatar-wrapper">
-              <div className="avatar-glow"></div>
-              <div className="avatar-ring"></div>
+            <div className="avatar-section">
               <Image
                 src={imageAvatar.src}
                 className="avatar-image"
                 alt={imageAvatar.alt}
-                width={280}
-                height={280}
+                width={200}
+                height={200}
                 loading="lazy"
                 preview={false}
               />
             </div>
 
-            {/* Name section */}
             <div className="name-section">
               <h1 className="name-title">
                 Phạm Công Tuấn
@@ -68,8 +56,8 @@ function Home() {
                     rel="noopener noreferrer"
                   >
                     <DownloadIcon
-                      width="2.8rem"
-                      height="2.8rem"
+                      width="1.5rem"
+                      height="1.5rem"
                       className="download-icon"
                     />
                   </a>
@@ -78,19 +66,15 @@ function Home() {
               <p className="name-subtitle">Full Stack Developer</p>
             </div>
 
-            {/* Action buttons */}
-            <div className="actions-grid">
+            <div className="actions-section">
               <a
                 href={ENV_VARS.PROFILE_GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="action-btn action-btn-github"
               >
-                <div className="btn-icon">
-                  <GithubIcon className="icon" />
-                </div>
-                <span className="btn-text">View on Github</span>
-                <div className="btn-shine"></div>
+                <GithubIcon className="btn-icon" />
+                <span>View on Github</span>
               </a>
 
               <a
@@ -99,19 +83,13 @@ function Home() {
                 rel="noreferrer"
                 className="action-btn action-btn-contact"
               >
-                <div className="btn-icon">
-                  <ContactIcon className="icon" />
-                </div>
-                <span className="btn-text">Contact me</span>
-                <div className="btn-shine"></div>
+                <ContactIcon className="btn-icon" />
+                <span>Contact me</span>
               </a>
 
               <Link to="/demngayraquan" className="action-btn action-btn-countdown">
-                <div className="btn-icon">
-                  <CalendarIcon className="icon" />
-                </div>
-                <span className="btn-text">Đếm ngày ra quân</span>
-                <div className="btn-shine"></div>
+                <CalendarIcon className="btn-icon" />
+                <span>Đếm ngày ra quân</span>
               </Link>
             </div>
           </div>

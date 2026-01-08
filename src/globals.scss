@@ -46,7 +46,7 @@ body {
   text-rendering: optimizespeed;
   color: var(--light-gray);
   overflow-y: overlay;
-  background: var(--dark-darker);
+  background: #2c3e50;
   font-family: 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
@@ -79,15 +79,15 @@ a {
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(to right top, var(--primary), var(--secondary)) !important;
+  background: var(--primary) !important;
 }
 
 .bg-gradient-danger {
-  background-image: linear-gradient(to right top, var(--red), var(--red-dark)) !important;
+  background: var(--red) !important;
 }
 
 .border-primary {
-  border-color: var(--yellow);
+  border-color: var(--turquoise-dark);
 }
 
 .font-roboto {
