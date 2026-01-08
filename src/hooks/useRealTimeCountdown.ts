@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import CalcRemainTime from '~alias~/pages/DemNgayRaQuan/CalcRemainTime';
 import formatNumberByLocale from '~alias~/lib/formatNumberByLocale';
-import { DATE_CALCULATION } from '~alias~/lib/constants';
 
 const UPDATE_INTERVAL = 1000; // 1 second
 const INITIAL_TIME = { hours: 0, minutes: 0, seconds: 0 };

@@ -38,7 +38,7 @@ const VI_LOCALE = {
     nextDecade: 'Thập kỷ sau',
     previousCentury: 'Thế kỷ trước',
     nextCentury: 'Thế kỷ sau',
-    shortWeekDays: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+    shortWeekDays: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'] as string[],
     shortMonths: [
       'Tháng một',
       'Tháng hai',
@@ -52,10 +52,10 @@ const VI_LOCALE = {
       'Tháng mười',
       'Tháng mười một',
       'Tháng mười hai',
-    ],
+    ] as string[],
   },
   timePickerLocale: {},
-} as const;
+};
 
 /**
  * Custom DatePicker component with Vietnamese locale
