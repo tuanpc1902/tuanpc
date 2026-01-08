@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { CountdownItem } from './styles';
 import type { CountResult } from '~alias~/lib/types';
+import AnimatedNumber from '~alias~/components/AnimatedNumber/AnimatedNumber';
 
 interface CountdownItemsProps {
   display: string;
@@ -22,21 +23,25 @@ const CountdownItems = memo(function CountdownItems({
   return (
     <>
       {(display === 'all' || display === 'day') && (
-        <CountdownItem $color={colorMap.day}>
-          <div className="countdown-value">{count.days}</div>
+        <CountdownItem $color={colorMap.day} $index={0}>
+          <div className="countdown-value">
+            <AnimatedNumber value={count.days} />
+          </div>
           <div className="countdown-label">ngày</div>
         </CountdownItem>
       )}
       {(display === 'all' || display === 'week') && (
-        <CountdownItem $color={colorMap.week}>
+        <CountdownItem $color={colorMap.week} $index={1}>
           <div className="countdown-value">
-            {count.weeks} <span className="countdown-separator">tuần</span> {count.daysOfWeeks}
+            <AnimatedNumber value={count.weeks} />{' '}
+            <span className="countdown-separator">tuần</span>{' '}
+            <AnimatedNumber value={count.daysOfWeeks} />
           </div>
           <div className="countdown-label">ngày</div>
         </CountdownItem>
       )}
       {(display === 'all' || display === 'hour') && (
-        <CountdownItem $color={colorMap.hour}>
+        <CountdownItem $color={colorMap.hour} $index={2}>
           <div className="countdown-value">{realTime}</div>
           <div className="countdown-label">thời gian còn lại</div>
         </CountdownItem>
