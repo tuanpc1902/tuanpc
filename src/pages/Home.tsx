@@ -6,10 +6,11 @@ import {
   DownloadIcon,
   GithubIcon,
 } from '~alias~/components/icons/icons';
-import { Button, Space, Tooltip, Image } from 'antd';
+import { Tooltip, Image } from 'antd';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from '~alias~/components/ErrorBoundary/ErrorBoundary';
 import { ENV_VARS } from '~alias~/lib/constants';
+import './Home.styles.scss';
 
 const imageAvatar = {
   src: '/author.webp',
@@ -25,85 +26,96 @@ function Home() {
         <meta name="description" content="My Profile - Portfolio và các công cụ hữu ích" />
       </Helmet>
       <ErrorBoundary>
-        <Space
-          size={30}
-          orientation="vertical"
-          align="center"
-          className="w-full h-screen text-white justify-center flex flex-col items-center"
-        >
-          <div className="flex items-center justify-center w-[24rem] h-[24rem] mx-auto bg-opacity-10 border-primary rounded-full border-2 overflow-hidden shadow-lg shadow-primary/10">
-            <Image
-              src={imageAvatar.src}
-              className="rounded-full border border-[#16a085] object-cover object-center"
-              alt={imageAvatar.alt}
-              width={240}
-              height={240}
-              loading="lazy"
-            />
+        <div className="home-container">
+          {/* Animated background particles */}
+          <div className="particles">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={i} className="particle" style={{ '--delay': `${i * 0.1}s` } as React.CSSProperties} />
+            ))}
           </div>
-          
-          <Space
-            size={5}
-            className="max-w-[40rem] mx-auto font-normal flex items-center leading-snug text-center text-white"
-          >
-            <span className="font-extrabold text-4xl lg:text-6xl whitespace-nowrap">
-              Phạm Công Tuấn{' '}
-            </span>
-            <Tooltip
-              className="cursor-pointer"
-              color="#9b59b6"
-              title="Download My CV"
-            >
-              <a
-                className="text-white hover:text-white"
-                href={imageAvatar.src}
-                download={imageAvatar.name}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <DownloadIcon
-                  width="2.8rem"
-                  height="2.8rem"
-                  className="download-icon hover:animate-[bounce_1s_ease-in-out_infinite] ml-2"
-                />
-              </a>
-            </Tooltip>
-          </Space>
-          
-          <div className="grid gap-4 sm:gap-5 lg:grid-cols-2 sm:items-center text-2xl lg:text-3xl whitespace-nowrap">
-            <a
-              href={ENV_VARS.PROFILE_GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-[#34495e] rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white hover:bg-[#2c3e50] transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            >
-              <GithubIcon className="github-icon" />
-              View on Github
-            </a>
 
-            <a
-              href={ENV_VARS.PROFILE_FB_URL}
-              target="_blank"
-              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-              rel="noreferrer"
-            >
-              <ContactIcon className="contact-icon" />
-              <span>Contact me</span>
-            </a>
-            
-            <Link to="/demngayraquan" className="lg:col-span-2 lg:place-self-center">
-              <Button
-                type="primary"
-                className="text-lg text-white font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                danger
-                icon={<CalendarIcon className="calendar-icon" />}
-                size="large"
+          {/* Main content */}
+          <div className="home-content">
+            {/* Avatar section with glow effect */}
+            <div className="avatar-wrapper">
+              <div className="avatar-glow"></div>
+              <div className="avatar-ring"></div>
+              <Image
+                src={imageAvatar.src}
+                className="avatar-image"
+                alt={imageAvatar.alt}
+                width={280}
+                height={280}
+                loading="lazy"
+                preview={false}
+              />
+            </div>
+
+            {/* Name section */}
+            <div className="name-section">
+              <h1 className="name-title">
+                Phạm Công Tuấn
+                <Tooltip
+                  className="download-tooltip"
+                  color="#9b59b6"
+                  title="Download My CV"
+                >
+                  <a
+                    className="download-link"
+                    href={imageAvatar.src}
+                    download={imageAvatar.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <DownloadIcon
+                      width="2.8rem"
+                      height="2.8rem"
+                      className="download-icon"
+                    />
+                  </a>
+                </Tooltip>
+              </h1>
+              <p className="name-subtitle">Full Stack Developer</p>
+            </div>
+
+            {/* Action buttons */}
+            <div className="actions-grid">
+              <a
+                href={ENV_VARS.PROFILE_GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="action-btn action-btn-github"
               >
-                Đếm ngày ra quân
-              </Button>
-            </Link>
+                <div className="btn-icon">
+                  <GithubIcon className="icon" />
+                </div>
+                <span className="btn-text">View on Github</span>
+                <div className="btn-shine"></div>
+              </a>
+
+              <a
+                href={ENV_VARS.PROFILE_FB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="action-btn action-btn-contact"
+              >
+                <div className="btn-icon">
+                  <ContactIcon className="icon" />
+                </div>
+                <span className="btn-text">Contact me</span>
+                <div className="btn-shine"></div>
+              </a>
+
+              <Link to="/demngayraquan" className="action-btn action-btn-countdown">
+                <div className="btn-icon">
+                  <CalendarIcon className="icon" />
+                </div>
+                <span className="btn-text">Đếm ngày ra quân</span>
+                <div className="btn-shine"></div>
+              </Link>
+            </div>
           </div>
-        </Space>
+        </div>
       </ErrorBoundary>
     </>
   );

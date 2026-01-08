@@ -8,6 +8,12 @@ interface CountdownItemsProps {
   realTime: string;
 }
 
+const colorMap = {
+  day: '#9b59b6',
+  week: '#1abc9c',
+  hour: '#e74c3c',
+} as const;
+
 const CountdownItems = memo(function CountdownItems({
   display,
   count,
@@ -16,18 +22,23 @@ const CountdownItems = memo(function CountdownItems({
   return (
     <>
       {(display === 'all' || display === 'day') && (
-        <CountdownItem $color="#9b59b6">
-          {count.days} ngày
+        <CountdownItem $color={colorMap.day}>
+          <div className="countdown-value">{count.days}</div>
+          <div className="countdown-label">ngày</div>
         </CountdownItem>
       )}
       {(display === 'all' || display === 'week') && (
-        <CountdownItem $color="#1abc9c">
-          {count.weeks} tuần {count.daysOfWeeks} ngày
+        <CountdownItem $color={colorMap.week}>
+          <div className="countdown-value">
+            {count.weeks} <span className="countdown-separator">tuần</span> {count.daysOfWeeks}
+          </div>
+          <div className="countdown-label">ngày</div>
         </CountdownItem>
       )}
       {(display === 'all' || display === 'hour') && (
-        <CountdownItem $color="#e74c3c">
-          {realTime}
+        <CountdownItem $color={colorMap.hour}>
+          <div className="countdown-value">{realTime}</div>
+          <div className="countdown-label">thời gian còn lại</div>
         </CountdownItem>
       )}
     </>

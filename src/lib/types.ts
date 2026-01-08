@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 
+// Date Picker Types
 export interface DatePickerCustomProps {
   className?: string;
   defaultValue: string;
@@ -9,34 +10,46 @@ export interface DatePickerCustomProps {
   size?: SizeType;
 }
 
-export type SelectOption = {
-  key: string;
-  value: string;
-  label: string;
-};
+// Select Types
+export interface SelectOption {
+  readonly key: string;
+  readonly value: string;
+  readonly label: string;
+}
 
 export interface SelectCustomProps {
-  onSelect: (e: string) => void;
+  onSelect: (value: string) => void;
   options: readonly SelectOption[] | SelectOption[];
   defaultValue?: string;
 }
 
+// Countdown Types
 export interface CountResult {
-  days: string;
-  weeks: string;
-  months: string;
-  daysOfWeeks: string;
-  weeksOfMonths: string;
-  dayOfMonths: string;
+  readonly days: string;
+  readonly weeks: string;
+  readonly months: string;
+  readonly daysOfWeeks: string;
+  readonly weeksOfMonths: string;
+  readonly dayOfMonths: string;
 }
 
 export interface RemainTimeResult {
-  hours: number;
-  minutes: number;
-  seconds: number;
+  readonly hours: number;
+  readonly minutes: number;
+  readonly seconds: number;
 }
 
 export interface CurrentDateTime {
-  date: string;
-  time: string;
+  readonly date: string;
+  readonly time: string;
 }
+
+// Error Types
+export interface AppError {
+  readonly message: string;
+  readonly code?: string;
+  readonly timestamp: number;
+}
+
+// Storage Types
+export type StorageValue<T> = T | ((prev: T) => T);

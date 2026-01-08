@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Flex, Spin } from 'antd';
 
 interface LoadingProps {
@@ -6,7 +7,10 @@ interface LoadingProps {
   fullScreen?: boolean;
 }
 
-export default function Loading({
+/**
+ * Loading component with customizable options
+ */
+function Loading({
   tip = 'Đang tải...',
   size = 'large',
   fullScreen = false,
@@ -19,7 +23,7 @@ export default function Loading({
 
   if (fullScreen) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-[#2c3e50]">
         {content}
       </div>
     );
@@ -27,3 +31,5 @@ export default function Loading({
 
   return content;
 }
+
+export default memo(Loading);

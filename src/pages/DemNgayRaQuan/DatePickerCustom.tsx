@@ -2,7 +2,9 @@ import { memo, useMemo } from 'react';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import type { DatePickerCustomProps } from '~alias~/lib/types';
+import { DATE_FORMATS } from '~alias~/lib/constants';
 
+// Vietnamese locale configuration
 const VI_LOCALE = {
   lang: {
     locale: 'vi_VN',
@@ -22,7 +24,7 @@ const VI_LOCALE = {
     yearSelect: 'Chọn năm',
     decadeSelect: 'Chọn thập kỷ',
     yearFormat: 'YYYY',
-    fieldDateFormat: 'DD/MM/YYYY',
+    fieldDateFormat: DATE_FORMATS.INPUT,
     cellDateFormat: 'D',
     fieldDateTimeFormat: 'DD/MM/YYYY HH:mm:ss',
     monthFormat: 'MMMM',
@@ -53,8 +55,12 @@ const VI_LOCALE = {
     ],
   },
   timePickerLocale: {},
-};
+} as const;
 
+/**
+ * Custom DatePicker component with Vietnamese locale
+ * Optimized with memoization
+ */
 const DatePickerCustom = memo(function DatePickerCustom({
   className,
   defaultValue,
@@ -62,21 +68,28 @@ const DatePickerCustom = memo(function DatePickerCustom({
   formatString,
   size,
 }: DatePickerCustomProps) {
-  const defaultDateValue = useMemo(
-    () => dayjs(defaultValue, formatString ?? 'YYYY-MM-DD'),
-    [defaultValue, formatString]
-  );
+  const defaultDateValue = useMemo(() => {
+    try {
+      return dayjs(defaultValue, formatString ?? DATE_FORMATS.STORAGE);
+    } catch (error) {
+      console.error('[DatePickerCustom] Error parsing default date:', error);
+      return dayjs();
+    }
+  }, [defaultValue, formatString]);
 
   return (
     <DatePicker
       onChange={onDateChange}
       defaultValue={defaultDateValue}
-      format="DD/MM/YYYY"
+      format={DATE_FORMATS.INPUT}
       className={className}
       size={size}
       locale={VI_LOCALE}
+      aria-label="Chọn ngày"
     />
   );
 });
+
+DatePickerCustom.displayName = 'DatePickerCustom';
 
 export default DatePickerCustom;

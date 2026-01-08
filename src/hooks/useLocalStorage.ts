@@ -1,56 +1,75 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import type { StorageValue } from '~alias~/lib/types';
+import { getStorageItem, setStorageItem } from '~alias~/lib/utils/storageHelpers';
 
+/**
+ * Custom hook for localStorage with React state synchronization
+ * Supports both string and JSON values
+ * Handles storage events from other tabs/windows
+ */
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
-): [T, (value: T | ((val: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
-
-  useEffect(() => {
+): [T, (value: StorageValue<T>) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      const item = window.localStorage.getItem(key);
-      if (!item) return;
-      try {
-        setStoredValue(JSON.parse(item) as T);
-      } catch {
-        setStoredValue(item as T);
-      }
+      const item = getStorageItem<T>(key);
+      return item !== null ? item : initialValue;
     } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+      console.error(`[useLocalStorage] Error reading initial value for key "${key}":`, error);
+      return initialValue;
     }
-  }, [key]);
+  });
 
+  const keyRef = useRef(key);
+  const initialValueRef = useRef(initialValue);
+
+  // Update refs when props change
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    keyRef.current = key;
+    initialValueRef.current = initialValue;
+  }, [key, initialValue]);
+
+  // Listen for storage changes from other tabs/windows
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === key && e.newValue !== null) {
-        try {
-          setStoredValue(JSON.parse(e.newValue) as T);
-        } catch {
-          setStoredValue(e.newValue as T);
+      if (e.key !== keyRef.current || e.newValue === null) {
+        return;
+      }
+
+      try {
+        const newValue = getStorageItem<T>(keyRef.current);
+        if (newValue !== null) {
+          setStoredValue(newValue);
         }
+      } catch (error) {
+        console.error(`[useLocalStorage] Error handling storage change for key "${keyRef.current}":`, error);
       }
     };
 
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, [key]);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
-  const setValue = useCallback((value: T | ((val: T) => T)) => {
+  // Set value function with error handling
+  const setValue = useCallback((value: StorageValue<T>) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function 
+        ? value(storedValue) 
+        : value;
+      
       setStoredValue(valueToStore);
-      if (typeof window !== 'undefined') {
-        const serialized = typeof valueToStore === 'string' 
-          ? valueToStore 
-          : JSON.stringify(valueToStore);
-        window.localStorage.setItem(key, serialized);
-      }
+      setStorageItem(keyRef.current, valueToStore);
     } catch (error) {
-      console.error(`Error setting localStorage key "${key}":`, error);
+      console.error(`[useLocalStorage] Error setting value for key "${keyRef.current}":`, error);
     }
-  }, [key, storedValue]);
+  }, [storedValue]);
 
   return [storedValue, setValue];
 }

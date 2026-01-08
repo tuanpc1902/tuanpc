@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, memo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import AppLayout from './components/layout/AppLayout';
@@ -7,6 +7,10 @@ import Loading from './components/Spinner/Loading';
 import Home from './pages/Home';
 import DemNgayRaQuan from './pages/DemNgayRaQuan';
 
+/**
+ * Main App component with routing and error boundaries
+ * Optimized with React.memo and Suspense for better performance
+ */
 function App() {
   return (
     <HelmetProvider>
@@ -24,4 +28,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);
