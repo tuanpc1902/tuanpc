@@ -32,10 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "scripts/seed.js",
-    "app/lib/placeholder-data.js",
-    "app/components/icons/icons.js",
-    "_next/types/**/*.ts"
+    "app/components/icons/icons.js"
   ],
   "exclude": [
     "node_modules"
