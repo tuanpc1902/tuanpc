@@ -4,10 +4,29 @@
 @tailwind utilities;
 
 :root {
-  --primary: #fe2c55;
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2ecc71;
+  --secondary-dark: #27ae60;
+  --turquoise: #1abc9c;
+  --turquoise-dark: #16a085;
+  --purple: #9b59b6;
+  --purple-dark: #8e44ad;
+  --dark: #34495e;
+  --dark-darker: #2c3e50;
+  --yellow: #f1c40f;
+  --yellow-dark: #f39c12;
+  --orange: #e67e22;
+  --orange-dark: #d35400;
+  --red: #e74c3c;
+  --red-dark: #c0392b;
+  --light-gray: #ecf0f1;
+  --gray: #95a5a6;
+  --gray-light: #bdc3c7;
+  --gray-dark: #7f8c8d;
   --black: #000;
   --white: #fff;
-  --text-color: #161823;
+  --text-color: #2c3e50;
   --tw-bg-opacity: 1;
 }
 
@@ -25,9 +44,9 @@ body {
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizespeed;
-  color: rgba(255 255 255 / var(--tw-bg-opacity));
+  color: var(--light-gray);
   overflow-y: overlay;
-  background: rgba(15 23 42 / var(--tw-bg-opacity));
+  background: var(--dark-darker);
   font-family: 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
@@ -60,15 +79,15 @@ a {
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(to right top, #24b4ec, #5cf58f) !important;
+  background-image: linear-gradient(to right top, var(--primary), var(--secondary)) !important;
 }
 
 .bg-gradient-danger {
-  background-image: linear-gradient(to right top, #f03746, #eb1919) !important;
+  background-image: linear-gradient(to right top, var(--red), var(--red-dark)) !important;
 }
 
 .border-primary {
-  border-color: #ffb86c;
+  border-color: var(--yellow);
 }
 
 .font-roboto {

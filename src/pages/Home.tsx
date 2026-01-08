@@ -34,7 +34,7 @@ function Home() {
           <div className="flex items-center justify-center w-[24rem] h-[24rem] mx-auto bg-opacity-10 border-primary rounded-full border-2 overflow-hidden shadow-lg shadow-primary/10">
             <Image
               src={imageAvatar.src}
-              className="rounded-full border border-teal-800 object-cover object-center"
+              className="rounded-full border border-[#16a085] object-cover object-center"
               alt={imageAvatar.alt}
               width={240}
               height={240}
@@ -51,7 +51,7 @@ function Home() {
             </span>
             <Tooltip
               className="cursor-pointer"
-              color="#fc6c8f"
+              color="#9b59b6"
               title="Download My CV"
             >
               <a
@@ -75,7 +75,7 @@ function Home() {
               href={ENV_VARS.PROFILE_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-slate-800 rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
+              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-[#34495e] rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white hover:bg-[#2c3e50] transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
             >
               <GithubIcon className="github-icon" />
               View on Github
@@ -84,7 +84,7 @@ function Home() {
             <a
               href={ENV_VARS.PROFILE_FB_URL}
               target="_blank"
-              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white"
+              className="inline-flex items-center justify-center gap-x-4 px-8 py-4 font-semibold tracking-wide text-white bg-gradient-primary rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
               rel="noreferrer"
             >
               <ContactIcon className="contact-icon" />
@@ -94,7 +94,7 @@ function Home() {
             <Link to="/demngayraquan" className="lg:col-span-2 lg:place-self-center">
               <Button
                 type="primary"
-                className="text-lg text-white font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4"
+                className="text-lg text-white font-bold bg-gradient-danger rounded-lg h-[60px] w-full sm:w-[250px] button-effect hover:text-white inline-flex items-center justify-center gap-x-4 px-8 py-4 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                 danger
                 icon={<CalendarIcon className="calendar-icon" />}
                 size="large"

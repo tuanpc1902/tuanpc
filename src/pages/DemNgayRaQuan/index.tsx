@@ -54,17 +54,25 @@ function DemNgayRaQuan() {
   const onDatePickerChangeCustom = useCallback(
     (date: Dayjs | null, dateString: string | null) => {
       if (dateString && date?.isValid()) {
-        setTargetDate(date.format(DATE_FORMATS.STORAGE));
+        const formattedDate = date.format(DATE_FORMATS.STORAGE);
+        if (formattedDate !== targetDate) {
+          setTargetDate(formattedDate);
+        }
       }
     },
-    [setTargetDate]
+    [setTargetDate, targetDate]
   );
 
   const onSelectChange = useCallback((e: string) => {
-    setDisplay(e);
+    setDisplay(prev => prev !== e ? e : prev);
   }, []);
 
-  if (!isMounted || !targetDate || !currentDate.date || !currentDate.time || !formattedTargetDate) {
+  const isLoading = useMemo(
+    () => !isMounted || !targetDate || !currentDate.date || !currentDate.time || !formattedTargetDate,
+    [isMounted, targetDate, currentDate.date, currentDate.time, formattedTargetDate]
+  );
+
+  if (isLoading) {
     return (
       <>
         <Helmet>

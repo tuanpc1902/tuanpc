@@ -16,17 +16,17 @@ const CountdownItems = memo(function CountdownItems({
   return (
     <>
       {(display === 'all' || display === 'day') && (
-        <CountdownItem $color="#fd79a8">
+        <CountdownItem $color="#9b59b6">
           {count.days} ngày
         </CountdownItem>
       )}
       {(display === 'all' || display === 'week') && (
-        <CountdownItem $color="#00cec9">
+        <CountdownItem $color="#1abc9c">
           {count.weeks} tuần {count.daysOfWeeks} ngày
         </CountdownItem>
       )}
       {(display === 'all' || display === 'hour') && (
-        <CountdownItem $color="#ff7675">
+        <CountdownItem $color="#e74c3c">
           {realTime}
         </CountdownItem>
       )}
