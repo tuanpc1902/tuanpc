@@ -13,7 +13,7 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import { ENV_VARS } from '~alias~/app/lib/constants';
 
 const imageAvatar = {
-  src: '/author.png',
+  src: '/author.webp',
   name: 'tuanpc',
   alt: 'avatar',
 } as const;
