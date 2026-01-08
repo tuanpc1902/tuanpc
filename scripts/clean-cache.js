@@ -10,8 +10,9 @@ const path = require('path');
 
 const cacheDirs = [
   'cache',
-  '.next/cache',
+  '.vite',
   'node_modules/.cache',
+  'dist',
 ];
 
 let cleaned = false;

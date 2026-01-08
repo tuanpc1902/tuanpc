@@ -1,13 +1,11 @@
 # Cloudflare Pages ignore file
 # Exclude cache files and directories
 
-# Webpack cache
+# Vite cache
+.vite/
+**/.vite/
 cache/
 **/cache/
-
-# Next.js cache
-.next/cache/
-**/.next/cache/
 
 # Node modules (shouldn't be deployed anyway)
 node_modules/
@@ -15,3 +13,4 @@ node_modules/
 # Build artifacts that shouldn't be deployed
 *.pack
 **/*.pack
+dist/

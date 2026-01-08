@@ -1,6 +1,6 @@
 # TuanPC - Portfolio & Tools
 
-Portfolio website và các công cụ hữu ích được xây dựng với Next.js 14, TypeScript, và Tailwind CSS.
+Portfolio website và các công cụ hữu ích được xây dựng với React, Vite, TypeScript, và Tailwind CSS.
 
 ## Tính năng
 
@@ -8,14 +8,16 @@ Portfolio website và các công cụ hữu ích được xây dựng với Next
 - 📅 Đếm ngày ra quân (Countdown timer)
 - 🎨 UI/UX hiện đại với Tailwind CSS và Ant Design
 - 📱 Responsive design
-- ⚡ Performance optimized
+- ⚡ Performance optimized với Vite
 - 🛡️ Error boundaries
 - 🧪 Unit tests
 
 ## Công nghệ sử dụng
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: React 18
+- **Build Tool**: Vite 5
 - **Language**: TypeScript
+- **Routing**: React Router DOM
 - **Styling**: Tailwind CSS, SCSS, Styled Components
 - **UI Library**: Ant Design
 - **Date Handling**: Day.js
@@ -28,9 +30,9 @@ Portfolio website và các công cụ hữu ích được xây dựng với Next
 npm install
 
 # Copy environment variables
-cp .env.example .env.local
+cp .env.example .env
 
-# Edit .env.local với các giá trị thực tế
+# Edit .env với các giá trị thực tế
 ```
 
 ## Chạy dự án
@@ -42,26 +44,21 @@ npm run dev
 # Build production
 npm run build
 
-# Start production server
-npm start
+# Preview production build
+npm run preview
 
-# Run tests
-npm test
-
-# Run tests với watch mode
-npm run test:watch
-
-# Run tests với coverage
-npm run test:coverage
+# Clean cache
+npm run clean
 ```
 
 ## Cấu trúc dự án
 
 ```
-app/
+src/
 ├── components/          # Reusable components
 │   ├── ErrorBoundary/   # Error boundary component
 │   ├── icons/           # Icon components
+│   ├── layout/          # Layout components
 │   ├── select/          # Select component
 │   └── Spinner/         # Loading component
 ├── hooks/               # Custom React hooks
@@ -72,21 +69,24 @@ app/
 ├── lib/                 # Utilities và constants
 │   ├── constants.ts
 │   ├── formatNumberByLocale.ts
-│   ├── types.ts
-│   └── utils.ts
-└── (pages)/             # Pages
-    ├── demngayraquan/   # Countdown page
-    └── layout.tsx       # App layout
+│   └── types.ts
+├── pages/               # Pages
+│   ├── Home.tsx         # Home page
+│   └── DemNgayRaQuan/   # Countdown page
+├── App.tsx              # Main app component với routing
+└── main.tsx             # Entry point
 ```
 
 ## Environment Variables
 
-Tạo file `.env.local` với các biến sau:
+Tạo file `.env` với các biến sau:
 
 ```env
-NEXT_PUBLIC_PROFILE_GITHUB_URL=https://github.com/yourusername
-NEXT_PUBLIC_PROFILE_FB_URL=https://facebook.com/yourprofile
+VITE_PROFILE_GITHUB_URL=https://github.com/yourusername
+VITE_PROFILE_FB_URL=https://facebook.com/yourprofile
 ```
+
+**Lưu ý**: Với Vite, các biến môi trường phải có prefix `VITE_` để được expose ra client.
 
 ## Cải thiện đã thực hiện
 
@@ -94,7 +94,6 @@ NEXT_PUBLIC_PROFILE_FB_URL=https://facebook.com/yourprofile
 - ✅ Error Boundary để xử lý lỗi toàn cục
 - ✅ Custom Hooks để tách logic và tái sử dụng code
 - ✅ Type Safety với TypeScript types rõ ràng
-- ✅ JSDoc comments cho tất cả functions
 - ✅ Constants file để quản lý các giá trị cố định
 - ✅ Optimizations với useMemo và useCallback
 
@@ -102,17 +101,23 @@ NEXT_PUBLIC_PROFILE_FB_URL=https://facebook.com/yourprofile
 - ✅ Custom hooks để tối ưu re-renders
 - ✅ Lazy loading cho images
 - ✅ Proper cleanup trong useEffect
-
-### Testing
-- ✅ Jest configuration
-- ✅ Unit tests cho utilities
-- ✅ Test structure sẵn sàng để mở rộng
+- ✅ Vite build tool cho fast HMR và optimized builds
 
 ### Developer Experience
-- ✅ Consistent import paths với alias
+- ✅ Consistent import paths với alias (`~alias~`)
 - ✅ Clear code organization
 - ✅ Better error handling
 - ✅ Improved loading states
+- ✅ Fast development với Vite HMR
+
+## Build & Deploy
+
+```bash
+# Build for production
+npm run build
+
+# Output sẽ ở thư mục dist/
+```
 
 ## License
 
