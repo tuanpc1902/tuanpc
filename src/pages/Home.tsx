@@ -69,8 +69,8 @@ function Home() {
                     aria-label="Download CV"
                   >
                     <DownloadIcon
-                      width="1.5rem"
-                      height="1.5rem"
+                      width="2.5rem"
+                      height="2.5rem"
                       className="download-icon"
                       aria-hidden="true"
                     />
