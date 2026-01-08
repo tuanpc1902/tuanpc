@@ -6,7 +6,7 @@
   justify-content: center;
   padding: 2rem 1rem;
   background: #2c3e50;
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.5s ease-out;
   position: relative;
   overflow: hidden;
 
@@ -17,8 +17,8 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(52, 152, 219, 0.03) 0%, transparent 50%);
-    animation: rotate 20s linear infinite;
+    background: radial-gradient(circle, rgba(52, 152, 219, 0.02) 0%, transparent 50%);
+    animation: rotate 30s linear infinite;
     pointer-events: none;
   }
 }
@@ -55,50 +55,44 @@
 .avatar-section {
   display: flex;
   justify-content: center;
-  animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideDown 0.5s ease-out;
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-30px) scale(0.9);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
 .avatar-image {
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 3px solid #1abc9c;
   box-shadow: 0 4px 20px rgba(26, 188, 156, 0.3);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 1 / 1;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #1abc9c;
-    border-right-color: #3498db;
-    animation: spin 3s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease;
   }
   
   &:hover {
-    transform: scale(1.08) rotate(5deg);
-    box-shadow: 0 8px 40px rgba(26, 188, 156, 0.5);
-
-    &::before {
-      opacity: 1;
-    }
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(26, 188, 156, 0.4);
   }
 
   &:focus-visible {
@@ -107,28 +101,19 @@
   }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .name-section {
   text-align: center;
-  animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+  animation: slideUp 0.5s ease-out 0.1s both;
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -150,10 +135,10 @@
     left: 50%;
     transform: translateX(-50%);
     width: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, #3498db, #1abc9c);
     border-radius: 2px;
-    animation: expandLine 0.8s ease-out 0.5s forwards;
+    animation: expandLine 0.6s ease-out 0.4s forwards;
   }
 
   @media (max-width: 768px) {
@@ -171,7 +156,7 @@
     width: 0;
   }
   to {
-    width: 80%;
+    width: 70%;
   }
 }
 
@@ -179,12 +164,12 @@
   display: inline-flex;
   align-items: center;
   color: #9b59b6;
-  transition: color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.2s ease, transform 0.2s ease;
   position: relative;
   
   &:hover {
     color: #8e44ad;
-    transform: translateY(-3px) scale(1.1);
+    transform: translateY(-2px);
   }
 
   &:focus-visible {
@@ -195,10 +180,10 @@
 }
 
 .download-icon {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s ease;
   
   .download-link:hover & {
-    transform: translateY(-3px) rotate(-10deg);
+    transform: translateY(-2px);
   }
 }
 
@@ -209,7 +194,7 @@
   font-weight: 400;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  animation: fadeIn 0.6s ease-out 0.3s both;
+  animation: fadeIn 0.5s ease-out 0.2s both;
 }
 
 .actions-section {
@@ -218,7 +203,7 @@
   gap: 1rem;
   width: 100%;
   max-width: 400px;
-  animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+  animation: slideUp 0.5s ease-out 0.2s both;
 }
 
 .action-btn {
@@ -232,11 +217,11 @@
   font-weight: 500;
   text-decoration: none;
   color: #ecf0f1;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.25s ease;
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
+  will-change: transform;
 
   &::before {
     content: '';
@@ -246,9 +231,9 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
+    transition: width 0.4s ease, height 0.4s ease;
     z-index: 0;
   }
 
@@ -259,8 +244,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.4s ease;
     z-index: 1;
   }
 
@@ -268,7 +253,7 @@
     width: 1.5rem;
     height: 1.5rem;
     fill: currentColor;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.25s ease;
     position: relative;
     z-index: 2;
   }
@@ -279,12 +264,12 @@
   }
 
   &:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 
     &::before {
-      width: 400px;
-      height: 400px;
+      width: 300px;
+      height: 300px;
     }
 
     &::after {
@@ -292,12 +277,12 @@
     }
 
     .btn-icon {
-      transform: scale(1.2) rotate(10deg);
+      transform: scale(1.1);
     }
   }
 
   &:active {
-    transform: translateY(-2px) scale(1);
+    transform: translateY(-1px);
   }
 
   &:focus-visible {
@@ -313,7 +298,7 @@
   &:hover {
     background: #2c3e50;
     border-color: #34495e;
-    box-shadow: 0 8px 20px rgba(44, 62, 80, 0.4);
+    box-shadow: 0 6px 16px rgba(44, 62, 80, 0.35);
   }
 }
 
@@ -324,7 +309,7 @@
   &:hover {
     background: #2980b9;
     border-color: #3498db;
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.35);
   }
 }
 
@@ -335,7 +320,7 @@
   &:hover {
     background: #c0392b;
     border-color: #e74c3c;
-    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.35);
   }
 }
 
@@ -356,8 +341,7 @@
     transition: none;
   }
 
-  .avatar-image::before {
+  .home-container::before {
     animation: none;
-    opacity: 0;
   }
 }
