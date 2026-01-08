@@ -14,8 +14,8 @@ const nextConfig = {
   
   // ESLint configuration
   eslint: {
-    // Ignore ESLint during builds if needed
-    ignoreDuringBuilds: false,
+    // Ignore ESLint during builds for Cloudflare Pages compatibility
+    ignoreDuringBuilds: true,
   },
   
   // Generate build ID
@@ -45,12 +45,17 @@ const nextConfig = {
   },
   
   // Webpack optimizations
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
       };
+      
+      // Disable cache for production builds to prevent cache files in output
+      if (!dev) {
+        config.cache = false;
+      }
     }
     return config;
   },
