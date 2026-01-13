@@ -9,7 +9,6 @@ import ErrorBoundary from '~alias~/components/ErrorBoundary/ErrorBoundary';
 import MetaTags from '~alias~/components/common/MetaTags';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { useDataContext } from '~alias~/contexts/DataContext';
-import { getTranslation } from '~alias~/lib/translations';
 import type { Project } from '~alias~/lib/projects';
 import './Home.styles.scss';
 

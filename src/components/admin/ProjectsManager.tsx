@@ -68,7 +68,7 @@ function ProjectsManager() {
       const processedValues = {
         ...values,
         tags: typeof values.tags === 'string' 
-          ? values.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+          ? values.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0)
           : values.tags,
       };
       if (editingProject) {
@@ -206,7 +206,7 @@ function ProjectsManager() {
           onReorder={reorderProjects}
           onTogglePin={togglePinProject}
           onToggleHide={toggleHideProject}
-          t={t}
+          t={t as (key: string) => string}
           language={language}
         />
       ) : (
