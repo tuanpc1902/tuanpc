@@ -1,0 +1,52 @@
+.constants-manager {
+  :global(.ant-space-compact) {
+    width: 100%;
+  }
+
+  :global(.ant-table) {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+  }
+
+  :global(.ant-table-thead > tr > th) {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color) !important;
+    border-color: var(--border-color) !important;
+    padding: 1.25rem 1rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--bg-secondary) !important;
+    }
+  }
+
+  :global(.ant-table-tbody > tr) {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--border-color) !important;
+    background: var(--card-bg) !important;
+
+    &:hover {
+      background: var(--bg-tertiary) !important;
+      transform: translateX(2px);
+
+      > td {
+        background: var(--bg-tertiary) !important;
+      }
+    }
+
+    > td {
+      padding: 1.25rem 1rem;
+      color: var(--text-primary) !important;
+      background: var(--card-bg) !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      border-color: var(--border-color) !important;
+    }
+  }
+
+  :global(.ant-table-tbody > tr:last-child > td) {
+    border-bottom: none !important;
+  }
+}

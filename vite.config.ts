@@ -14,12 +14,12 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         // Silence Dart Sass legacy JS API deprecation warning
-        // This will be resolved when Vite updates to use modern Sass API
+        // Vite handles this through configuration instead of environment variables
         silenceDeprecations: ['legacy-js-api'],
       },
       sass: {
         // Silence Dart Sass legacy JS API deprecation warning
-        // This will be resolved when Vite updates to use modern Sass API
+        // Vite handles this through configuration instead of environment variables
         silenceDeprecations: ['legacy-js-api'],
       },
     },

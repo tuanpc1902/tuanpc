@@ -33,18 +33,6 @@ export function normalizeDateString(date: string | Dayjs): string {
 }
 
 /**
- * Validates if a date string is valid
- */
-export function isValidDate(date: string): boolean {
-  if (!date || typeof date !== 'string') {
-    return false;
-  }
-
-  const normalized = normalizeDateString(date);
-  return dayjs(normalized, DATE_FORMATS.STORAGE, true).isValid();
-}
-
-/**
  * Gets the end of day for a target date (subtracts 1 day and sets to end of day)
  */
 export function getTargetEndOfDay(date: string): Dayjs | null {

@@ -43,18 +43,5 @@ export const ENV_VARS = {
 // Date Calculation Constants
 export const DATE_CALCULATION = {
   SECONDS_PER_MINUTE: 60,
-  MINUTES_PER_HOUR: 60,
-  HOURS_PER_DAY: 24,
-  DAYS_PER_WEEK: 7,
   SECONDS_PER_HOUR: 3600,
-} as const;
-
-// UI Constants
-export const UI = {
-  ANIMATION_DURATION: {
-    FAST: 200,
-    NORMAL: 300,
-    SLOW: 500,
-  },
-  DEBOUNCE_DELAY: 300,
 } as const;

@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import dayjs from 'dayjs';
-import 'dayjs/locale/vi';
 import type { CurrentDateTime } from '~alias~/lib/types';
 
 const DEFAULT_DATE: CurrentDateTime = { date: '', time: '' };

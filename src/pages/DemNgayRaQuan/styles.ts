@@ -69,8 +69,9 @@ export const Container = styled.div`
   justify-content: center;
   min-height: 100vh;
   padding: 2rem 1rem;
-  background: #2c3e50;
+  background: var(--bg-primary);
   animation: ${fadeIn} 0.4s ease-out;
+  transition: background-color 0.3s ease;
 
   @media (max-width: 768px) {
     padding: 1.5rem 1rem;
@@ -100,10 +101,11 @@ export const Title = styled.h1`
   text-align: center;
   margin: 0;
   line-height: 1.3;
-  color: #ecf0f1;
+  color: var(--text-primary);
   letter-spacing: -0.01em;
   padding: 0 1rem;
   animation: ${slideUp} 0.5s ease-out;
+  transition: color 0.3s ease;
 
   @media (max-width: 768px) {
     font-size: clamp(1.75rem, 7vw, 2.5rem);
@@ -130,14 +132,14 @@ export const DatePickerSection = styled.div`
 export const SectionLabel = styled.label`
   font-size: 1.15rem;
   font-weight: 600;
-  color: #95a5a6;
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover {
-    color: #ecf0f1;
+    color: var(--text-primary);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -148,11 +150,12 @@ export const SectionLabel = styled.label`
 export const SubTitle = styled.h2`
   font-size: 1.75rem;
   font-weight: 600;
-  color: #ecf0f1;
+  color: var(--text-primary);
   text-align: center;
   margin: 0;
   letter-spacing: -0.01em;
   animation: ${slideUp} 0.5s ease-out 0.15s both;
+  transition: color 0.3s ease;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -160,22 +163,22 @@ export const SubTitle = styled.h2`
 `;
 
 export const CountdownCard = styled.div`
-  background: rgba(52, 73, 94, 0.5);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 2rem;
-  border: 1px solid rgba(149, 165, 166, 0.2);
+  border: 1px solid var(--card-border);
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px var(--shadow-color);
   animation: ${slideUp} 0.5s ease-out 0.2s both;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 
   &:focus-within {
-    outline: 2px solid #3498db;
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
 
@@ -194,10 +197,10 @@ export const CountdownItem = styled.div<{ $color: string; $index?: number }>`
   text-align: center;
   padding: 1.5rem 2rem;
   border-radius: 12px;
-  background: rgba(44, 62, 80, 0.6);
+  background: var(--bg-tertiary);
   border: 2px solid ${props => props.$color}40;
   width: 100%;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -233,9 +236,10 @@ export const CountdownItem = styled.div<{ $color: string; $index?: number }>`
   .countdown-label {
     font-size: 1rem;
     font-weight: 500;
-    color: #95a5a6;
+    color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    transition: color 0.3s ease;
   }
 
   .countdown-separator {
@@ -285,21 +289,21 @@ export const CurrentDateSection = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  color: #ecf0f1;
+  color: var(--text-primary);
   font-size: 1.1rem;
   padding: 1.5rem 2rem;
-  background: rgba(52, 73, 94, 0.4);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   border-radius: 12px;
-  border: 1px solid rgba(149, 165, 166, 0.15);
+  border: 1px solid var(--card-border);
   width: 100%;
   max-width: 500px;
   animation: ${slideUp} 0.5s ease-out 0.4s both;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 4px 12px var(--shadow-color);
   }
 
   @media (max-width: 768px) {
@@ -322,7 +326,8 @@ export const CurrentDateLabel = styled.div`
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-size: 0.875rem;
-  color: #95a5a6;
+  color: var(--text-tertiary);
+  transition: color 0.3s ease;
 `;
 
 export const CurrentDateTime = styled.div`
@@ -331,13 +336,14 @@ export const CurrentDateTime = styled.div`
   gap: 1rem;
   font-weight: 600;
   font-size: 1.15rem;
-  color: #ecf0f1;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 
   time {
     transition: color 0.3s ease;
     
     &:hover {
-      color: #3498db;
+      color: var(--primary);
     }
   }
 
@@ -349,9 +355,10 @@ export const CurrentDateTime = styled.div`
 `;
 
 export const Separator = styled.span`
-  color: #95a5a6;
+  color: var(--text-tertiary);
   font-weight: 300;
   animation: ${pulse} 2s ease-in-out infinite;
+  transition: color 0.3s ease;
 
   @media (max-width: 640px) {
     display: none;
@@ -378,37 +385,37 @@ export const StyledDatePicker = styled.div`
   max-width: 300px;
 
   .ant-picker {
-    background: rgba(52, 73, 94, 0.6) !important;
+    background: var(--card-bg) !important;
     backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(149, 165, 166, 0.3) !important;
+    border: 1px solid var(--card-border) !important;
     border-radius: 12px !important;
     padding: 0.875rem 1.25rem !important;
     font-size: 1.1rem !important;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, border-color 0.3s ease !important;
     width: 100% !important;
 
     &:hover {
-      border-color: rgba(52, 152, 219, 0.5) !important;
-      background: rgba(52, 73, 94, 0.7) !important;
+      border-color: var(--border-color-hover) !important;
+      background: var(--bg-tertiary) !important;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2) !important;
+      box-shadow: 0 4px 12px var(--shadow-color) !important;
     }
 
     &:focus,
     &.ant-picker-focused {
-      border-color: #3498db !important;
-      background: rgba(52, 73, 94, 0.8) !important;
+      border-color: var(--primary) !important;
+      background: var(--bg-tertiary) !important;
       box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
     }
 
     .ant-picker-input > input {
-      color: #ecf0f1 !important;
+      color: var(--text-primary) !important;
       font-weight: 500 !important;
       font-size: 1.1rem !important;
     }
 
     .ant-picker-suffix {
-      color: #3498db !important;
+      color: var(--primary) !important;
     }
   }
 
@@ -427,43 +434,43 @@ export const StyledSelect = styled.div`
     width: 180px !important;
 
     .ant-select-selector {
-      background: rgba(52, 73, 94, 0.6) !important;
+      background: var(--card-bg) !important;
       backdrop-filter: blur(10px) !important;
-      border: 1px solid rgba(149, 165, 166, 0.3) !important;
+      border: 1px solid var(--card-border) !important;
       border-radius: 12px !important;
       padding: 0.625rem 1.25rem !important;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, border-color 0.3s ease !important;
       min-height: 48px !important;
 
       .ant-select-selection-item {
-        color: #ecf0f1 !important;
+        color: var(--text-primary) !important;
         font-weight: 500 !important;
         font-size: 1.1rem !important;
         line-height: 36px !important;
       }
 
       .ant-select-selection-placeholder {
-        color: #95a5a6 !important;
+        color: var(--text-tertiary) !important;
         font-size: 1.1rem !important;
         line-height: 36px !important;
       }
 
       &:hover {
-        border-color: rgba(52, 152, 219, 0.5) !important;
-        background: rgba(52, 73, 94, 0.7) !important;
+        border-color: var(--border-color-hover) !important;
+        background: var(--bg-tertiary) !important;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2) !important;
+        box-shadow: 0 4px 12px var(--shadow-color) !important;
       }
     }
 
     &.ant-select-focused .ant-select-selector {
-      border-color: #3498db !important;
-      background: rgba(52, 73, 94, 0.8) !important;
+      border-color: var(--primary) !important;
+      background: var(--bg-tertiary) !important;
       box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
     }
 
     .ant-select-arrow {
-      color: #3498db !important;
+      color: var(--primary) !important;
     }
   }
 
@@ -474,11 +481,6 @@ export const StyledSelect = styled.div`
   }
 `;
 
-export const LoadingText = styled.div`
-  color: #ecf0f1;
-  font-size: 1.5rem;
-  font-weight: 500;
-`;
 
 export const HomeButton = styled(Button)`
   height: 52px !important;

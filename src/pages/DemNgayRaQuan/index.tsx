@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import dayjs, { Dayjs } from 'dayjs';
 import { Link } from 'react-router-dom';
 import { HomeIcon } from '~alias~/components/icons/icons';
@@ -8,6 +7,7 @@ import { useCurrentDateTime } from '~alias~/hooks/useCurrentDateTime';
 import { useRealTimeCountdown } from '~alias~/hooks/useRealTimeCountdown';
 import { useLocalStorage } from '~alias~/hooks/useLocalStorage';
 import { SELECT_OPTIONS, STORAGE_KEYS, DATE_FORMATS } from '~alias~/lib/constants';
+import MetaTags from '~alias~/components/common/MetaTags';
 import CountdownItems from './CountdownItems';
 import DatePickerCustom from './DatePickerCustom';
 import SelectCustom from '~alias~/components/select/SelectCustom';
@@ -78,11 +78,11 @@ function DemNgayRaQuan() {
   if (isLoading) {
     return (
       <>
-        <Helmet>
-          <title>Đếm ngày ra quân - tuanpc</title>
-          <meta name="description" content={META_DESCRIPTION} />
-          <meta name="keywords" content={META_KEYWORDS} />
-        </Helmet>
+        <MetaTags
+          title="Đếm ngày ra quân - tuanpc"
+          description={META_DESCRIPTION}
+          keywords={META_KEYWORDS}
+        />
         <Container>
           <ContentWrapper>
             <Loading fullScreen tip="Đang tải..." />
@@ -94,14 +94,14 @@ function DemNgayRaQuan() {
 
   return (
     <>
-      <Helmet>
-        <title>Đếm ngày ra quân - tuanpc</title>
-        <meta name="description" content={META_DESCRIPTION} />
-        <meta name="keywords" content={META_KEYWORDS} />
-        <meta property="og:title" content="Đếm ngày ra quân - tuanpc" />
-        <meta property="og:description" content={META_DESCRIPTION} />
-        <link rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/demngayraquan` : ''} />
-      </Helmet>
+      <MetaTags
+        title="Đếm ngày ra quân - tuanpc"
+        description={META_DESCRIPTION}
+        keywords={META_KEYWORDS}
+        canonicalUrl={typeof window !== 'undefined' ? `${window.location.origin}/demngayraquan` : ''}
+        ogTitle="Đếm ngày ra quân - tuanpc"
+        ogDescription={META_DESCRIPTION}
+      />
       <Container id="demNgayRaQuan" role="main">
         <ContentWrapper>
           <Title>

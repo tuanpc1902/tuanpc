@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
-import viVN from 'antd/locale/vi_VN';
 import App from './App';
 import './globals.scss';
 import 'dayjs/locale/vi';
+import 'dayjs/locale/en';
 import dayjs from 'dayjs';
 
-// Set Vietnamese locale for dayjs
-dayjs.locale('vi');
+// Set initial locale for dayjs based on saved language or default to Vietnamese
+const savedLanguage = localStorage.getItem('language') || 'vi';
+dayjs.locale(savedLanguage);
 
 // Get root element
 const rootElement = document.getElementById('root');
@@ -27,9 +27,7 @@ ReactDOM.createRoot(rootElement).render(
         v7_relativeSplatPath: true,
       }}
     >
-      <ConfigProvider locale={viVN}>
-        <App />
-      </ConfigProvider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
