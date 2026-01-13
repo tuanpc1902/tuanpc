@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import dayjs from 'dayjs';
 import type { CountResult } from '~alias~/lib/types';
 import { getTargetEndOfDay } from '~alias~/lib/utils/dateHelpers';
@@ -12,24 +12,56 @@ const EMPTY_RESULT: CountResult = {
   dayOfMonths: '0',
 };
 
+const UPDATE_INTERVAL = 1000; // 1 second - update in real-time
+
 /**
  * Hook to calculate time differences between now and target date
  * Returns days, weeks, months, and their breakdowns
+ * Automatically updates in real-time
  */
 export function useDateCalculations(targetDate: string): CountResult {
+  const [now, setNow] = useState<dayjs.Dayjs>(dayjs());
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const targetDateRef = useRef(targetDate);
+
+  // Update targetDate ref when it changes
+  useEffect(() => {
+    targetDateRef.current = targetDate;
+  }, [targetDate]);
+
+  // Set up interval to update 'now' in real-time
+  useEffect(() => {
+    // Initial update
+    setNow(dayjs());
+
+    // Set up interval for real-time updates
+    intervalRef.current = setInterval(() => {
+      setNow(dayjs());
+    }, UPDATE_INTERVAL);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, []);
+
   return useMemo(() => {
-    if (!targetDate || typeof targetDate !== 'string' || !targetDate.trim()) {
+    const currentTargetDate = targetDateRef.current;
+    
+    if (!currentTargetDate || typeof currentTargetDate !== 'string' || !currentTargetDate.trim()) {
       return EMPTY_RESULT;
     }
 
     try {
-      const dayjsTarget = getTargetEndOfDay(targetDate);
+      const dayjsTarget = getTargetEndOfDay(currentTargetDate);
       
       if (!dayjsTarget || !dayjsTarget.isValid()) {
         return EMPTY_RESULT;
       }
 
-      const dayjsNow = dayjs();
+      const dayjsNow = now;
       
       // Check if target date is in the past
       if (dayjsTarget.isBefore(dayjsNow) || dayjsTarget.isSame(dayjsNow)) {
@@ -68,5 +100,5 @@ export function useDateCalculations(targetDate: string): CountResult {
       console.error('[useDateCalculations] Error calculating date differences:', error);
       return EMPTY_RESULT;
     }
-  }, [targetDate]);
+  }, [now, targetDate]);
 }

@@ -10,6 +10,20 @@ export default defineConfig({
       '~alias~': path.resolve(__dirname, './src'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Silence Dart Sass legacy JS API deprecation warning
+        // This will be resolved when Vite updates to use modern Sass API
+        silenceDeprecations: ['legacy-js-api'],
+      },
+      sass: {
+        // Silence Dart Sass legacy JS API deprecation warning
+        // This will be resolved when Vite updates to use modern Sass API
+        silenceDeprecations: ['legacy-js-api'],
+      },
+    },
+  },
   build: {
     outDir: 'dist',
     sourcemap: false,

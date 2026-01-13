@@ -46,9 +46,17 @@ function Loading({
     );
   }
 
+  // Only use tip prop when fullScreen is true (fullscreen pattern)
+  const spinProps = fullScreen
+    ? { tip, size }
+    : { size };
+
   const content = (
     <Flex align="center" justify="center" gap="middle" vertical>
-      <Spin tip={tip} size={size} />
+      <Spin {...spinProps} />
+      {!fullScreen && tip && (
+        <span style={{ color: '#95a5a6', fontSize: '1rem' }}>{tip}</span>
+      )}
     </Flex>
   );
 
