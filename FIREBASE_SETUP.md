@@ -32,7 +32,27 @@ Hướng dẫn thiết lập Firebase Firestore cho ứng dụng.
 4. Enable các providers bạn muốn sử dụng:
    - **Email/Password**: Click và Enable
    - **Google**: Click và Enable (cần cấu hình OAuth consent screen)
-5. Lưu các thay đổi
+5. **Quan trọng**: Thêm Authorized Domains (xem chi tiết bên dưới)
+6. Lưu các thay đổi
+
+### Thêm Authorized Domains (Quan trọng cho Production!)
+
+Để tránh lỗi `auth/unauthorized-domain` khi deploy lên production:
+
+1. Trong Firebase Console, vào **Authentication** > **Settings**
+2. Scroll xuống phần **Authorized domains**
+3. Click **Add domain**
+4. Thêm các domains sau:
+   - Domain production của bạn (ví dụ: `yourdomain.com`, `www.yourdomain.com`)
+   - Domain staging (nếu có)
+   - Domain localhost (đã có sẵn cho development)
+   - Domain của hosting provider (ví dụ: `vercel.app`, `netlify.app`, `firebaseapp.com`)
+
+**Lưu ý**:
+- Firebase tự động thêm `localhost` cho development
+- Cần thêm domain production **trước khi deploy**
+- Không cần thêm protocol (`http://` hoặc `https://`)
+- Có thể thêm subdomain (ví dụ: `www.yourdomain.com`)
 
 ## Bước 5: Tạo User Account (Tài khoản Admin)
 

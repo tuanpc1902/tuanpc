@@ -1,12 +1,13 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import {
-  DownloadIcon,
+  ViewIcon,
   GithubIcon,
 } from '~alias~/components/icons/icons';
 import { Tooltip, Image } from 'antd';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from '~alias~/components/ErrorBoundary/ErrorBoundary';
 import MetaTags from '~alias~/components/common/MetaTags';
+import CVModal from '~alias~/components/common/CVModal';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { useDataContext } from '~alias~/contexts/DataContext';
 import type { Project } from '~alias~/lib/projects';
@@ -18,15 +19,23 @@ const imageAvatar = {
   alt: 'avatar',
 } as const;
 
+// CV file will be loaded from constants (managed in admin panel)
+
 const META_DESCRIPTION = 'Portfolio của Phạm Công Tuấn - Full Stack Developer. Các công cụ hữu ích và dự án cá nhân.';
 const META_KEYWORDS = 'Phạm Công Tuấn, tuanpc, Full Stack Developer, Portfolio, React, TypeScript, Web Development';
 
 function Home() {
   const { language } = useLanguageContext();
   const { projects, translations: contextTranslations, constants } = useDataContext();
+  const [cvModalVisible, setCvModalVisible] = useState(false);
+  
   const t = (key: keyof typeof contextTranslations.vi) => {
-    return contextTranslations[language]?.[key] || contextTranslations.vi[key] || '';
+    const translation = contextTranslations[language]?.[key] || contextTranslations.vi[key];
+    return translation || '';
   };
+  
+  // Fallback for viewCV if not in translations
+  const viewCVText = t('viewCV' as keyof typeof contextTranslations.vi) || (language === 'vi' ? 'Xem CV' : 'View CV');
 
   // Sort projects: pinned first, then by order, and filter out hidden projects
   const sortedProjects = useMemo(() => {
@@ -73,7 +82,6 @@ function Home() {
                   <div className="profile-name-section">
                     <h1 className="profile-name">{t('fullName')}</h1>
                     <div className="profile-handle">
-                      <img src="/logo.png" alt="tuanpc" className="handle-icon" />
                       @tuanpc
                     </div>
                     <div className="profile-badge">
@@ -82,28 +90,28 @@ function Home() {
                     </div>
                   </div>
                   <div className="profile-links">
-                    <a
-                      href={constants.PROFILE_GITHUB_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="profile-link"
-                      aria-label="View GitHub profile"
-                    >
-                      <GithubIcon className="link-icon" aria-hidden="true" />
-                      <span>GitHub</span>
-                    </a>
-                    <Tooltip title="Download My CV" color="#9b59b6">
+                    {constants.PROFILE_GITHUB_URL && (
                       <a
-                        className="profile-link"
-                        href={imageAvatar.src}
-                        download={imageAvatar.name}
+                        href={constants.PROFILE_GITHUB_URL}
                         target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Download CV"
+                        rel="noreferrer"
+                        className="profile-link"
+                        aria-label="View GitHub profile"
                       >
-                        <DownloadIcon className="link-icon" aria-hidden="true" />
-                        <span>CV</span>
+                        <GithubIcon className="link-icon" aria-hidden="true" />
+                        <span>GitHub</span>
                       </a>
+                    )}
+                    <Tooltip title={viewCVText} color="#9b59b6">
+                      <button
+                        className="profile-link"
+                        onClick={() => setCvModalVisible(true)}
+                        aria-label={viewCVText}
+                        type="button"
+                      >
+                        <ViewIcon className="link-icon" aria-hidden="true" />
+                        <span>{viewCVText}</span>
+                      </button>
                     </Tooltip>
                   </div>
                 </div>
@@ -160,6 +168,12 @@ function Home() {
           </div>
         </main>
       </ErrorBoundary>
+      <CVModal
+        visible={cvModalVisible}
+        onClose={() => setCvModalVisible(false)}
+        cvUrl={constants.CV_URL || '/tuanpc - VMTD 2026.pdf'}
+        cvFileName={constants.CV_FILE_NAME || 'tuanpc - VMTD 2026.pdf'}
+      />
     </>
   );
 }
@@ -170,19 +184,25 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project }: ProjectCardProps) {
+  const handleGithubClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Ngăn event bubbling để không trigger click vào project card
+    e.stopPropagation();
+  };
+
   const CardContent = (
     <div className="project-card">
       <div className="project-header">
         <div className="project-icon">{project.icon}</div>
         <div className="project-actions">
-          {project.github && (
+          {project.github && project.github.trim() && (
             <a
               href={project.github}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="project-github-link"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="View on GitHub"
+              onClick={handleGithubClick}
+              aria-label={`View ${project.name} on GitHub`}
+              title={`View ${project.name} on GitHub`}
             >
               <GithubIcon className="github-icon" width="1.25rem" height="1.25rem" />
             </a>

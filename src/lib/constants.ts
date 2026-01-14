@@ -36,8 +36,10 @@ export const DATE_FORMATS = {
 
 // Environment Variables
 export const ENV_VARS = {
-  PROFILE_GITHUB_URL: import.meta.env.VITE_PROFILE_GITHUB_URL || '/',
-  PROFILE_FB_URL: import.meta.env.VITE_PROFILE_FB_URL || '/',
+  PROFILE_GITHUB_URL: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
+  PROFILE_FB_URL: import.meta.env.VITE_PROFILE_FB_URL || '',
+  CV_URL: import.meta.env.VITE_CV_URL || '/tuanpc - VMTD 2026.pdf',
+  CV_FILE_NAME: import.meta.env.VITE_CV_FILE_NAME || 'tuanpc - VMTD 2026.pdf',
 } as const;
 
 // Date Calculation Constants

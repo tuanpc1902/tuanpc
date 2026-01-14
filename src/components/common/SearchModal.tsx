@@ -47,7 +47,7 @@ function SearchModal({ visible, onClose, searchValue, onSearchChange }: SearchMo
       footer={null}
       className="search-modal"
       width={600}
-      destroyOnClose
+      destroyOnHidden 
     >
       <div className="search-modal-content">
         <Input

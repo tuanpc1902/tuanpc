@@ -1,7 +1,5 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Link } from 'react-router-dom';
-import { HomeIcon } from '~alias~/components/icons/icons';
 import { useDateCalculations } from '~alias~/hooks/useDateCalculations';
 import { useCurrentDateTime } from '~alias~/hooks/useCurrentDateTime';
 import { useRealTimeCountdown } from '~alias~/hooks/useRealTimeCountdown';
@@ -12,23 +10,7 @@ import CountdownItems from './CountdownItems';
 import DatePickerCustom from './DatePickerCustom';
 import SelectCustom from '~alias~/components/select/SelectCustom';
 import Loading from '~alias~/components/Spinner/Loading';
-import {
-  Container,
-  ContentWrapper,
-  Title,
-  DatePickerSection,
-  SectionLabel,
-  SubTitle,
-  CountdownCard,
-  CurrentDateSection,
-  CurrentDateLabel,
-  CurrentDateTime,
-  Separator,
-  ButtonWrapper,
-  StyledDatePicker,
-  StyledSelect,
-  HomeButton,
-} from './styles';
+import './DemNgayRaQuan.styles.scss';
 
 const META_DESCRIPTION = 'Công cụ đếm ngày ra quân - Tính toán thời gian còn lại đến một ngày cụ thể.';
 const META_KEYWORDS = 'đếm ngày, countdown, đếm ngược, ra quân, tính ngày';
@@ -83,11 +65,11 @@ function DemNgayRaQuan() {
           description={META_DESCRIPTION}
           keywords={META_KEYWORDS}
         />
-        <Container>
-          <ContentWrapper>
+        <div className="countdown-page-container">
+          <div className="countdown-content-wrapper">
             <Loading fullScreen tip="Đang tải..." />
-          </ContentWrapper>
-        </Container>
+          </div>
+        </div>
       </>
     );
   }
@@ -102,60 +84,51 @@ function DemNgayRaQuan() {
         ogTitle="Đếm ngày ra quân - tuanpc"
         ogDescription={META_DESCRIPTION}
       />
-      <Container id="demNgayRaQuan" role="main">
-        <ContentWrapper>
-          <Title>
-            Bao lâu đến ngày {formattedTargetDate}?
-          </Title>
+      <div className="countdown-page-container" id="demNgayRaQuan" role="main">
+        <div className="countdown-content-wrapper">
+          <div className="controls-bar">
+            <div className="control-group">
+              <label htmlFor="date-picker" className="control-label">Ngày đích</label>
+              <div className="countdown-date-picker" id="date-picker">
+                <DatePickerCustom
+                  defaultValue={targetDate}
+                  onDateChange={onDatePickerChangeCustom}
+                  size="large"
+                />
+              </div>
+            </div>
+            
+            <div className="control-group">
+              <label className="control-label">Chế độ hiển thị</label>
+              <div className="countdown-select">
+                <SelectCustom
+                  options={SELECT_OPTIONS}
+                  onSelect={onSelectChange}
+                  defaultValue="all"
+                />
+              </div>
+            </div>
+          </div>
           
-          <DatePickerSection>
-            <SectionLabel htmlFor="date-picker">Chọn ngày</SectionLabel>
-            <StyledDatePicker>
-              <DatePickerCustom
-                defaultValue={targetDate}
-                onDateChange={onDatePickerChangeCustom}
-                size="large"
-              />
-            </StyledDatePicker>
-          </DatePickerSection>
+          <div className="hero-section">
+            <h1 className="hero-title">Còn bao lâu đến ngày</h1>
+            <div className="target-date-hero">{formattedTargetDate}</div>
+          </div>
           
-          <SubTitle>Còn lại</SubTitle>
-          
-          <StyledSelect>
-            <SelectCustom
-              options={SELECT_OPTIONS}
-              onSelect={onSelectChange}
-              defaultValue="all"
-            />
-          </StyledSelect>
-          
-          <CountdownCard role="region" aria-label="Countdown results">
+          <section className="countdown-display" role="region" aria-label="Countdown results">
             <CountdownItems display={display} count={count} realTime={realTime} />
-          </CountdownCard>
+          </section>
           
-          <CurrentDateSection role="status" aria-live="polite" aria-atomic="true">
-            <CurrentDateLabel>Hôm nay là:</CurrentDateLabel>
-            <CurrentDateTime>
+          <div className="info-section" role="status" aria-live="polite" aria-atomic="true">
+            <div className="info-label">Ngày giờ hiện tại</div>
+            <div className="info-time">
               <time id="date" dateTime={dayjs().format('YYYY-MM-DD')}>{currentDate.date}</time>
-              <Separator aria-hidden="true">|</Separator>
+              <span className="info-separator" aria-hidden="true">•</span>
               <time id="time">{currentDate.time}</time>
-            </CurrentDateTime>
-          </CurrentDateSection>
-          
-          <ButtonWrapper>
-            <Link to="/" aria-label="Quay về trang chủ">
-              <HomeButton
-                type="primary"
-                size="large"
-                danger
-                icon={<HomeIcon className="calendar-icon" aria-hidden="true" />}
-              >
-                Trang chủ
-              </HomeButton>
-            </Link>
-          </ButtonWrapper>
-        </ContentWrapper>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

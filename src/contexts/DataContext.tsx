@@ -18,7 +18,7 @@ const DEFAULT_PROJECTS: Project[] = [
     category: 'Tools',
     tags: ['React', 'TypeScript', 'Vite'],
     link: '/demngayraquan',
-    github: 'https://github.com/tuanpc902',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
     featured: true,
     pinned: false,
     order: 0,
@@ -32,7 +32,7 @@ const DEFAULT_PROJECTS: Project[] = [
     category: 'Web Development',
     tags: ['React', 'TypeScript', 'SCSS'],
     link: '/',
-    github: 'https://github.com/tuanpc902',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
     featured: true,
     pinned: false,
     order: 1,
@@ -103,7 +103,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
         }
 
         if (loadedConstants) {
-          setConstants(loadedConstants);
+          // Merge loaded constants with default ENV_VARS to ensure new constants are included
+          const mergedConstants = { ...ENV_VARS, ...loadedConstants };
+          setConstants(mergedConstants);
+          // Update Firestore with merged constants to include new fields
+          await constantsService.set(mergedConstants);
         } else {
           await constantsService.set(ENV_VARS);
           setConstants(ENV_VARS);
@@ -130,7 +134,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
         unsubscribeConstants = constantsService.subscribe((updatedConstants: any) => {
           if (updatedConstants) {
-            setConstants(updatedConstants);
+            // Merge with ENV_VARS to ensure new constants are included
+            const mergedConstants = { ...ENV_VARS, ...updatedConstants };
+            setConstants(mergedConstants);
           }
         });
       } catch (error) {

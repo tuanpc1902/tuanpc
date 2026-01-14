@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
     category: 'Tools',
     tags: ['React', 'TypeScript', 'Vite'],
     link: '/demngayraquan',
-    github: 'https://github.com/tuanpc902',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
     featured: true,
   },
   {
@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     category: 'Web Development',
     tags: ['React', 'TypeScript', 'SCSS'],
     link: '/',
-    github: 'https://github.com/tuanpc902',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
     featured: true,
   },
   {
@@ -44,7 +44,7 @@ export const PROJECTS: Project[] = [
     category: 'Web Development',
     tags: ['React', 'Node.js', 'MongoDB'],
     link: '/e-commerce',
-    github: 'https://github.com/tuanpc902',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
   },
   {
     id: '4',
@@ -53,8 +53,8 @@ export const PROJECTS: Project[] = [
     icon: '✅',
     category: 'Web Development',
     tags: ['React', 'Firebase', 'TypeScript'],
-    link: 'https://github.com/tuanpc',
-    github: 'https://github.com/tuanpc',
+    link: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
   },
   {
     id: '5',
@@ -63,8 +63,8 @@ export const PROJECTS: Project[] = [
     icon: '🌤️',
     category: 'Tools',
     tags: ['React', 'API', 'Charts'],
-    link: 'https://github.com/tuanpc',
-    github: 'https://github.com/tuanpc',
+    link: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
   },
   {
     id: '6',
@@ -73,7 +73,7 @@ export const PROJECTS: Project[] = [
     icon: '📝',
     category: 'Web Development',
     tags: ['Next.js', 'Markdown', 'SEO'],
-    link: 'https://github.com/tuanpc',
-    github: 'https://github.com/tuanpc',
+    link: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
+    github: import.meta.env.VITE_PROFILE_GITHUB_URL || '',
   },
 ];

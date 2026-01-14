@@ -4,6 +4,7 @@ import { GithubIcon, SearchIcon, SunIcon, MoonIcon, LanguageIcon } from '~alias~
 import { useThemeContext } from '~alias~/contexts/ThemeContext';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { getTranslation, translations } from '~alias~/lib/translations';
+import { ENV_VARS } from '~alias~/lib/constants';
 import SearchModal from '~alias~/components/common/SearchModal';
 import './Header.styles.scss';
 
@@ -35,14 +36,14 @@ function Header() {
           <span className="logo-text">tuanpc</span>
         </Link>
 
-        <nav className="header-nav" aria-label="Main navigation">
+        {/* <nav className="header-nav" aria-label="Main navigation">
           <Link to="/" className={`nav-link ${isHome ? 'active' : ''}`}>
             {t('home')}
           </Link>
           <Link to="/demngayraquan" className={`nav-link ${!isHome ? 'active' : ''}`}>
             {t('tools')}
           </Link>
-        </nav>
+        </nav> */}
 
         <div className="header-actions">
           {/* Search */}
@@ -81,16 +82,18 @@ function Header() {
           </button>
 
           {/* GitHub */}
-          <a
-            href="https://github.com/tuanpc"
-            target="_blank"
-            rel="noreferrer"
-            className="header-action-btn"
-            aria-label="GitHub"
-            title="GitHub"
-          >
-            <GithubIcon className="action-icon" aria-hidden="true" />
-          </a>
+          {ENV_VARS.PROFILE_GITHUB_URL && (
+            <a
+              href={ENV_VARS.PROFILE_GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="header-action-btn"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <GithubIcon className="action-icon" aria-hidden="true" />
+            </a>
+          )}
         </div>
       </div>
       

@@ -22,6 +22,7 @@ export const translations = {
     aboutText: 'Tôi là một Full Stack Developer với niềm đam mê tạo ra những sản phẩm web hiện đại và hiệu quả. Chuyên về React, TypeScript, Node.js và các công nghệ web hiện đại.',
     myProjects: 'My Projects',
     projectsSubtitle: 'Một số dự án nổi bật tôi đã thực hiện.',
+    viewCV: 'Xem CV',
     viewOnGithub: 'View on Github',
     githubSubtitle: 'Check out my repositories',
     contactMe: 'Contact me',
@@ -82,6 +83,8 @@ export const translations = {
     saved: 'Đã lưu',
     // Constants Manager
     constantName: 'Tên hằng số',
+    cvUrl: 'CV URL',
+    cvFileName: 'Tên file CV',
   },
   en: {
     home: 'Home',
@@ -106,6 +109,7 @@ export const translations = {
     aboutText: 'I am a Full Stack Developer with a passion for creating modern and efficient web products. Specialized in React, TypeScript, Node.js and modern web technologies.',
     myProjects: 'My Projects',
     projectsSubtitle: 'Some outstanding projects I have completed.',
+    viewCV: 'View CV',
     viewOnGithub: 'View on Github',
     githubSubtitle: 'Check out my repositories',
     contactMe: 'Contact me',
@@ -164,6 +168,8 @@ export const translations = {
     saved: 'Saved',
     // Constants Manager
     constantName: 'Constant Name',
+    cvUrl: 'CV URL',
+    cvFileName: 'CV File Name',
   },
 } as const;
 

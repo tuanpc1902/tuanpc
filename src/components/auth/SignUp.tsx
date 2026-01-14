@@ -16,7 +16,7 @@ function SignUp() {
   // Redirect to admin page if already authenticated
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      const from = (location.state as any)?.from?.pathname || '/admin';
+      const from = (location.state as { from?: { pathname?: string } })?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, authLoading, navigate, location.state]);
