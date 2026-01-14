@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { GithubIcon, SearchIcon, SunIcon, MoonIcon, LanguageIcon } from '~alias~/components/icons/icons';
 import { useThemeContext } from '~alias~/contexts/ThemeContext';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
@@ -9,13 +9,13 @@ import SearchModal from '~alias~/components/common/SearchModal';
 import './Header.styles.scss';
 
 function Header() {
-  const location = useLocation();
+  // const location = useLocation();
   const { theme, toggleTheme } = useThemeContext();
   const { language, toggleLanguage } = useLanguageContext();
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  const isHome = location.pathname === '/';
+  // const isHome = location.pathname === '/';
 
   const handleSearchToggle = () => {
     setSearchVisible(true);
