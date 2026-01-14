@@ -1,0 +1,141 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions for validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isValidProject(data) {
+      // Check required fields
+      return data.keys().hasAll(['id', 'name', 'description', 'icon', 'category', 'tags']) &&
+             // Validate name
+             data.name is string && 
+             data.name.size() > 0 && 
+             data.name.size() <= 200 &&
+             // Validate description
+             data.description is string && 
+             data.description.size() > 0 && 
+             data.description.size() <= 1000 &&
+             // Validate icon
+             data.icon is string && 
+             data.icon.size() > 0 &&
+             // Validate category
+             data.category is string && 
+             data.category.size() > 0 &&
+             // Validate tags
+             data.tags is list && 
+             data.tags.size() <= 10 &&
+             // Validate optional link (must be relative path or URL)
+             (!('link' in data) || 
+              (data.link is string && 
+               (data.link.matches('^/.*') || data.link.matches('^https?://.*')))) &&
+             // Validate optional github (must be URL)
+             (!('github' in data) || 
+              (data.github is string && 
+               data.github.matches('^https?://.*'))) &&
+             // Validate optional boolean fields
+             (!('featured' in data) || data.featured is bool) &&
+             (!('pinned' in data) || data.pinned is bool) &&
+             (!('hidden' in data) || data.hidden is bool) &&
+             // Validate optional order
+             (!('order' in data) || 
+              (data.order is int && data.order >= 0));
+    }
+    
+    function isValidTranslationKey(key) {
+      return key is string && 
+             key.size() > 0 && 
+             key.size() <= 100;
+    }
+    
+    function isValidTranslationValue(value) {
+      return value is string && 
+             value.size() > 0 && 
+             value.size() <= 5000;
+    }
+    
+    function isValidConstantKey(key) {
+      return key is string && 
+             key.size() > 0 && 
+             key.size() <= 100;
+    }
+    
+    function isValidConstantValue(value) {
+      return value is string && 
+             value.size() > 0 && 
+             value.size() <= 1000;
+    }
+    
+    // Projects collection
+    match /projects/{projectId} {
+      // Allow public read
+      allow read: if true;
+      
+      // Allow write only for authenticated users with validation
+      allow create: if isAuthenticated() && 
+                       isValidProject(request.resource.data) &&
+                       request.resource.data.id == projectId;
+      
+      allow update: if isAuthenticated() && 
+                       isValidProject(request.resource.data) &&
+                       request.resource.data.id == projectId;
+      
+      allow delete: if isAuthenticated();
+    }
+    
+    // Translations collection
+    match /translations/{docId} {
+      // Allow public read
+      allow read: if true;
+      
+      // Allow write only for authenticated users
+      // Note: Full validation of all keys/values is done in Cloud Functions
+      // Rules here only check basic structure
+      allow write: if isAuthenticated() && 
+                      docId == 'main' &&
+                      request.resource.data.keys().hasAll(['vi', 'en']) &&
+                      request.resource.data.vi is map &&
+                      request.resource.data.en is map;
+    }
+    
+    // Constants collection
+    match /constants/{docId} {
+      // Allow public read
+      allow read: if true;
+      
+      // Allow write only for authenticated users
+      // Note: Full validation of all keys/values is done in Cloud Functions
+      // Rules here only check basic structure
+      allow write: if isAuthenticated() && 
+                      docId == 'main' &&
+                      request.resource.data is map;
+    }
+    
+    // Audit logs collection
+    match /audit_logs/{logId} {
+      // Allow authenticated users to read audit logs
+      allow read: if isAuthenticated();
+      
+      // Allow authenticated users to create audit logs
+      allow create: if isAuthenticated() && 
+                       request.resource.data.keys().hasAll(['action', 'resourceType', 'timestamp']) &&
+                       request.resource.data.userId == request.auth.uid;
+      
+      // Prevent updates and deletes (audit logs are immutable)
+      allow update, delete: if false;
+    }
+    
+    // Rate limits collection (internal use by Cloud Functions)
+    match /rate_limits/{userId} {
+      // Only allow Cloud Functions to read/write
+      allow read, write: if false;
+    }
+    
+    // Deny access to all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

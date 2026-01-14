@@ -2,13 +2,11 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback 
 import { Project } from '~alias~/lib/projects';
 import { translations, Language } from '~alias~/lib/translations';
 import { ENV_VARS } from '~alias~/lib/constants';
-
-// Storage keys
-const STORAGE_KEYS = {
-  PROJECTS: 'admin_projects',
-  TRANSLATIONS: 'admin_translations',
-  CONSTANTS: 'admin_constants',
-} as const;
+import {
+  projectsService,
+  translationsService,
+  constantsService,
+} from '~alias~/lib/services/firestoreService';
 
 // Default data
 const DEFAULT_PROJECTS: Project[] = [
@@ -46,6 +44,7 @@ interface DataContextType {
   projects: Project[];
   translations: typeof translations;
   constants: typeof ENV_VARS;
+  isLoading: boolean;
   updateProjects: (projects: Project[]) => void;
   addProject: (project: Project) => void;
   updateProject: (id: string, project: Partial<Project>) => void;
@@ -61,46 +60,133 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [projects, setProjects] = useState<Project[]>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.PROJECTS);
-    const loadedProjects = stored ? JSON.parse(stored) : DEFAULT_PROJECTS;
-    // Ensure all projects have order, pinned, and hidden properties
-    return loadedProjects.map((project: Project, index: number) => ({
-      ...project,
-      order: project.order !== undefined ? project.order : index,
-      pinned: project.pinned !== undefined ? project.pinned : false,
-      hidden: project.hidden !== undefined ? project.hidden : false,
-    }));
-  });
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [appTranslations, setAppTranslations] = useState<typeof translations>(translations);
+  const [constants, setConstants] = useState<typeof ENV_VARS>(ENV_VARS);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [appTranslations, setAppTranslations] = useState<typeof translations>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.TRANSLATIONS);
-    return stored ? JSON.parse(stored) : translations;
-  });
-
-  const [constants, setConstants] = useState<typeof ENV_VARS>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.CONSTANTS);
-    return stored ? JSON.parse(stored) : ENV_VARS;
-  });
-
-  // Save to localStorage whenever data changes
+  // Initialize and subscribe to data
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
-  }, [projects]);
+    let unsubscribeProjects: (() => void) | null = null;
+    let unsubscribeTranslations: (() => void) | null = null;
+    let unsubscribeConstants: (() => void) | null = null;
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.TRANSLATIONS, JSON.stringify(appTranslations));
-  }, [appTranslations]);
+    const initializeData = async () => {
+      try {
+        // Load initial data
+        const [loadedProjects, loadedTranslations, loadedConstants] = await Promise.all([
+          projectsService.getAll(),
+          translationsService.get(),
+          constantsService.get(),
+        ]);
 
+        // Set initial state
+        if (loadedProjects && loadedProjects.length > 0) {
+          const normalizedProjects = loadedProjects.map((project: Project, index: number) => ({
+            ...project,
+            order: project.order !== undefined ? project.order : index,
+            pinned: project.pinned !== undefined ? project.pinned : false,
+            hidden: project.hidden !== undefined ? project.hidden : false,
+          }));
+          setProjects(normalizedProjects);
+        } else {
+          // No data found, set defaults and save to Firestore
+          await projectsService.setAll(DEFAULT_PROJECTS);
+          setProjects(DEFAULT_PROJECTS);
+        }
+
+        if (loadedTranslations) {
+          setAppTranslations(loadedTranslations);
+        } else {
+          await translationsService.set(translations);
+          setAppTranslations(translations);
+        }
+
+        if (loadedConstants) {
+          setConstants(loadedConstants);
+        } else {
+          await constantsService.set(ENV_VARS);
+          setConstants(ENV_VARS);
+        }
+
+        // Subscribe to real-time updates
+        unsubscribeProjects = projectsService.subscribe((updatedProjects: Project[]) => {
+          if (updatedProjects && updatedProjects.length > 0) {
+            const normalizedProjects = updatedProjects.map((project: Project, index: number) => ({
+              ...project,
+              order: project.order !== undefined ? project.order : index,
+              pinned: project.pinned !== undefined ? project.pinned : false,
+              hidden: project.hidden !== undefined ? project.hidden : false,
+            }));
+            setProjects(normalizedProjects);
+          }
+        });
+
+        unsubscribeTranslations = translationsService.subscribe((updatedTranslations: any) => {
+          if (updatedTranslations) {
+            setAppTranslations(updatedTranslations);
+          }
+        });
+
+        unsubscribeConstants = constantsService.subscribe((updatedConstants: any) => {
+          if (updatedConstants) {
+            setConstants(updatedConstants);
+          }
+        });
+      } catch (error) {
+        console.error('Error initializing data:', error);
+        // Fallback to defaults if Firestore fails
+        setProjects(DEFAULT_PROJECTS);
+        setAppTranslations(translations);
+        setConstants(ENV_VARS);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeData();
+
+    // Cleanup subscriptions on unmount
+    return () => {
+      if (unsubscribeProjects) unsubscribeProjects();
+      if (unsubscribeTranslations) unsubscribeTranslations();
+      if (unsubscribeConstants) unsubscribeConstants();
+    };
+  }, []);
+
+  // Sync projects to Firestore whenever they change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.CONSTANTS, JSON.stringify(constants));
-  }, [constants]);
+    if (!isLoading && projects.length > 0) {
+      projectsService.setAll(projects).catch((error) => {
+        console.error('Error syncing projects to Firestore:', error);
+      });
+    }
+  }, [projects, isLoading]);
+
+  // Sync translations to Firestore whenever they change
+  useEffect(() => {
+    if (!isLoading) {
+      translationsService.set(appTranslations).catch((error) => {
+        console.error('Error syncing translations to Firestore:', error);
+      });
+    }
+  }, [appTranslations, isLoading]);
+
+  // Sync constants to Firestore whenever they change
+  useEffect(() => {
+    if (!isLoading) {
+      constantsService.set(constants).catch((error) => {
+        console.error('Error syncing constants to Firestore:', error);
+      });
+    }
+  }, [constants, isLoading]);
 
   const updateProjects = useCallback((newProjects: Project[]) => {
     setProjects(newProjects);
   }, []);
 
   const addProject = useCallback((project: Project) => {
+    // Validation is done in firestoreService.setAll
     setProjects((prev) => {
       const maxOrder = Math.max(...prev.map((p) => p.order || 0), -1);
       return [
@@ -122,6 +208,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const deleteProject = useCallback((id: string) => {
+    projectsService.delete(id).catch((error) => {
+      console.error('Error deleting project:', error);
+    });
     setProjects((prev) => prev.filter((p) => p.id !== id));
   }, []);
 
@@ -245,13 +334,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const resetData = useCallback(() => {
-    setProjects(DEFAULT_PROJECTS);
-    setAppTranslations(translations);
-    setConstants(ENV_VARS);
-    localStorage.removeItem(STORAGE_KEYS.PROJECTS);
-    localStorage.removeItem(STORAGE_KEYS.TRANSLATIONS);
-    localStorage.removeItem(STORAGE_KEYS.CONSTANTS);
+  const resetData = useCallback(async () => {
+    try {
+      await Promise.all([
+        projectsService.setAll(DEFAULT_PROJECTS),
+        translationsService.set(translations),
+        constantsService.set(ENV_VARS),
+      ]);
+      setProjects(DEFAULT_PROJECTS);
+      setAppTranslations(translations);
+      setConstants(ENV_VARS);
+    } catch (error) {
+      console.error('Error resetting data:', error);
+    }
   }, []);
 
   return (
@@ -260,6 +355,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         projects,
         translations: appTranslations,
         constants,
+        isLoading,
         updateProjects,
         addProject,
         updateProject,

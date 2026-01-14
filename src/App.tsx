@@ -4,13 +4,17 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider, useLanguageContext } from './contexts/LanguageContext';
 import { DataProvider } from './contexts/DataContext';
+import { AuthProvider } from './contexts/AuthContext';
 import ConfigProviderWrapper from './components/ConfigProviderWrapper';
 import AppLayout from './components/layout/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import Loading from './components/Spinner/Loading';
 import Home from './pages/Home';
 import DemNgayRaQuan from './pages/DemNgayRaQuan';
 import Admin from './pages/Admin';
+import Login from './components/auth/Login';
+import SignUp from './components/auth/SignUp';
 import NotFound from './pages/NotFound';
 import dayjs from 'dayjs';
 
@@ -32,7 +36,16 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/demngayraquan" element={<DemNgayRaQuan />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin/signup" element={<SignUp />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <Admin />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -51,9 +64,11 @@ function App() {
     <HelmetProvider>
       <ThemeProvider>
         <LanguageProvider>
-          <DataProvider>
-            <AppContent />
-          </DataProvider>
+          <AuthProvider>
+            <DataProvider>
+              <AppContent />
+            </DataProvider>
+          </AuthProvider>
         </LanguageProvider>
       </ThemeProvider>
     </HelmetProvider>
