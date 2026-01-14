@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Form, Input, Button, Card, message, Divider } from 'antd';
-import { MailOutlined, LockOutlined, GoogleOutlined, UserOutlined } from '@ant-design/icons';
+import { MailOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useAuth } from '~alias~/contexts/AuthContext';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import './Login.styles.scss';
