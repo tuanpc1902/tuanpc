@@ -12,7 +12,6 @@ function Footer() {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img src="/logo.png" alt="tuanpc logo" className="logo-icon" />
               <span className="logo-text">tuanpc</span>
             </div>
             <p className="footer-description">
@@ -74,14 +73,12 @@ function Footer() {
           <p className="footer-copyright">
             Built with <span className="heart">❤️</span> by{' '}
             <span className="highlight">
-              <img src="/logo.png" alt="tuanpc" className="inline-logo-icon" />
               tuanpc
             </span>
           </p>
           <p className="footer-copyright">
             © {currentYear}{' '}
             <span className="highlight">
-              <img src="/logo.png" alt="tuanpc" className="inline-logo-icon" />
               tuanpc
             </span>
           </p>

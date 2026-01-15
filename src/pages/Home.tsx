@@ -12,6 +12,7 @@ import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { useDataContext } from '~alias~/contexts/DataContext';
 import type { Project } from '~alias~/lib/projects';
 import './Home.styles.scss';
+import { ENV_VARS } from '~alias~/lib/constants';
 
 const imageAvatar = {
   src: '/author.webp',
@@ -90,9 +91,9 @@ function Home() {
                     </div>
                   </div>
                   <div className="profile-links">
-                    {constants.PROFILE_GITHUB_URL && (
+                    {ENV_VARS.PROFILE_GITHUB_URL && (
                       <a
-                        href={constants.PROFILE_GITHUB_URL}
+                        href={ENV_VARS.PROFILE_GITHUB_URL}
                         target="_blank"
                         rel="noreferrer"
                         className="profile-link"
