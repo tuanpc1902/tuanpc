@@ -25,6 +25,7 @@ export const SELECT_OPTIONS = [
 // Storage Keys
 export const STORAGE_KEYS = {
   DEM_NGAY_RA_QUAN_TARGET_DATE: 'demNgayRaQuanTargetDate',
+  DEM_NGAY_RA_QUAN_PRESETS: 'demNgayRaQuanPresets',
 } as const;
 
 // Date Formats
@@ -40,6 +41,8 @@ export const ENV_VARS = {
   PROFILE_FB_URL: import.meta.env.VITE_PROFILE_FB_URL || '',
   CV_URL: import.meta.env.VITE_CV_URL || '/tuanpc - VMTD 2026.pdf',
   CV_FILE_NAME: import.meta.env.VITE_CV_FILE_NAME || 'tuanpc - VMTD 2026.pdf',
+  SITE_URL: import.meta.env.VITE_SITE_URL || '',
+  OG_IMAGE_URL: import.meta.env.VITE_OG_IMAGE_URL || '',
 } as const;
 
 // Date Calculation Constants

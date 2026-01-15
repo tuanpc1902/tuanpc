@@ -15,7 +15,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window === 'undefined') return 'vi';
     const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language;
-    return saved === 'vi' || saved === 'en' ? saved : 'vi';
+    if (saved === 'vi' || saved === 'en') return saved;
+    const browserLang = navigator.language?.toLowerCase() || '';
+    return browserLang.startsWith('en') ? 'en' : 'vi';
   });
 
   useEffect(() => {

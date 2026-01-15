@@ -95,8 +95,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
           setProjects(DEFAULT_PROJECTS);
         }
 
+        const mergeTranslations = (loaded?: typeof translations) => {
+          if (!loaded) return translations;
+          return {
+            vi: { ...translations.vi, ...loaded.vi },
+            en: { ...translations.en, ...loaded.en },
+          };
+        };
+
         if (loadedTranslations) {
-          setAppTranslations(loadedTranslations);
+          const mergedTranslations = mergeTranslations(loadedTranslations);
+          setAppTranslations(mergedTranslations);
+          await translationsService.set(mergedTranslations);
         } else {
           await translationsService.set(translations);
           setAppTranslations(translations);
@@ -128,7 +138,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
         unsubscribeTranslations = translationsService.subscribe((updatedTranslations: any) => {
           if (updatedTranslations) {
-            setAppTranslations(updatedTranslations);
+            const mergedTranslations = {
+              vi: { ...translations.vi, ...updatedTranslations.vi },
+              en: { ...translations.en, ...updatedTranslations.en },
+            };
+            setAppTranslations(mergedTranslations);
           }
         });
 

@@ -120,6 +120,33 @@ export const ViewIcon = ({
   </svg>
 );
 
+export const PaletteIcon = ({
+  width = '2.4rem',
+  height = '2.4rem',
+  className,
+}: IconProps) => (
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 3.75c-4.556 0-8.25 3.415-8.25 7.625 0 2.53 1.35 4.797 3.5 6.177 1.433.922 2.137 2.66 1.436 4.176-.4.861.14 1.772 1.083 1.772h2.231c1.777 0 3.217-1.44 3.217-3.217 0-.89.723-1.613 1.613-1.613h1.345c2.812 0 5.075-2.263 5.075-5.075C22.25 7.165 17.172 3.75 12 3.75Z"
+    />
+    <circle cx="8.25" cy="10" r="0.75" fill="currentColor" />
+    <circle cx="12" cy="8.5" r="0.75" fill="currentColor" />
+    <circle cx="15.75" cy="10" r="0.75" fill="currentColor" />
+    <circle cx="9.75" cy="13.5" r="0.75" fill="currentColor" />
+  </svg>
+);
+
 export const CalendarIcon = ({
   width = '2.4rem',
   height = '2.4rem',

@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { Table, Input, Button, message, Space, Tabs } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 import { useDataContext } from '~alias~/contexts/DataContext';
@@ -29,6 +29,42 @@ function TranslationsManager() {
       [`${lang}_${key}`]: value,
     }));
   };
+
+  const handleRevert = (lang: Language, key: string) => {
+    const editingKey = `${lang}_${key}`;
+    setEditingValues((prev) => {
+      const nextValues = { ...prev };
+      delete nextValues[editingKey];
+      return nextValues;
+    });
+  };
+
+  const handleDiscardAll = () => {
+    setEditingValues((prev) => {
+      const nextValues = { ...prev };
+      Object.keys(nextValues).forEach((key) => {
+        if (key.startsWith(`${activeLang}_`)) {
+          delete nextValues[key];
+        }
+      });
+      return nextValues;
+    });
+  };
+
+  const pendingChanges = useMemo(() => {
+    const activeTranslations = contextTranslations[activeLang];
+    return Object.entries(activeTranslations)
+      .map(([key, originalValue]) => {
+        const editedValue = editingValues[`${activeLang}_${key}`];
+        if (editedValue === undefined || editedValue === originalValue) return null;
+        return {
+          key,
+          originalValue,
+          editedValue,
+        };
+      })
+      .filter(Boolean) as Array<{ key: string; originalValue: string; editedValue: string }>;
+  }, [activeLang, contextTranslations, editingValues]);
 
   const getTranslationData = (lang: Language) => {
     const data = contextTranslations[lang];
@@ -106,6 +142,38 @@ function TranslationsManager() {
 
   return (
     <div className="translations-manager">
+      {pendingChanges.length > 0 && (
+        <div className="pending-changes-card">
+          <div className="pending-header">
+            <div className="pending-title">
+              {t('pendingChanges')} ({pendingChanges.length})
+            </div>
+            <Button onClick={handleDiscardAll} size="small" className="pending-discard-btn">
+              {t('discardAll')}
+            </Button>
+          </div>
+          <div className="pending-list">
+            {pendingChanges.map((item) => (
+              <div key={item.key} className="pending-item">
+                <div className="pending-key">{item.key}</div>
+                <div className="pending-values">
+                  <div className="pending-value">
+                    <span className="pending-label">{t('currentValue')}</span>
+                    <code>{item.originalValue}</code>
+                  </div>
+                  <div className="pending-value">
+                    <span className="pending-label">{t('editedValue')}</span>
+                    <code>{item.editedValue}</code>
+                  </div>
+                </div>
+                <Button size="small" onClick={() => handleRevert(activeLang, item.key)}>
+                  {t('revert')}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <Tabs
         activeKey={activeLang}
         onChange={(key) => setActiveLang(key as Language)}

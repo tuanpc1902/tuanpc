@@ -9,9 +9,11 @@ interface MetaTagsProps {
   ogTitle?: string;
   ogDescription?: string;
   ogType?: string;
+  ogImage?: string;
   twitterCard?: string;
   twitterTitle?: string;
   twitterDescription?: string;
+  twitterImage?: string;
 }
 
 /**
@@ -26,9 +28,11 @@ const MetaTags = memo(function MetaTags({
   ogTitle,
   ogDescription,
   ogType = 'website',
+  ogImage,
   twitterCard = 'summary',
   twitterTitle,
   twitterDescription,
+  twitterImage,
 }: MetaTagsProps) {
   const canonical = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : '');
 
@@ -41,9 +45,11 @@ const MetaTags = memo(function MetaTags({
       {ogTitle && <meta property="og:title" content={ogTitle} />}
       {ogDescription && <meta property="og:description" content={ogDescription} />}
       {ogType && <meta property="og:type" content={ogType} />}
+      {ogImage && <meta property="og:image" content={ogImage} />}
       {twitterCard && <meta name="twitter:card" content={twitterCard} />}
       {twitterTitle && <meta name="twitter:title" content={twitterTitle} />}
       {twitterDescription && <meta name="twitter:description" content={twitterDescription} />}
+      {twitterImage && <meta name="twitter:image" content={twitterImage} />}
     </Helmet>
   );
 });

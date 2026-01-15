@@ -1,4 +1,4 @@
-import { memo, useState, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import {
   Button,
   Input,
@@ -36,10 +36,32 @@ function ProjectsManager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [form] = Form.useForm();
+  const watchedValues = Form.useWatch([], form);
   const [searchText, setSearchText] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
   const [featuredFilter, setFeaturedFilter] = useState<boolean | undefined>(undefined);
   const t = (key: keyof typeof translations.vi) => getTranslation(language, key);
+
+  const previewProject = useMemo(() => {
+    const baseProject: Partial<Project> = editingProject || {};
+    const values = watchedValues || {};
+    const rawTags = values.tags ?? baseProject.tags ?? [];
+    const tags = Array.isArray(rawTags)
+      ? rawTags
+      : typeof rawTags === 'string'
+      ? rawTags.split(',').map((tag: string) => tag.trim()).filter(Boolean)
+      : [];
+
+    return {
+      name: values.name ?? baseProject.name ?? '',
+      description: values.description ?? baseProject.description ?? '',
+      icon: values.icon ?? baseProject.icon ?? '📦',
+      category: values.category ?? baseProject.category ?? '',
+      tags,
+      github: values.github ?? baseProject.github ?? '',
+      link: values.link ?? baseProject.link ?? '',
+    };
+  }, [editingProject, watchedValues]);
 
   const handleAdd = () => {
     setEditingProject(null);
@@ -289,6 +311,47 @@ function ProjectsManager() {
             <Checkbox>{t('featured')}</Checkbox>
           </Form.Item>
         </Form>
+        <div className="project-preview">
+          <div className="preview-header">
+            <h4>{t('livePreview')}</h4>
+            <Button
+              onClick={() => form.resetFields()}
+              size="small"
+              className="preview-reset-btn"
+            >
+              {t('resetForm')}
+            </Button>
+          </div>
+          <div className="project-preview-card">
+            <div className="project-preview-icon">{previewProject.icon}</div>
+            <div className="project-preview-content">
+              <div className="project-preview-name">
+                {previewProject.name || t('projectName')}
+              </div>
+              <div className="project-preview-description">
+                {previewProject.description || t('description')}
+              </div>
+              <div className="project-preview-tags">
+                {previewProject.category && (
+                  <span className="preview-tag preview-tag-category">
+                    {previewProject.category}
+                  </span>
+                )}
+                {previewProject.tags.length > 0
+                  ? previewProject.tags.map((tag, index) => (
+                      <span key={`${tag}-${index}`} className="preview-tag">
+                        {tag}
+                      </span>
+                    ))
+                  : (
+                    <span className="preview-tag placeholder-tag">
+                      {t('tags')}
+                    </span>
+                  )}
+              </div>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );

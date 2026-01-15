@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { Table, Input, Button, message, Space } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 import { useDataContext } from '~alias~/contexts/DataContext';
@@ -28,6 +28,32 @@ function ConstantsManager() {
       [key]: value,
     }));
   };
+
+  const handleRevert = (key: string) => {
+    setEditingValues((prev) => {
+      const nextValues = { ...prev };
+      delete nextValues[key];
+      return nextValues;
+    });
+  };
+
+  const handleDiscardAll = () => {
+    setEditingValues({});
+  };
+
+  const pendingChanges = useMemo(() => {
+    return Object.entries(constants)
+      .map(([key, originalValue]) => {
+        const editedValue = editingValues[key];
+        if (editedValue === undefined || editedValue === originalValue) return null;
+        return {
+          key,
+          originalValue,
+          editedValue,
+        };
+      })
+      .filter(Boolean) as Array<{ key: string; originalValue: string; editedValue: string }>;
+  }, [constants, editingValues]);
 
   const dataSource = Object.entries(constants).map(([key, value]) => ({
     key,
@@ -72,6 +98,38 @@ function ConstantsManager() {
 
   return (
     <div className="constants-manager">
+      {pendingChanges.length > 0 && (
+        <div className="pending-changes-card">
+          <div className="pending-header">
+            <div className="pending-title">
+              {t('pendingChanges')} ({pendingChanges.length})
+            </div>
+            <Button onClick={handleDiscardAll} size="small" className="pending-discard-btn">
+              {t('discardAll')}
+            </Button>
+          </div>
+          <div className="pending-list">
+            {pendingChanges.map((item) => (
+              <div key={item.key} className="pending-item">
+                <div className="pending-key">{item.key}</div>
+                <div className="pending-values">
+                  <div className="pending-value">
+                    <span className="pending-label">{t('currentValue')}</span>
+                    <code>{item.originalValue}</code>
+                  </div>
+                  <div className="pending-value">
+                    <span className="pending-label">{t('editedValue')}</span>
+                    <code>{item.editedValue}</code>
+                  </div>
+                </div>
+                <Button size="small" onClick={() => handleRevert(item.key)}>
+                  {t('revert')}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <Table
         columns={columns}
         dataSource={dataSource}

@@ -3,7 +3,7 @@ import {
   ViewIcon,
   GithubIcon,
 } from '~alias~/components/icons/icons';
-import { Tooltip, Image } from 'antd';
+import { Tooltip, Image, Input, Select, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from '~alias~/components/ErrorBoundary/ErrorBoundary';
 import MetaTags from '~alias~/components/common/MetaTags';
@@ -11,6 +11,7 @@ import CVModal from '~alias~/components/common/CVModal';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { useDataContext } from '~alias~/contexts/DataContext';
 import type { Project } from '~alias~/lib/projects';
+import { AnalyticsEventType, logAnalyticsEvent } from '~alias~/lib/services/analyticsService';
 import './Home.styles.scss';
 import { ENV_VARS } from '~alias~/lib/constants';
 
@@ -27,8 +28,12 @@ const META_KEYWORDS = 'Phạm Công Tuấn, tuanpc, Full Stack Developer, Portfo
 
 function Home() {
   const { language } = useLanguageContext();
-  const { projects, translations: contextTranslations, constants } = useDataContext();
+  const { projects, translations: contextTranslations, constants, isLoading } = useDataContext();
   const [cvModalVisible, setCvModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedTag, setSelectedTag] = useState<string>('all');
+  const [sortOption, setSortOption] = useState('default');
   
   const t = (key: keyof typeof contextTranslations.vi) => {
     const translation = contextTranslations[language]?.[key] || contextTranslations.vi[key];
@@ -38,16 +43,62 @@ function Home() {
   // Fallback for viewCV if not in translations
   const viewCVText = t('viewCV' as keyof typeof contextTranslations.vi) || (language === 'vi' ? 'Xem CV' : 'View CV');
 
+  const handleOpenCv = () => {
+    setCvModalVisible(true);
+    logAnalyticsEvent(AnalyticsEventType.CV_OPEN, {
+      source: 'profile',
+    });
+  };
+
   // Sort projects: pinned first, then by order, and filter out hidden projects
-  const sortedProjects = useMemo(() => {
-    return [...projects]
-      .filter((project) => !project.hidden) // Filter out hidden projects
-      .sort((a, b) => {
+  const visibleProjects = useMemo(() => {
+    return projects.filter((project) => !project.hidden);
+  }, [projects]);
+
+  const categories = useMemo(() => {
+    const set = new Set(visibleProjects.map((project) => project.category));
+    return Array.from(set).sort();
+  }, [visibleProjects]);
+
+  const tags = useMemo(() => {
+    const set = new Set(visibleProjects.flatMap((project) => project.tags));
+    return Array.from(set).sort();
+  }, [visibleProjects]);
+
+  const filteredProjects = useMemo(() => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
+    const matchesSearch = (project: Project) =>
+      !normalizedSearch ||
+      project.name.toLowerCase().includes(normalizedSearch) ||
+      project.description.toLowerCase().includes(normalizedSearch) ||
+      project.category.toLowerCase().includes(normalizedSearch) ||
+      project.tags.some((tag) => tag.toLowerCase().includes(normalizedSearch));
+
+    const matchesCategory = (project: Project) =>
+      selectedCategory === 'all' || project.category === selectedCategory;
+
+    const matchesTag = (project: Project) =>
+      selectedTag === 'all' || project.tags.includes(selectedTag);
+
+    const base = visibleProjects.filter(
+      (project) => matchesSearch(project) && matchesCategory(project) && matchesTag(project)
+    );
+
+    const sorters: Record<string, (a: Project, b: Project) => number> = {
+      default: (a, b) => {
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
         return (a.order || 0) - (b.order || 0);
-      });
-  }, [projects]);
+      },
+      nameAsc: (a, b) => a.name.localeCompare(b.name),
+      nameDesc: (a, b) => b.name.localeCompare(a.name),
+      category: (a, b) => a.category.localeCompare(b.category),
+    };
+
+    return [...base].sort(sorters[sortOption] || sorters.default);
+  }, [visibleProjects, searchQuery, selectedCategory, selectedTag, sortOption]);
+
+  const ogImage = constants.OG_IMAGE_URL || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : '/logo.png');
 
   return (
     <>
@@ -58,9 +109,11 @@ function Home() {
         canonicalUrl={typeof window !== 'undefined' ? window.location.origin : ''}
         ogTitle={`tuanpc - ${t('fullName')}`}
         ogDescription={META_DESCRIPTION}
+        ogImage={ogImage}
         ogType="website"
         twitterTitle={`tuanpc - ${t('fullName')}`}
         twitterDescription={META_DESCRIPTION}
+        twitterImage={ogImage}
       />
       <ErrorBoundary>
         <main className="home-container" role="main">
@@ -98,6 +151,11 @@ function Home() {
                         rel="noreferrer"
                         className="profile-link"
                         aria-label="View GitHub profile"
+                        onClick={() =>
+                          logAnalyticsEvent(AnalyticsEventType.PROFILE_GITHUB_CLICK, {
+                            url: ENV_VARS.PROFILE_GITHUB_URL,
+                          })
+                        }
                       >
                         <GithubIcon className="link-icon" aria-hidden="true" />
                         <span>GitHub</span>
@@ -106,7 +164,7 @@ function Home() {
                     <Tooltip title={viewCVText} color="#9b59b6">
                       <button
                         className="profile-link"
-                        onClick={() => setCvModalVisible(true)}
+                        onClick={handleOpenCv}
                         aria-label={viewCVText}
                         type="button"
                       >
@@ -160,10 +218,67 @@ function Home() {
                 </h2>
                 <p className="section-subtitle">{t('projectsSubtitle')}</p>
               </div>
+              <div className="projects-filters">
+                <div className="projects-filters-left">
+                  <Input
+                    placeholder={t('searchProjects')}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    allowClear
+                    size="large"
+                    className="projects-search"
+                  />
+                  <Select
+                    value={selectedCategory}
+                    onChange={setSelectedCategory}
+                    size="large"
+                    className="projects-select"
+                  >
+                    <Select.Option value="all">{t('allCategories')}</Select.Option>
+                    {categories.map((category) => (
+                      <Select.Option key={category} value={category}>
+                        {category}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                  <Select
+                    value={selectedTag}
+                    onChange={setSelectedTag}
+                    size="large"
+                    className="projects-select"
+                  >
+                    <Select.Option value="all">{t('allTags')}</Select.Option>
+                    {tags.map((tag) => (
+                      <Select.Option key={tag} value={tag}>
+                        {tag}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </div>
+                <Select
+                  value={sortOption}
+                  onChange={setSortOption}
+                  size="large"
+                  className="projects-sort"
+                >
+                  <Select.Option value="default">{t('sortDefault')}</Select.Option>
+                  <Select.Option value="nameAsc">{t('sortNameAsc')}</Select.Option>
+                  <Select.Option value="nameDesc">{t('sortNameDesc')}</Select.Option>
+                  <Select.Option value="category">{t('sortCategory')}</Select.Option>
+                </Select>
+              </div>
               <div className="projects-grid">
-                {sortedProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
+                {isLoading ? (
+                  Array.from({ length: 6 }).map((_, index) => (
+                    <ProjectCardSkeleton key={`skeleton-${index}`} />
+                  ))
+                ) : filteredProjects.length > 0 ? (
+                  filteredProjects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))
+                ) : (
+                  <div className="projects-empty">{t('noResultsFound')}</div>
+                )}
               </div>
             </section>
           </div>
@@ -188,6 +303,20 @@ function ProjectCard({ project }: ProjectCardProps) {
   const handleGithubClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Ngăn event bubbling để không trigger click vào project card
     e.stopPropagation();
+    logAnalyticsEvent(AnalyticsEventType.PROJECT_GITHUB_CLICK, {
+      projectId: project.id,
+      projectName: project.name,
+      url: project.github,
+    });
+  };
+
+  const handleProjectClick = () => {
+    if (!project.link) return;
+    logAnalyticsEvent(AnalyticsEventType.PROJECT_CLICK, {
+      projectId: project.id,
+      projectName: project.name,
+      url: project.link,
+    });
   };
 
   const CardContent = (
@@ -227,7 +356,7 @@ function ProjectCard({ project }: ProjectCardProps) {
 
   if (project.link && project.link.startsWith('/')) {
     return (
-      <Link to={project.link} className="project-link">
+      <Link to={project.link} className="project-link" onClick={handleProjectClick}>
         {CardContent}
       </Link>
     );
@@ -240,6 +369,7 @@ function ProjectCard({ project }: ProjectCardProps) {
         target="_blank"
         rel="noreferrer"
         className="project-link"
+        onClick={handleProjectClick}
       >
         {CardContent}
       </a>
@@ -247,6 +377,25 @@ function ProjectCard({ project }: ProjectCardProps) {
   }
 
   return <div className="project-link">{CardContent}</div>;
+}
+
+function ProjectCardSkeleton() {
+  return (
+    <div className="project-card project-skeleton-card">
+      <div className="project-header">
+        <Skeleton.Avatar active size={64} shape="square" />
+        <Skeleton.Button active size="small" />
+      </div>
+      <div className="project-body">
+        <Skeleton active paragraph={{ rows: 2 }} />
+        <div className="project-tags">
+          <Skeleton.Button active size="small" />
+          <Skeleton.Button active size="small" />
+          <Skeleton.Button active size="small" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default memo(Home);
