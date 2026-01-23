@@ -1,4 +1,5 @@
 import type { Project } from '~alias~/lib/projects';
+import { isQuotaExceededError, logError, ErrorLevel } from './errorHandler';
 
 /**
  * Validation utilities for data integrity
@@ -64,8 +65,19 @@ export const checkRateLimit = (): { allowed: boolean; remaining: number; resetAt
       },
     ];
 
-    // Save updated entries
-    localStorage.setItem(RATE_LIMIT_STORAGE_KEY, JSON.stringify(updatedEntries));
+    // Save updated entries with QuotaExceededError handling
+    try {
+      localStorage.setItem(RATE_LIMIT_STORAGE_KEY, JSON.stringify(updatedEntries));
+    } catch (storageError) {
+      if (isQuotaExceededError(storageError)) {
+        // Clear old entries and try again
+        localStorage.removeItem(RATE_LIMIT_STORAGE_KEY);
+        logError('localStorage quota exceeded, cleared rate limit data', storageError, {
+          level: ErrorLevel.WARN,
+          context: 'RateLimit',
+        });
+      }
+    }
 
     return {
       allowed: true,
@@ -73,7 +85,10 @@ export const checkRateLimit = (): { allowed: boolean; remaining: number; resetAt
       resetAt: now + RATE_LIMIT.TIME_WINDOW,
     };
   } catch (error) {
-    console.error('Rate limit check error:', error);
+    logError('Rate limit check error', error, {
+      level: ErrorLevel.WARN,
+      context: 'RateLimit',
+    });
     // Allow operation if rate limit check fails
     return {
       allowed: true,

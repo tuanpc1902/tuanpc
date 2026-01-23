@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
 import type { Language } from '~alias~/lib/translations';
 
 interface LanguageContextType {
@@ -25,16 +25,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = language;
   }, [language]);
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
-  };
+  }, []);
 
-  const toggleLanguage = () => {
+  const toggleLanguage = useCallback(() => {
     setLanguageState(prev => prev === 'vi' ? 'en' : 'vi');
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({ language, setLanguage, toggleLanguage }),
+    [language, setLanguage, toggleLanguage]
+  );
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

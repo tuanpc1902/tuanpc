@@ -12,6 +12,7 @@ import {
 import { db, isFirebaseConfigured, auth } from '~alias~/lib/firebase';
 import { checkRateLimit, validateProject, validateTranslation, validateConstant, sanitizeString } from '~alias~/lib/utils/validation';
 import { auditProjects, auditTranslations, auditConstants } from '~alias~/lib/services/auditService';
+import type { Project } from '~alias~/lib/projects';
 
 // Collection names
 const COLLECTIONS = {
@@ -31,70 +32,67 @@ const isAuthenticated = () => {
   return !!auth.currentUser;
 };
 
-// Fallback to localStorage
+// Fallback to localStorage with proper typing
 const localStorageFallback = {
-  get: (key: string) => {
+  get: <T>(key: string): T | null => {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : null;
     } catch (error) {
-      console.error(`Error reading from localStorage for key ${key}:`, error);
+      console.error(`localStorage read error [${key}]:`, error);
       return null;
     }
   },
-  set: (key: string, value: any) => {
+  set: <T>(key: string, value: T): void => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error(`Error writing to localStorage for key ${key}:`, error);
+      console.error(`localStorage write error [${key}]:`, error);
     }
   },
-  delete: (key: string) => {
+  delete: (key: string): void => {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error(`Error deleting from localStorage for key ${key}:`, error);
+      console.error(`localStorage delete error [${key}]:`, error);
     }
   },
 };
 
-/**
- * Projects Service
- */
 export const projectsService = {
   // Get all projects
-  async getAll(): Promise<any[] | null> {
+  async getAll(): Promise<Project[] | null> {
     if (!shouldUseFirestore()) {
-      return localStorageFallback.get('admin_projects');
+      return localStorageFallback.get<Project[]>('admin_projects');
     }
 
     try {
       const projectsRef = collection(db, COLLECTIONS.PROJECTS);
       const snapshot = await getDocs(projectsRef);
-      const projects: any[] = [];
+      const projects: Project[] = [];
       snapshot.forEach((doc) => {
-        projects.push({ id: doc.id, ...doc.data() });
+        projects.push({ id: doc.id, ...doc.data() } as Project);
       });
       return projects;
     } catch (error) {
       console.error('Error fetching projects:', error);
       // Fallback to localStorage
-      return localStorageFallback.get('admin_projects');
+      return localStorageFallback.get<Project[]>('admin_projects');
     }
   },
 
   // Get a single project
-  async getById(id: string): Promise<any | null> {
+  async getById(id: string): Promise<Project | null> {
     if (!shouldUseFirestore()) {
-      const projects = localStorageFallback.get('admin_projects') || [];
-      return projects.find((p: any) => p.id === id) || null;
+      const projects = localStorageFallback.get<Project[]>('admin_projects') || [];
+      return projects.find((p) => p.id === id) || null;
     }
 
     try {
       const projectRef = doc(db, COLLECTIONS.PROJECTS, id);
       const projectSnap = await getDoc(projectRef);
       if (projectSnap.exists()) {
-        return { id: projectSnap.id, ...projectSnap.data() };
+        return { id: projectSnap.id, ...projectSnap.data() } as Project;
       }
       return null;
     } catch (error) {
@@ -104,7 +102,7 @@ export const projectsService = {
   },
 
   // Set all projects (replace entire collection)
-  async setAll(projects: any[]): Promise<void> {
+  async setAll(projects: Project[]): Promise<void> {
     // Validate and sanitize all projects
     const validatedProjects = projects.map((project) => {
       const validation = validateProject(project);
@@ -117,7 +115,7 @@ export const projectsService = {
         name: sanitizeString(project.name || ''),
         description: sanitizeString(project.description || ''),
         category: sanitizeString(project.category || ''),
-        tags: (project.tags || []).map((tag: string) => sanitizeString(tag)),
+        tags: (project.tags || []).map((tag) => sanitizeString(tag)),
       };
     });
 
@@ -129,7 +127,7 @@ export const projectsService = {
     }
 
     // Update localStorage as backup
-    localStorageFallback.set('admin_projects', validatedProjects);
+    localStorageFallback.set<Project[]>('admin_projects', validatedProjects);
 
     if (!shouldUseFirestore()) {
       return;
@@ -220,10 +218,10 @@ export const projectsService = {
     const project = await this.getById(id);
 
     if (!shouldUseFirestore()) {
-      const projects = (localStorageFallback.get('admin_projects') || []).filter(
-        (p: any) => p.id !== id
+      const projects = (localStorageFallback.get<Project[]>('admin_projects') || []).filter(
+        (p) => p.id !== id
       );
-      localStorageFallback.set('admin_projects', projects);
+      localStorageFallback.set<Project[]>('admin_projects', projects);
       if (project) {
         auditProjects.delete(id, project);
       }
@@ -239,10 +237,10 @@ export const projectsService = {
     try {
       await deleteDoc(doc(db, COLLECTIONS.PROJECTS, id));
       // Also update localStorage
-      const projects = (localStorageFallback.get('admin_projects') || []).filter(
-        (p: any) => p.id !== id
+      const projects = (localStorageFallback.get<Project[]>('admin_projects') || []).filter(
+        (p) => p.id !== id
       );
-      localStorageFallback.set('admin_projects', projects);
+      localStorageFallback.set<Project[]>('admin_projects', projects);
 
       // Audit log
       if (project) {
@@ -255,11 +253,11 @@ export const projectsService = {
   },
 
   // Subscribe to real-time updates
-  subscribe(callback: (projects: any[]) => void): (() => void) | null {
+  subscribe(callback: (projects: Project[]) => void): (() => void) | null {
     if (!shouldUseFirestore()) {
       // For localStorage, we can't have real-time updates
       // Just call once with current data
-      const projects = localStorageFallback.get('admin_projects') || [];
+      const projects = localStorageFallback.get<Project[]>('admin_projects') || [];
       callback(projects);
       return () => {}; // Return empty unsubscribe function
     }
@@ -267,13 +265,13 @@ export const projectsService = {
     try {
       const projectsRef = collection(db, COLLECTIONS.PROJECTS);
       const unsubscribe = onSnapshot(projectsRef, (snapshot: QuerySnapshot<DocumentData>) => {
-        const projects: any[] = [];
+        const projects: Project[] = [];
         snapshot.forEach((doc) => {
-          projects.push({ id: doc.id, ...doc.data() });
+          projects.push({ id: doc.id, ...doc.data() } as Project);
         });
         callback(projects);
         // Also update localStorage as backup
-        localStorageFallback.set('admin_projects', projects);
+        localStorageFallback.set<Project[]>('admin_projects', projects);
       });
 
       return unsubscribe;
@@ -289,26 +287,26 @@ export const projectsService = {
  */
 export const translationsService = {
   // Get translations
-  async get(): Promise<any | null> {
+  async get(): Promise<Record<string, Record<string, string>> | null> {
     if (!shouldUseFirestore()) {
-      return localStorageFallback.get('admin_translations');
+      return localStorageFallback.get<Record<string, Record<string, string>>>('admin_translations');
     }
 
     try {
       const translationsRef = doc(db, COLLECTIONS.TRANSLATIONS, 'main');
       const translationsSnap = await getDoc(translationsRef);
       if (translationsSnap.exists()) {
-        return translationsSnap.data();
+        return translationsSnap.data() as Record<string, Record<string, string>>;
       }
       return null;
     } catch (error) {
       console.error('Error fetching translations:', error);
-      return localStorageFallback.get('admin_translations');
+      return localStorageFallback.get<Record<string, Record<string, string>>>('admin_translations');
     }
   },
 
   // Set translations
-  async set(translations: any): Promise<void> {
+  async set(translations: Record<string, Record<string, string>>): Promise<void> {
     // Validate translations
     for (const lang in translations) {
       for (const key in translations[lang]) {
@@ -331,7 +329,7 @@ export const translationsService = {
     // Get old translations for audit log
     const oldTranslations = await this.get();
 
-    localStorageFallback.set('admin_translations', translations);
+    localStorageFallback.set<Record<string, Record<string, string>>>('admin_translations', translations);
 
     if (!shouldUseFirestore()) {
       // Audit log changes
@@ -378,9 +376,9 @@ export const translationsService = {
   },
 
   // Subscribe to real-time updates
-  subscribe(callback: (translations: any) => void): (() => void) | null {
+  subscribe(callback: (translations: Record<string, Record<string, string>>) => void): (() => void) | null {
     if (!shouldUseFirestore()) {
-      const translations = localStorageFallback.get('admin_translations');
+      const translations = localStorageFallback.get<Record<string, Record<string, string>>>('admin_translations');
       if (translations) callback(translations);
       return () => {};
     }
@@ -389,9 +387,9 @@ export const translationsService = {
       const translationsRef = doc(db, COLLECTIONS.TRANSLATIONS, 'main');
       const unsubscribe = onSnapshot(translationsRef, (snapshot) => {
         if (snapshot.exists()) {
-          const data = snapshot.data();
+          const data = snapshot.data() as Record<string, Record<string, string>>;
           callback(data);
-          localStorageFallback.set('admin_translations', data);
+          localStorageFallback.set<Record<string, Record<string, string>>>('admin_translations', data);
         }
       });
 
@@ -408,26 +406,26 @@ export const translationsService = {
  */
 export const constantsService = {
   // Get constants
-  async get(): Promise<any | null> {
+  async get(): Promise<Record<string, string> | null> {
     if (!shouldUseFirestore()) {
-      return localStorageFallback.get('admin_constants');
+      return localStorageFallback.get<Record<string, string>>('admin_constants');
     }
 
     try {
       const constantsRef = doc(db, COLLECTIONS.CONSTANTS, 'main');
       const constantsSnap = await getDoc(constantsRef);
       if (constantsSnap.exists()) {
-        return constantsSnap.data();
+        return constantsSnap.data() as Record<string, string>;
       }
       return null;
     } catch (error) {
       console.error('Error fetching constants:', error);
-      return localStorageFallback.get('admin_constants');
+      return localStorageFallback.get<Record<string, string>>('admin_constants');
     }
   },
 
   // Set constants
-  async set(constants: any): Promise<void> {
+  async set(constants: Record<string, string>): Promise<void> {
     // Validate constants
     for (const key in constants) {
       const validation = validateConstant(key, constants[key]);
@@ -448,7 +446,7 @@ export const constantsService = {
     // Get old constants for audit log
     const oldConstants = await this.get();
 
-    localStorageFallback.set('admin_constants', constants);
+    localStorageFallback.set<Record<string, string>>('admin_constants', constants);
 
     if (!shouldUseFirestore()) {
       // Audit log changes
@@ -491,9 +489,9 @@ export const constantsService = {
   },
 
   // Subscribe to real-time updates
-  subscribe(callback: (constants: any) => void): (() => void) | null {
+  subscribe(callback: (constants: Record<string, string>) => void): (() => void) | null {
     if (!shouldUseFirestore()) {
-      const constants = localStorageFallback.get('admin_constants');
+      const constants = localStorageFallback.get<Record<string, string>>('admin_constants');
       if (constants) callback(constants);
       return () => {};
     }
@@ -502,9 +500,9 @@ export const constantsService = {
       const constantsRef = doc(db, COLLECTIONS.CONSTANTS, 'main');
       const unsubscribe = onSnapshot(constantsRef, (snapshot) => {
         if (snapshot.exists()) {
-          const data = snapshot.data();
+          const data = snapshot.data() as Record<string, string>;
           callback(data);
-          localStorageFallback.set('admin_constants', data);
+          localStorageFallback.set<Record<string, string>>('admin_constants', data);
         }
       });
 

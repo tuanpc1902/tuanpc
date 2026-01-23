@@ -33,7 +33,6 @@ function Login() {
           ? 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.'
           : 'Login failed. Please check your email and password.';
       message.error(errorMessage);
-      console.error('Login error:', error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +50,6 @@ function Login() {
           ? 'Đăng nhập với Google thất bại.'
           : 'Google sign in failed.';
       message.error(errorMessage);
-      console.error('Google sign in error:', error);
     } finally {
       setLoading(false);
     }

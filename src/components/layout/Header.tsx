@@ -1,7 +1,6 @@
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown } from 'antd';
-import { GithubIcon, SearchIcon, SunIcon, MoonIcon, LanguageIcon, PaletteIcon } from '~alias~/components/icons/icons';
+import { GithubIcon, SearchIcon, SunIcon, MoonIcon, LanguageIcon } from '~alias~/components/icons/icons';
 import { useThemeContext } from '~alias~/contexts/ThemeContext';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { getTranslation, translations } from '~alias~/lib/translations';
@@ -11,7 +10,7 @@ import './Header.styles.scss';
 
 function Header() {
   // const location = useLocation();
-  const { theme, toggleTheme, accent, setAccent } = useThemeContext();
+  const { theme, toggleTheme } = useThemeContext();
   const { language, toggleLanguage } = useLanguageContext();
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -28,19 +27,6 @@ function Header() {
   };
 
   const t = (key: keyof typeof translations.vi) => getTranslation(language, key);
-
-  const accentMenu = {
-    items: [
-      { key: 'blue', label: language === 'vi' ? 'Xanh dương' : 'Blue' },
-      { key: 'green', label: language === 'vi' ? 'Xanh lá' : 'Green' },
-      { key: 'purple', label: language === 'vi' ? 'Tím' : 'Purple' },
-    ],
-    onClick: ({ key }: { key: string }) => {
-      if (key === 'blue' || key === 'green' || key === 'purple') {
-        setAccent(key);
-      }
-    },
-  };
 
   return (
     <header className="app-header" role="banner">
@@ -83,19 +69,6 @@ function Header() {
               <MoonIcon className="action-icon" aria-hidden="true" />
             )}
           </button>
-
-          {/* Accent Theme */}
-          <Dropdown menu={accentMenu} trigger={['click']}>
-            <button
-              className="header-action-btn accent-toggle"
-              aria-label={language === 'vi' ? 'Đổi màu chủ đạo' : 'Change accent color'}
-              title={language === 'vi' ? 'Đổi màu chủ đạo' : 'Change accent color'}
-              type="button"
-            >
-              <PaletteIcon className="action-icon" aria-hidden="true" />
-              <span className="accent-badge">{accent.toUpperCase()}</span>
-            </button>
-          </Dropdown>
 
           {/* Language Toggle */}
           <button

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react';
 import { Project } from '~alias~/lib/projects';
 import { translations, Language } from '~alias~/lib/translations';
 import { ENV_VARS } from '~alias~/lib/constants';
@@ -43,7 +43,7 @@ const DEFAULT_PROJECTS: Project[] = [
 interface DataContextType {
   projects: Project[];
   translations: typeof translations;
-  constants: typeof ENV_VARS;
+  constants: typeof ENV_VARS & Record<string, string>;
   isLoading: boolean;
   updateProjects: (projects: Project[]) => void;
   addProject: (project: Project) => void;
@@ -62,8 +62,11 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export function DataProvider({ children }: { children: ReactNode }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [appTranslations, setAppTranslations] = useState<typeof translations>(translations);
-  const [constants, setConstants] = useState<typeof ENV_VARS>(ENV_VARS);
+  const [constants, setConstants] = useState<typeof ENV_VARS & Record<string, string>>(ENV_VARS);
   const [isLoading, setIsLoading] = useState(true);
+  const isSyncingProjects = useRef(false);
+  const isSyncingTranslations = useRef(false);
+  const isSyncingConstants = useRef(false);
 
   // Initialize and subscribe to data
   useEffect(() => {
@@ -100,7 +103,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           return {
             vi: { ...translations.vi, ...loaded.vi },
             en: { ...translations.en, ...loaded.en },
-          };
+          } as typeof translations;
         };
 
         if (loadedTranslations) {
@@ -126,6 +129,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         // Subscribe to real-time updates
         unsubscribeProjects = projectsService.subscribe((updatedProjects: Project[]) => {
           if (updatedProjects && updatedProjects.length > 0) {
+            isSyncingProjects.current = true;
             const normalizedProjects = updatedProjects.map((project: Project, index: number) => ({
               ...project,
               order: project.order !== undefined ? project.order : index,
@@ -133,24 +137,29 @@ export function DataProvider({ children }: { children: ReactNode }) {
               hidden: project.hidden !== undefined ? project.hidden : false,
             }));
             setProjects(normalizedProjects);
+            // Reset flag after state update
+            setTimeout(() => { isSyncingProjects.current = false; }, 0);
           }
         });
 
         unsubscribeTranslations = translationsService.subscribe((updatedTranslations: any) => {
           if (updatedTranslations) {
+            isSyncingTranslations.current = true;
             const mergedTranslations = {
               vi: { ...translations.vi, ...updatedTranslations.vi },
               en: { ...translations.en, ...updatedTranslations.en },
             };
             setAppTranslations(mergedTranslations);
+            setTimeout(() => { isSyncingTranslations.current = false; }, 0);
           }
         });
 
         unsubscribeConstants = constantsService.subscribe((updatedConstants: any) => {
           if (updatedConstants) {
-            // Merge with ENV_VARS to ensure new constants are included
+            isSyncingConstants.current = true;
             const mergedConstants = { ...ENV_VARS, ...updatedConstants };
             setConstants(mergedConstants);
+            setTimeout(() => { isSyncingConstants.current = false; }, 0);
           }
         });
       } catch (error) {
@@ -174,30 +183,39 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Sync projects to Firestore whenever they change
+  // Sync projects to Firestore với debounce và skip khi đang sync từ subscription
   useEffect(() => {
-    if (!isLoading && projects.length > 0) {
-      projectsService.setAll(projects).catch((error) => {
-        console.error('Error syncing projects to Firestore:', error);
-      });
+    if (!isLoading && projects.length > 0 && !isSyncingProjects.current) {
+      const timer = setTimeout(() => {
+        projectsService.setAll(projects).catch((error) => {
+          console.error('Error syncing projects:', error);
+        });
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [projects, isLoading]);
 
-  // Sync translations to Firestore whenever they change
+  // Sync translations với debounce và skip khi đang sync từ subscription
   useEffect(() => {
-    if (!isLoading) {
-      translationsService.set(appTranslations).catch((error) => {
-        console.error('Error syncing translations to Firestore:', error);
-      });
+    if (!isLoading && !isSyncingTranslations.current) {
+      const timer = setTimeout(() => {
+        translationsService.set(appTranslations).catch((error) => {
+          console.error('Error syncing translations:', error);
+        });
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [appTranslations, isLoading]);
 
-  // Sync constants to Firestore whenever they change
+  // Sync constants với debounce và skip khi đang sync từ subscription
   useEffect(() => {
-    if (!isLoading) {
-      constantsService.set(constants).catch((error) => {
-        console.error('Error syncing constants to Firestore:', error);
-      });
+    if (!isLoading && !isSyncingConstants.current) {
+      const timer = setTimeout(() => {
+        constantsService.set(constants).catch((error) => {
+          console.error('Error syncing constants:', error);
+        });
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [constants, isLoading]);
 

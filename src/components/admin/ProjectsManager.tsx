@@ -19,6 +19,7 @@ import { useDataContext } from '~alias~/contexts/DataContext';
 import { useLanguageContext } from '~alias~/contexts/LanguageContext';
 import { getTranslation, translations } from '~alias~/lib/translations';
 import type { Project } from '~alias~/lib/projects';
+import { useDebounce } from '~alias~/hooks/useDebounce';
 import { ProjectsTable } from './ProjectsTable';
 import './ProjectsManager.styles.scss';
 
@@ -38,6 +39,7 @@ function ProjectsManager() {
   const [form] = Form.useForm();
   const watchedValues = Form.useWatch([], form);
   const [searchText, setSearchText] = useState('');
+  const debouncedSearchText = useDebounce(searchText, 300);
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
   const [featuredFilter, setFeaturedFilter] = useState<boolean | undefined>(undefined);
   const t = (key: keyof typeof translations.vi) => getTranslation(language, key);
@@ -110,7 +112,7 @@ function ProjectsManager() {
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
-      console.error('Validation failed:', error);
+      message.error(language === 'vi' ? 'Xác thực thất bại' : 'Validation failed');
     }
   };
 
@@ -118,11 +120,11 @@ function ProjectsManager() {
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
       const matchesSearch =
-        !searchText ||
-        project.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchText.toLowerCase()) ||
-        project.tags.some((tag) => tag.toLowerCase().includes(searchText.toLowerCase())) ||
-        project.category.toLowerCase().includes(searchText.toLowerCase());
+        !debouncedSearchText ||
+        project.name.toLowerCase().includes(debouncedSearchText.toLowerCase()) ||
+        project.description.toLowerCase().includes(debouncedSearchText.toLowerCase()) ||
+        project.tags.some((tag) => tag.toLowerCase().includes(debouncedSearchText.toLowerCase())) ||
+        project.category.toLowerCase().includes(debouncedSearchText.toLowerCase());
 
       const matchesCategory = !categoryFilter || project.category === categoryFilter;
       const matchesFeatured =
@@ -130,7 +132,7 @@ function ProjectsManager() {
 
       return matchesSearch && matchesCategory && matchesFeatured;
     });
-  }, [projects, searchText, categoryFilter, featuredFilter]);
+  }, [projects, debouncedSearchText, categoryFilter, featuredFilter]);
 
   // Get unique categories
   const categories = useMemo(() => {

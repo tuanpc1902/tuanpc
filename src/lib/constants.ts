@@ -43,6 +43,13 @@ export const ENV_VARS = {
   CV_FILE_NAME: import.meta.env.VITE_CV_FILE_NAME || 'tuanpc - VMTD 2026.pdf',
   SITE_URL: import.meta.env.VITE_SITE_URL || '',
   OG_IMAGE_URL: import.meta.env.VITE_OG_IMAGE_URL || '',
+  // Stats configuration
+  STAT_START_YEAR: '2022', // Năm bắt đầu làm việc
+  STAT_PROJECTS_AUTO: 'true', // Auto count từ projects
+  STAT_PROJECTS_VALUE: '10+', // Manual value khi không auto
+  STAT_TECHNOLOGIES_AUTO: 'true', // Auto count từ unique tags
+  STAT_TECHNOLOGIES_VALUE: '15+', // Manual value khi không auto
+  STAT_STATUS_VALUE: 'Active', // Manual value
 } as const;
 
 // Date Calculation Constants

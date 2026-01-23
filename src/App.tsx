@@ -1,4 +1,4 @@
-import { Suspense, memo, useEffect } from 'react';
+import { Suspense, memo, useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -10,18 +10,20 @@ import AppLayout from './components/layout/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Loading from './components/Spinner/Loading';
-import Home from './pages/Home';
-import DemNgayRaQuan from './pages/DemNgayRaQuan';
-import Admin from './pages/Admin';
-import Login from './components/auth/Login';
-import SignUp from './components/auth/SignUp';
-import NotFound from './pages/NotFound';
 import dayjs from 'dayjs';
+
+// Lazy load route components for better code splitting
+const Home = lazy(() => import('./pages/Home'));
+const DemNgayRaQuan = lazy(() => import('./pages/DemNgayRaQuan'));
+const Admin = lazy(() => import('./pages/Admin'));
+const Login = lazy(() => import('./components/auth/Login'));
+const SignUp = lazy(() => import('./components/auth/SignUp'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 /**
  * Inner app component that uses language context
  */
-function AppContent() {
+const AppContent = memo(function AppContent() {
   const { language } = useLanguageContext();
 
   useEffect(() => {
@@ -53,13 +55,13 @@ function AppContent() {
       </ErrorBoundary>
     </ConfigProviderWrapper>
   );
-}
+});
 
 /**
  * Main App component with routing and error boundaries
  * Optimized with React.memo and Suspense for better performance
  */
-function App() {
+const App = memo(function App() {
   return (
     <HelmetProvider>
       <ThemeProvider>
@@ -73,6 +75,6 @@ function App() {
       </ThemeProvider>
     </HelmetProvider>
   );
-}
+});
 
-export default memo(App);
+export default App;

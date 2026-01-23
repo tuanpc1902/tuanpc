@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
 import {
   User,
   signInWithEmailAndPassword,
@@ -73,32 +73,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     try {
       const email = auth.currentUser?.email || 'unknown';
-      await signOut(auth);
-      // Audit log after sign out (may fail if user is already signed out, but that's ok)
+      // Audit log TRƯỚC khi sign out
       try {
         await auditAuth.logout(email);
       } catch (auditError) {
-        // Don't fail logout if audit logging fails
-        console.warn('Audit log failed during logout:', auditError);
+        // Không fail logout nếu audit logging fails
+        console.warn('Audit log failed:', auditError);
       }
+      // Sign out sau khi audit
+      await signOut(auth);
     } catch (error) {
       console.error('Logout error:', error);
       throw error;
     }
   };
 
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      signIn,
+      signUp,
+      signInWithGoogle,
+      logout,
+      isAuthenticated: !!user,
+    }),
+    [user, loading]
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        signIn,
-        signUp,
-        signInWithGoogle,
-        logout,
-        isAuthenticated: !!user,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

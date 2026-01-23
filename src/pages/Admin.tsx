@@ -10,6 +10,7 @@ import { getTranslation, translations } from '~alias~/lib/translations';
 import ProjectsManager from '~alias~/components/admin/ProjectsManager';
 import TranslationsManager from '~alias~/components/admin/TranslationsManager';
 import ConstantsManager from '~alias~/components/admin/ConstantsManager';
+import StatsManager from '~alias~/components/admin/StatsManager';
 import './Admin.styles.scss';
 
 function Admin() {
@@ -53,6 +54,11 @@ function Admin() {
       key: 'projects',
       label: t('projectsManagement'),
       children: <ProjectsManager />,
+    },
+    {
+      key: 'stats',
+      label: language === 'vi' ? 'Thống kê' : 'Statistics',
+      children: <StatsManager />,
     },
     {
       key: 'translations',

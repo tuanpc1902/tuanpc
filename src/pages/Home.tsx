@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo, useState, useCallback } from 'react';
 import {
   ViewIcon,
   GithubIcon,
@@ -35,10 +35,10 @@ function Home() {
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [sortOption, setSortOption] = useState('default');
   
-  const t = (key: keyof typeof contextTranslations.vi) => {
+  const t = useCallback((key: keyof typeof contextTranslations.vi) => {
     const translation = contextTranslations[language]?.[key] || contextTranslations.vi[key];
     return translation || '';
-  };
+  }, [contextTranslations, language]);
   
   // Fallback for viewCV if not in translations
   const viewCVText = t('viewCV' as keyof typeof contextTranslations.vi) || (language === 'vi' ? 'Xem CV' : 'View CV');
@@ -97,6 +97,38 @@ function Home() {
 
     return [...base].sort(sorters[sortOption] || sorters.default);
   }, [visibleProjects, searchQuery, selectedCategory, selectedTag, sortOption]);
+
+  // Auto-calculate stats
+  const stats = useMemo(() => {
+    // Calculate years of experience
+    const startYear = parseInt(constants.STAT_START_YEAR || '2022', 10);
+    const currentYear = new Date().getFullYear();
+    const yearsExperience = Math.max(0, currentYear - startYear);
+    const yearsValue = yearsExperience === 0 ? '<1' : `${yearsExperience}+`;
+
+    // Count visible projects
+    const projectsCount = visibleProjects.length;
+    const projectsValue = constants.STAT_PROJECTS_AUTO === 'true' 
+      ? `${projectsCount}+` 
+      : (constants.STAT_PROJECTS_VALUE || `${projectsCount}+`);
+
+    // Count unique technologies from all projects
+    const uniqueTags = new Set<string>();
+    visibleProjects.forEach(project => {
+      project.tags.forEach(tag => uniqueTags.add(tag));
+    });
+    const techCount = uniqueTags.size;
+    const techValue = constants.STAT_TECHNOLOGIES_AUTO === 'true'
+      ? `${techCount}+`
+      : (constants.STAT_TECHNOLOGIES_VALUE || `${techCount}+`);
+
+    return {
+      projects: projectsValue,
+      years: yearsValue,
+      technologies: techValue,
+      status: constants.STAT_STATUS_VALUE || t('active'),
+    };
+  }, [visibleProjects, constants, t]);
 
   const ogImage = constants.OG_IMAGE_URL || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : '/logo.png');
 
@@ -181,22 +213,22 @@ function Home() {
             <section className="stats-grid" aria-label="Statistics">
               <div className="stat-card">
                 <div className="stat-icon">📦</div>
-                <div className="stat-value">5+</div>
+                <div className="stat-value">{stats.projects}</div>
                 <div className="stat-label">{t('projects')}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">💻</div>
-                <div className="stat-value">3+</div>
+                <div className="stat-value">{stats.years}</div>
                 <div className="stat-label">{t('years')}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">⭐</div>
-                <div className="stat-value">10+</div>
+                <div className="stat-value">{stats.technologies}</div>
                 <div className="stat-label">{t('technologies')}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">🚀</div>
-                <div className="stat-value">{t('active')}</div>
+                <div className="stat-value">{stats.status}</div>
                 <div className="stat-label">{t('status')}</div>
               </div>
             </section>

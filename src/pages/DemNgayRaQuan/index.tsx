@@ -56,6 +56,7 @@ function DemNgayRaQuan() {
     return dayjs(targetDate).format(DATE_FORMATS.DISPLAY);
   }, [targetDate]);
 
+  // Parse URL params once on mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -69,7 +70,9 @@ function DemNgayRaQuan() {
       setDisplay(displayParam);
     }
     setHasParsedParams(true);
-  }, [setTargetDate]);
+    // Only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!hasParsedParams || typeof window === 'undefined') return;
@@ -100,8 +103,8 @@ function DemNgayRaQuan() {
     [setTargetDate, targetDate]
   );
 
-  const onSelectChange = useCallback((e: string) => {
-    setDisplay(prev => prev !== e ? e : prev);
+  const onSelectChange = useCallback((value: string) => {
+    setDisplay(value);
   }, []);
 
   const handleSavePreset = () => {
@@ -158,7 +161,6 @@ function DemNgayRaQuan() {
       await navigator.clipboard.writeText(shareUrl);
       message.success('Đã sao chép link chia sẻ');
     } catch (error) {
-      console.error('Copy share link failed:', error);
       message.error('Không thể sao chép link');
     }
   };
